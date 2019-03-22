@@ -9,12 +9,12 @@
 
       <form  class="auth-content no-select" (submit)="onSubmit()" method="post" (keyup)="FindImage">
         <mat-form-field>
-         <input [(ngModel)]="d.username" name="d.username" type="text" matInput placeholder="نام کاربری">
+         <input [(ngModel)]="d.username" name="d.username" type="text" matInput placeholder="نام کاربری" autocomplete="username">
          <mat-hint>نام کاربری معمولا برابر کد ملی است</mat-hint>
        </mat-form-field>
        <br>
        <mat-form-field *ngIf="d.username.length > 4">
-        <input  [(ngModel)]="d.password" name="d.password" type="password" matInput placeholder="گذرواژه">
+        <input  [(ngModel)]="d.password" name="d.password" type="password" matInput placeholder="گذرواژه" autocomplete="current-password">
         <mat-hint>هنگام ثبت نام توسط خودتان انتخاب شده است</mat-hint>
       </mat-form-field>
       <br>

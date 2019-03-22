@@ -18,6 +18,7 @@
           "/*.otf",
           "/*.woff",
           "/assets/**.css",
+          "/assets/*.svg",
           "/assets/*.jpeg"
         ]
       },

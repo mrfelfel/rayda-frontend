@@ -10,11 +10,13 @@ import { environment } from '../environments/environment';
 import { HttpModule } from '@angular/http';
 import {AuthGuard} from './@core/auth.guard';
 import {UniversityService} from './@core/university.service';
+import { SafePipe } from './safe.pipe';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    SafePipe,
   ],
   imports: [
     BrowserModule,

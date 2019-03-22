@@ -285,7 +285,7 @@ getDateOfISOWeek(w, y) {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: '250px',
+      width: '300px',
       data: {bcost: this.bcost }
     });
     dialogRef.afterClosed().subscribe(result => {

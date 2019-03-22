@@ -1,0 +1,42 @@
+{
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/*.css",
+          "/*.js",
+          "/*.json",
+          "/*.eot",
+          "/*.jpeg",
+          "/*.svg",
+          "/*.woff2",
+          "/*.otf",
+          "/*.woff",
+          "/assets/**.css",
+          "/assets/*.jpeg"
+        ]
+      },
+      "cacheConfig": {
+        "maxAge": "60m",
+        "strategy": "freshness",
+        "version": "0.1"
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+        "name": "api rayda",
+        "urls": ["https://api.rayda.ir/api/v1/**"],
+        "cacheConfig": {
+            "maxSize" : 100,
+            "maxAge": "1m",
+            "strategy": "freshness"
+        }
+    }
+]
+}

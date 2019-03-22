@@ -1,0 +1,23 @@
+<div mat-dialog-content>
+    <p>  افزودن وعده جدید </p>
+
+    <mat-form-field >
+        <mat-select [(value)]="data.food" placeholder="انتخاب غذا">
+          <mat-option *ngFor="let item of data.foods" [value]="item">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field >
+          <mat-select [(value)]="data.meal"   placeholder="انتخاب وعده">
+            <mat-option *ngFor="let item of data.meals" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="warn" (click)="onNoClick()">بستن</button>
+    <button mat-raised-button [mat-dialog-close]="data" cdkFocusInitial >ثبت </button>
+  </div>

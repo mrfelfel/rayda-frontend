@@ -1,0 +1,11 @@
+
+<div mat-dialog-content>
+  <p>  منوی مدیریت سریع الگو </p>
+  <mat-form-field class="rayput">
+      <input placeholder="نام الگو"   matInput [(ngModel)]="data.pname">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onNoClick()">بستن</button>
+  <button mat-raised-button [mat-dialog-close]="data" cdkFocusInitial >ثبت سریع</button>
+</div>

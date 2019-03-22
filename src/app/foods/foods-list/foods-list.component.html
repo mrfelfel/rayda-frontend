@@ -1,0 +1,157 @@
+<div style="padding : 10px">
+    <mat-card class="biG">
+
+
+      <mat-card-content  color="primary" >
+
+          <div class="img-header"  >
+            <div style="width:300px">
+
+                <h2 class="example-h2">  رزرو غذا  </h2>
+
+                <p>{{viewId}} خوش آمدید</p>
+
+
+                   <p >موجودی شما :  {{cost}} ریال</p>
+
+
+         <button style="margin-top:5px" mat-raised-button (click)="openDialog()" style="margin:2px">افزایش موجودی <i class="gb gb_add gb_s24"></i> </button>
+         <button mat-raised-button (click)="openTransferDialog()" style="margin:2px">انتقال اعتبار<i class="gb gb_remove gb_s24"></i></button>
+
+
+            </div>
+
+            </div>
+
+   <br><br>   <br><br>
+<br>
+
+
+  <br>
+  <div *ngIf="!planned" style="padding-top:100px">
+    <mat-card >
+        <p>
+            {{message}}
+          </p>
+    </mat-card>
+
+  </div>
+<br>
+  <mat-tab-group class="FoodList"  [selectedIndex]="selected.value" *ngIf="planned"
+  (selectedIndexChange)="selected.setValue($event); Dowsearch()" backgroundColor="accent">
+
+    <mat-tab *ngFor="let item of days" [label]="item" >
+         <div *ngIf="!searched">
+           <br>
+           <mat-card >
+              <p>
+                  این موسسه در این روز تعطیل است یا غذایی ارائه نمیکند
+                </p>
+           </mat-card>
+
+         </div>
+      <div class="row" >
+           <div class="col l4 m6 s12" *ngFor="let item of searched">
+             <mat-card  class="food-card">
+               <ng-template let-checker="checker" [ngTemplateOutletContext]="{ checker: checking(item) }" [ngTemplateOutlet]="food" #food>
+
+                <h1>{{a}}</h1>
+
+               <mat-card-header>
+                  <i class="material-icons" style="position: absolute; left: 10px; bottom: 5px" *ngIf="checker">
+                      done_all
+                      </i>
+                 <mat-card-title>{{item.food.name}}</mat-card-title>
+                 <mat-card-subtitle>تاریخ :{{item.stringDate}} | وعده :   {{item.meal.name}}</mat-card-subtitle>
+
+
+               </mat-card-header>
+               <mat-card-content class="width100">
+                  <div  *ngIf="!(nameSpace == 'fani.markazi.amirkabir' && item.meal.id == 2 && !checker)">
+                      <mat-form-field class="full" *ngIf="!Placefinder(item)">
+
+                          <mat-select   placeholder="محل تحویل غذا"   name="place" value="1">
+                            <mat-option  value="1">
+                              سلف مرکزی
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                  </div>
+                 <div [hidden]="!(nameSpace == 'fani.markazi.amirkabir' && item.meal.id == 2)" [@enterAnimation]>
+                    <mat-form-field class="full" *ngIf="!Placefinder(item)">
+
+                      <mat-select    placeholder="محل تحویل غذا" [(ngModel)]="item.place" name="item.place">
+                        <mat-option *ngFor="let item of places" [value]="item">
+                          {{item}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                 </div>
+
+                  <button mat-raised-button *ngIf="!checker" (click)="reserve(item)" color="primary">رزرو غذا به مبلغ {{item.price}} ریال </button>
+
+                  <button mat-raised-button *ngIf="checker"  (click)="unreserve(item)" class="reserved" >  لغو غذا به مبلغ {{item.price}} ریال  </button>
+
+
+
+               </mat-card-content>
+              <mat-card-content class="btns">
+
+
+                    </mat-card-content>
+
+               <mat-card-actions>
+
+                  <mat-chip-list>
+                      <mat-chip >1 عدد</mat-chip>
+                      <mat-chip color="warn" selected *ngIf="deliverChecking(item)">تحویل گرفته شده</mat-chip>
+
+                      <mat-chip color="primary" selected *ngIf="Placefinder(item)">{{Placefinder(item).place || 'سلف مرکزی'}}</mat-chip>
+                  </mat-chip-list>
+
+               </mat-card-actions>
+              </ng-template>
+             </mat-card>
+           </div>
+
+      </div>
+
+    </mat-tab>
+  </mat-tab-group>
+  <mat-card>
+      <div class="text-center">
+          <b >انتخاب هفته</b>
+          <br>
+         شروع هفته از  {{date.format('jYYYY/jMM/jDD')}} تا {{clone.format('jYYYY/jMM/jDD')}}
+        <br>
+        <br>
+      <button mat-raised-button (click)="SetWeek('previous')" color="primary">قبلی</button>
+          <button mat-raised-button (click)="SetWeek('current')" color="primary">جاری</button>
+          <button mat-raised-button (click)="SetWeek('next')" color="primary">بعدی</button>
+
+          <br>
+          <button  mat-raised-button ngxClipboard [cbContent]="weekurl"  style="margin-top:5px; background: #000; color: whitesmoke; width: 205px" (click)="urlButton()"><span *ngIf="!weekurl">لینک هفته </span> <span *ngIf="weekurl">{{weekurl}}</span></button>
+      </div>
+  </mat-card>
+
+
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+  <!-- <div *ngIf="!showInter" style="padding : 40px">
+    <mat-card>
+      <i class="gb gb_warning gb_s48 " style="color:red"></i>
+      <b> {{errMsg}}</b>
+
+
+
+      <br>
+      <small style="font-size:9px">سامانه نرم افزاری ابری رایدا </small>
+      </mat-card>
+  </div>
+
+
+  -->

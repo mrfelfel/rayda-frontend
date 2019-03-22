@@ -1,0 +1,14 @@
+
+<div mat-dialog-content>
+  <p>انتقال اعتبار</p>
+  <mat-form-field>
+    <input  placeholder="مبلغ به ریال" type="number" matInput [(ngModel)]="data.cost">
+  </mat-form-field>
+  <mat-form-field>
+  <input placeholder="نام کاربری دقیق حساب مقصد"  matInput [(ngModel)]="data.national">
+</mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="warn" (click)="onNoClick()">بستن</button>
+    <button mat-raised-button [mat-dialog-close]="data" cdkFocusInitial color="primary" >تکمیل فرایند</button>
+</div>

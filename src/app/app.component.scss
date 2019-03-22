@@ -1,0 +1,92 @@
+.rayda {
+  box-shadow: 0 2px 4px rgba(0,0,0,.9);
+}
+.rayda-container mat-toolbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,.9);
+}
+.rayda-spacer {
+  flex: 1 1 auto;
+}
+
+.rayda-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.rayda-toolbar {
+   background: #ef6c00e8;
+  color: #fff;
+  box-shadow: 0 1px 10px -6px rgba(0, 0, 0, 0.42), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 4px 5px -2px rgba(0, 0, 0, 0.1) !important;
+
+}
+
+.rayda-is-mobile .rayda-toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+
+h1.rayda-app-name {
+  margin-left: 8px;
+}
+
+
+.rayda-is-mobile .rayda-sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
+}
+.woped {
+  width: 230px;
+  text-align: center;
+  padding: 0;
+  z-index: 100000 !important;
+}
+.side-nav-header{
+  color: #fafafa;
+  background: #006064;
+  font-size: 20px;
+  width: 100%;
+  padding-top: 10px;
+  height: 112px;
+}
+.side-nav-header h3 {
+}
+.footer-text {
+  z-index: 999;
+  bottom: 0;
+  width: inherit;
+  text-align: center;
+  font-size: 10px;
+  // color : whitesmoke;
+
+}
+mat-sidenav-content {
+   background: url("/assets/bg.jpeg");
+}
+mat-sidenav-container {
+  height: 100% !important;
+}
+.mini-slice  {
+  width: 99%;
+}
+
+.profile {
+  font-size: 12px;
+  padding: 3px;
+}
+.profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 100px;
+
+}
+
+.mini-size {
+  font-size: 12px;
+
+}

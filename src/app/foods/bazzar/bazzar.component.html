@@ -1,0 +1,48 @@
+<div style="padding : 10px">
+  <mat-card class="biG">
+
+    <mat-card-content  color="primary">
+      <h4 class="example-h2"> بازار غذا  </h4>
+      <p>
+        درود به صفحه فروش غذای آزاد خوش آمدید استفاده از این صفحه به منزله پذیرفتن
+          <a href="https://blog.rayda.ir">شرایط و قوانین </a>
+          است
+      </p>
+
+
+
+
+<br>
+<div>
+  <p>
+    {{message}}
+  </p>
+</div>
+<mat-tab-group class="FoodList"  [selectedIndex]="selected.value"
+(selectedIndexChange)="selected.setValue($event);">
+  <mat-tab *ngFor="let item of days" [label]="item">
+       <div >
+         <p>
+           هیچ غذایی برای فروش موجود نیست
+         </p>
+       </div>
+
+  </mat-tab>
+</mat-tab-group>
+<div class="text-center">
+    <b >انتخاب هفته</b>
+    <mat-slider class="full"
+    thumbLabel
+    [(ngModel)]="weekNum"
+    min="1"
+    max="52"></mat-slider>
+<button mat-raised-button >قبلی</button>
+    <button mat-raised-button >جاری</button>
+    <button mat-raised-button >بعدی</button>
+</div>
+
+
+    </mat-card-content>
+  </mat-card>
+
+</div>

@@ -1,0 +1,43 @@
+
+<div class="login-container animated bounce">
+
+    <mat-card class="login">
+
+  <mat-card-content style="padding-top: 10px">
+      <img src="/assets/login.svg" style="width : 100%" >
+      <h3 style="text-align: center">ورود به سامانه</h3>
+
+      <form  class="auth-content no-select" (submit)="onSubmit()" method="post" (keyup)="FindImage">
+        <mat-form-field>
+         <input [(ngModel)]="d.username" name="d.username" type="text" matInput placeholder="نام کاربری">
+         <mat-hint>نام کاربری معمولا برابر کد ملی است</mat-hint>
+       </mat-form-field>
+       <br>
+       <mat-form-field *ngIf="d.username.length > 4">
+        <input  [(ngModel)]="d.password" name="d.password" type="password" matInput placeholder="گذرواژه">
+        <mat-hint>هنگام ثبت نام توسط خودتان انتخاب شده است</mat-hint>
+      </mat-form-field>
+      <br>
+      <mat-checkbox color="primary"
+               class="example-margin">
+               مرا به خاطر بسپار
+           </mat-checkbox>
+           <button *ngIf="d.username.length > 4" mat-raised-button type="submit" color="primary" >
+             <span *ngIf="loging">در حال صدور کلید ...</span>
+             <span *ngIf="!loging">ورود</span>
+
+
+           </button>
+
+
+           <button mat-raised-button routerLink="/users/forgot" *ngIf="show_forgot" type="button" color="accent" style="margin-top: 5px"  >
+             <span >فراموشی رمز عبور </span>
+
+
+           </button>
+      </form>
+  </mat-card-content>
+
+    </mat-card>
+  </div>
+  <p style="text-align:center; margin:0; padding:0; font-size:12px">کلیه حقوق برای عصر ارتباطات دهکده محفوظ است</p>

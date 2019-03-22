@@ -1,0 +1,10 @@
+
+<div mat-dialog-content>
+  <p> ایا مطمئنید میخواهید غذای خود را برای فروش قرار دهید  </p>
+
+
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="warn" (click)="onNoClick()">خیر</button>
+    <button mat-raised-button [mat-dialog-close]="data.selected"  cdkFocusInitial color="primary" >بله</button>
+</div>

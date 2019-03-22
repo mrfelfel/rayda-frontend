@@ -1,0 +1,81 @@
+<div  style="padding : 40px">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>مدیریت کاربران</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+ <mat-tab-group>
+   <mat-tab label="افزودن / ویرایش کاربران"></mat-tab>
+   <mat-tab label="ویرایش پروفایل"></mat-tab>
+   <mat-tab label="مدیریت کارت ها">
+     <div style="padding : 10px">
+      <h3>واحد مدیریت کارت</h3>
+      <mat-tab-group>
+        <mat-tab label="ثبت کارت">
+          <div  style="padding : 9px">
+            <p>صفحه  ثبت کارت</p>
+
+            <p *ngIf="card.new">
+              کارت شناسایی شد
+            </p>
+            <p *ngIf="!card.new">
+              لطفا کارت را مقابل دستگاه قرار دهید
+            </p>
+            <mat-form-field>
+              <input matInput placeholder="کد ملی" value="">
+            </mat-form-field>
+            <br>
+            <button mat-raised-button color="primary">ثبت</button>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="تغییر وضعیت">
+          <div  style="padding : 9px">
+            <p>صفحه  وضعیت کارت</p>
+
+            <p *ngIf="card.new">
+              کارت شناسایی شد
+            </p>
+            <p *ngIf="!card.new">
+              لطفا کارت را مقابل دستگاه قرار دهید
+            </p>
+            <mat-form-field class="rayful">
+              <input matInput placeholder="وضعیت را تایپ کنید" value="">
+            </mat-form-field>
+            <br>
+
+            <mat-slide-toggle >قفل کردن کارت</mat-slide-toggle>
+            <br><br>
+
+
+
+            <button mat-raised-button color="primary">ثبت</button>
+          </div>
+        </mat-tab>
+        <mat-tab label="جستجوی مالک">
+          <div style="padding : 10px">
+            <p>
+              صفحه جستجوی کارت
+            </p>
+            <p *ngIf="card.new">
+              کارت شناسایی شد
+            </p>
+            <p *ngIf="!card.new">
+              لطفا کارت را مقابل دستگاه قرار دهید
+            </p>
+
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+   </mat-tab>
+   <mat-tab label="گروه کاربری"></mat-tab>
+
+ </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+        <small style="font-size:9px;margin: 5px">سامانه نرم افزاری ابری رایدا </small>
+
+    </mat-card-actions>
+  </mat-card>
+</div>

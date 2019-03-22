@@ -1,0 +1,35 @@
+
+<div style="padding : 10px">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>کاربری</mat-card-title>
+        <mat-card-subtitle>پروفایل {{d.username}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+         <form action="#">
+              <p style="padding:0; margin:0">کلمه عبور</p>
+              <mat-form-field >
+                  <input  [(ngModel)]="d.password" name="d.password" type="password" matInput placeholder="گذرواژه فعلی" >
+                </mat-form-field>
+                <br>
+                <mat-form-field >
+                    <input  [(ngModel)]="d.new_password" name="d.new_password" type="password" matInput placeholder="گذرواژه جدید" >
+
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field >
+                    <input  [(ngModel)]="d.repeat_password" name="d.repeat_password" type="password" matInput placeholder="تکرار گذرواژه جدید" >
+
+                  </mat-form-field>
+
+
+<p *ngIf="d.new_password !== d.repeat_password">
+  کلمه عبور و تکرار آن باید برابر باشند
+</p>                  <br>
+                  <button mat-raised-button color="primary" style="float:left" *ngIf="login == 1"  (click)="newPass()">به روزرسانی</button>
+                  <button mat-raised-button color="primary" style="float:left" *ngIf="login == 2"  >  بررسی صحت اطلاعات  ... {{timer}}</button>
+
+         </form>
+      </mat-card-content>
+    </mat-card>
+  </div>

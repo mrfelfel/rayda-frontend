@@ -1,0 +1,73 @@
+
+<div  (keyup) = "drg($event)" class="rayda-container no-select" [class.rayda-is-mobile]="mobileQuery.matches" [class.dark-theme]="isDarkTheme" >
+
+    <mat-toolbar color="primary" class="rayda-toolbar rayda ">
+      <button *ngIf="showRoute" mat-icon-button (click)="snav.toggle()" class="rayda-icon" aria-label="منوی اصلی">
+<mat-icon>menu</mat-icon>
+  </button>
+  <span style="margin : 3px" > مدیریت تغذیه بادام (نوروزی)</span>
+  <span class="rayda-spacer"></span>
+
+  <a *ngIf="!showRoute" mat-icon-button routerLink="/users/login" aria-label="ورود به سیستم">
+    <mat-icon>person</mat-icon>
+
+  </a>
+  <a *ngIf="showRoute" mat-icon-button (click)="exit(); snav.close()" aria-label="خروج از برنامه">
+      <mat-icon>exit_to_app</mat-icon>
+
+  </a>
+  <button *ngIf="showRoute" mat-icon-button aria-label="اتصال به اینترنت">
+      <mat-icon *ngIf="!connected"   matTooltip="برنامه در مود افلاین کار میکند">cloud_off</mat-icon>
+      <mat-icon *ngIf="connected"   matTooltip="ارتباط با شبکه ابری رایدا بر قرار است">cloud</mat-icon>
+  </button>
+
+    </mat-toolbar>
+
+    <mat-sidenav-container    id = "sidecontainer"[hasBackdrop]="mobileQuery.matches" class="rayda-sidenav-container "
+                           [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+      <mat-sidenav    class="woped no-select" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+                   <div  *ngIf="Me" class="profile">
+                       <img  class="profile-avatar" src="https://api.rayda.ir/image?id={{Me.user.email}} " alt="عکس پروفایل">
+                   </div>
+                   <mat-nav-list (click)="snav.toggle()" *ngIf="mobileQuery.matches">
+                     <span  *ngFor="let item of Proutes">
+
+                     <a mat-list-item  *ngIf="item.viewMenu" class="mini-size"  [routerLink]="item.path">
+                        <mat-icon class="rayda-icons">{{item.icon}}</mat-icon>
+
+                        {{item.name}}</a>
+                   </span>
+
+
+
+
+                    </mat-nav-list>
+                    <mat-nav-list *ngIf="!mobileQuery.matches">
+                        <span  *ngFor="let item of Proutes">
+
+                        <a mat-list-item  *ngIf="item.viewMenu" class="mini-size"  [routerLink]="item.path">
+                           <mat-icon class="rayda-icons">{{item.icon}}</mat-icon>
+
+                           {{item.name}}</a>
+                      </span>
+
+
+
+
+                       </mat-nav-list>
+                    <p class="footer-text">
+                      badoom web {{clientVersion}}
+                      <br>
+                      کاری از عصر ارتباطات دهکده
+                    </p>
+                  </mat-sidenav>
+
+      <mat-sidenav-content  id = "my-content" >
+          <router-outlet ></router-outlet>
+
+
+
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>

@@ -12,14 +12,110 @@
 
 
         <mat-tab-group backgroundColor="primary">
+
+          <mat-tab label="برنامه ریزی غذایی">
+
+            <div style="padding:10px">
+                <mat-chip-list aria-label="Fish selection">
+                    <mat-chip selected>برنامه ریزی</mat-chip>
+                    <mat-chip color="primary" >لیست</mat-chip>
+
+                  </mat-chip-list>
+                    <br>
+
+                      <mat-form-field  style="width: 100%;">
+                          <input matInput placeholder="توضیحات" value="">
+                        </mat-form-field>
+                        <mat-form-field  style="width:100%">
+
+                        <mat-select placeholder="الگو"  name="item">
+                          <mat-option *ngFor="let item of items" [value]="item.value">
+                            {{item.viewValue}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <mat-form-field  style="width:100%; padding: 5px;">
+
+                        <mat-select placeholder="سال" (selectionChange)="MakeWeeks()" name="item" [(ngModel)]="current.year">
+                          <mat-option *ngFor="let item of years" [value]="item">
+                            {{item}} ه.ش
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <mat-form-field  style="width:100%; padding: 5px;">
+
+                        <mat-select placeholder=" هفته"  name="item" [(ngModel)]="current.week">
+                          <mat-option *ngFor="let item of dates; let weekdex = index" [value]="weekdex">
+                         از تاریخ {{dates[weekdex]}}  تا تاریخ {{dates[weekdex+1]?dates[weekdex+1]:'هفته پایانی سال'}} || هفته {{weekdex!==0?wordify.wordifyfa(weekdex) + 'ام' : 'میانی ' }} سال
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+
+
+                      <mat-tab-group>
+                          <mat-tab *ngFor="let item of days; let indexi = index" [label]="item" >
+
+                            <div style="padding-top:15px">
+
+                              <button mat-raised-button (click)="AddBox(indexi)"><mat-icon>
+
+
+  <svg  width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                              </mat-icon>
+                            افزودن جعبه جدید
+                            </button>
+                            </div>
+
+
+                            <div class="row" >
+
+
+                                <mat-card style="padding-left:15px; padding-bottom: 5px; padding-top: 20px; margin: 5px;" class="col l3 m3 s12" *ngFor="let mitem of daysdata[indexi]; let mindex = index">
+                                  <mat-form-field  style="width:100%">
+
+                                    <input matInput placeholder="نام غذا"  [(ngModel)]="mitem.food">
+
+                                  </mat-form-field>
+
+                                  <mat-form-field  style="width:100%">
+                                    <textarea  cols="5" rows="5" placeholder="توضیحات ..." matInput></textarea>
+
+                                  </mat-form-field>
+                                    <mat-form-field  style="width:100%">
+
+                                    <mat-select placeholder="وعده" [(ngModel)]="mitem.meal"  name="item">
+                                      <mat-option *ngFor="let item of meals" [value]="item.value">
+                                        {{item.viewValue}}
+                                      </mat-option>
+                                    </mat-select>
+
+                                  </mat-form-field>
+
+
+
+                                  <button mat-raised-button  color="warn" style="float:left" (click)="Delete(indexi,mindex)">حذف</button>
+
+
+                                </mat-card>
+                            </div>
+
+
+                          </mat-tab>
+                        </mat-tab-group>
+                        <button mat-raised-button type="submit" style="margin-top:10px; float: left; width: 100px" color="primary">ثبت</button>
+            </div>
+
+          </mat-tab>
           <mat-tab label="مدیریت الگو ها">
 
 
-                 <br>
+            <br>
 
 
-          </mat-tab>
-          <mat-tab label="برنامه ریزی غذایی"></mat-tab>
+     </mat-tab>
           <mat-tab label="غذا ها"></mat-tab>
           <mat-tab label="مواد غذایی"></mat-tab>
           <mat-tab label="وعده ها"></mat-tab>

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import * as _ from 'lodash';
+import * as moment from 'jalali-moment';
+import * as wordify from './index.js';
 @Component({
   selector: 'app-food',
   templateUrl: './food.component.html',
@@ -7,8 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FoodComponent implements OnInit {
 
-  constructor() {
+  constructor(     private cdr: ChangeDetectorRef    ) {
      }
+     current = {
+         year : moment().locale('fa').year().toString(),
+         week : moment().jWeek()
+     };
+     wordify = wordify;
      days = [
       'شنبه',
       'یکشنبه',
@@ -18,8 +25,69 @@ export class FoodComponent implements OnInit {
       'پنجشنبه',
       'جمعه'
     ];
+    years = [];
+    dates = [];
+    items = [];
+    daysdata = [];
+    meals = [{
+      value : 1,
+      viewValue : 'ناهار'
+    },
+    {
+      value : 2,
+      viewValue : 'شام'
+    }];
+
 
   ngOnInit() {
+
+
+    for (let index = 0; index < 100; index++) {
+      const element = 1370 + index;
+      this.years.push(element.toString());
+
+    }
+
+     this.MakeWeeks();
   }
+
+  MakeWeeks() {
+    this.dates = [];
+    // this.current.week = 1;
+    const m = moment().locale('fa');
+    for (let index = 1; index <= 52; index++) {
+      const weekDate = m.year(Number(this.current.year)).week(index);
+
+      const result  = weekDate.clone().startOf('week').format('YYYY/MM/DD');
+
+      this.dates.push(result);
+
+
+
+    }
+
+    this.cdr.detectChanges();
+
+
+  }
+
+  AddBox(item) {
+    if (!this.daysdata[item]) {
+      this.daysdata[item] = [];
+    }
+    this.daysdata[item].push({
+      meal : 2,
+      food : ''
+    });
+    this.cdr.detectChanges();
+  }
+
+  Delete(i , m) {
+    this.daysdata[i].splice(m, 1);
+
+
+    this.cdr.detectChanges();
+  }
+
 
 }

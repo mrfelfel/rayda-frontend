@@ -6,11 +6,12 @@ import { ShowProfileComponent } from './profile/show-profile/show-profile.compon
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {SessionGuard} from '../@core/session.guard';
 import * as material from '@angular/material';
 const routes: Routes = [
-  { path: 'login', component: LoginComponent},
+  { path: 'login', component: LoginComponent, canActivate : [SessionGuard]},
   { path: 'profile', component: ShowProfileComponent},
-  { path: 'forgot', component: ForgotPasswordComponent},
+  { path: 'forgot', component: ForgotPasswordComponent,  canActivate : [SessionGuard]},
 
 ];
 @NgModule({

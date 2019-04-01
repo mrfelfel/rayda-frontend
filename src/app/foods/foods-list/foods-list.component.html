@@ -14,7 +14,7 @@
                 <p>{{viewId}} خوش آمدید</p>
 
 
-                   <p >موجودی شما :  {{cost}} ریال</p>
+                   <p >موجودی شما :  {{cost }} ریال</p>
 
 
          <button style="margin-top:5px" mat-raised-button (click)="openDialog()" style="margin:2px">افزایش موجودی <i class="gb gb_add gb_s24"></i> </button>
@@ -42,7 +42,7 @@
   <mat-tab-group class="FoodList"  [selectedIndex]="selected.value" *ngIf="planned"
   (selectedIndexChange)="selected.setValue($event); Dowsearch()" backgroundColor="accent">
 
-    <mat-tab *ngFor="let item of days" [label]="item" >
+    <mat-tab *ngFor="let item of days;trackBy: trackByFn" [label]="item" >
          <div *ngIf="!searched">
            <br>
            <mat-card >
@@ -53,7 +53,7 @@
 
          </div>
       <div class="row" >
-           <div class="col l4 m6 s12" *ngFor="let item of searched">
+           <div class="col l4 m6 s12" *ngFor="let item of searched; trackBy: trackByFn">
              <mat-card  class="food-card">
                <ng-template let-checker="checker" [ngTemplateOutletContext]="{ checker: checking(item) }" [ngTemplateOutlet]="food" #food>
 

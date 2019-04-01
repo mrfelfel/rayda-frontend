@@ -50,7 +50,7 @@ var wordifyfa = function (num, level) {
     } else if (num < 1000000000000000) {
         result += wordifyfa(parseInt(num / 1000000000000, 10), level) + " تریلیارد " + wordifyfa(num % 1000000000000, level + 1);
     }
-	return result;
+	return result ;
 
 };
 

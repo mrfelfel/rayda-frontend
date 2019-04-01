@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {AuthService} from '../../../@core/auth.service';
 import {SnaksService} from '../../../snaks.service';
 @Component({
@@ -8,7 +8,7 @@ import {SnaksService} from '../../../snaks.service';
 })
 export class ShowProfileComponent implements OnInit {
 
-  constructor(private auth: AuthService, private snak: SnaksService) { }
+  constructor(private auth: AuthService, private snak: SnaksService, private cdr: ChangeDetectorRef) { }
   d = {
     username : localStorage.uid,
     password : '',
@@ -50,9 +50,12 @@ export class ShowProfileComponent implements OnInit {
       clearInterval(finter);
       this.timer = 1;
       this.login = 1;
-
+      this.update();
     }
     ngOnInit() {
   }
-
+  update() {
+    // Run change detection only for this component when update() method is called.
+    this.cdr.detectChanges();
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit , Inject} from '@angular/core';
+import { Component, OnInit , Inject, ChangeDetectorRef} from '@angular/core';
 import {ServerService} from '../../@core/server.service';
 import { environment } from '../../../environments/environment';
 import {SnaksService} from '../../snaks.service';
@@ -13,6 +13,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor( private http: ServerService, private snaks: SnaksService,
   private Auth: AuthService,
+  private cdr: ChangeDetectorRef,
   private router: Router) { }
   base_url = environment.Endpoint;
   d = {
@@ -28,6 +29,7 @@ export class ForgotPasswordComponent implements OnInit {
   checkInput() {
     if ((this.d.phone.length === 0) || (this.d.username.length === 0)) {
       this.snaks.openSnackBar('کد ملی و یا تلفن همراه صحیح نیست', 'بستن');
+       this.update();
              return;
     }
     this.loging = true;
@@ -37,10 +39,18 @@ export class ForgotPasswordComponent implements OnInit {
       this.router.navigate(['/']);
       this.snaks.openSnackBar('کلمه عبور موقت به شما ارسال شد', 'بستن');
       localStorage.removeItem('user_code_meli');
+      this.update();
+
      })
      .catch(() => {
       this.loging = false;
       this.snaks.openSnackBar('اطلاعات وارد شده با اطلاعات ثبت نامی شما برابر نیست', 'بستن');
+      this.update();
+
      });
+  }
+  update() {
+    // Run change detection only for this component when update() method is called.
+    this.cdr.detectChanges();
   }
 }

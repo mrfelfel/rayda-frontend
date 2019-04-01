@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import * as material from '@angular/material';
 import { FoodComponent } from './food/food.component';
 import { ReportsComponent } from './reports/reports.component';
+import { FormsModule } from '@angular/forms';
+
 
 const routes: Routes = [
   { path: 'user', component: UserComponent},
@@ -20,9 +22,12 @@ const routes: Routes = [
     material.MatIconModule,
     material.MatCardModule,
     material.MatTabsModule,
+    material.MatChipsModule,
+    material.MatSelectModule,
     material.MatFormFieldModule,
     material.MatInputModule,
     material.MatButtonModule,
+    FormsModule,
     material.MatSlideToggleModule,
     material.MatButtonToggleModule,
     RouterModule.forChild(routes)

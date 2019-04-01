@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 
@@ -66,7 +66,8 @@ export class FoodsListComponent implements OnInit, OnDestroy {
      private Server: ServerService,
      private university: UniversityService,
      private activatedRoute: ActivatedRoute,
-     private _clipboardService: ClipboardService
+     private _clipboardService: ClipboardService,
+     private cdr: ChangeDetectorRef
      ) {}
   @ViewChild('tabGroup') tabGroup;
   Gweeknum = moment().isoWeek();
@@ -137,6 +138,8 @@ export class FoodsListComponent implements OnInit, OnDestroy {
     });
     this.socket.on('news', (d) => {
       this.snaks.openSnackBar(d.message, 'بستن');
+      this.update();
+
     });
     this.socket.on('reserved', (data) => {
 
@@ -159,6 +162,8 @@ export class FoodsListComponent implements OnInit, OnDestroy {
           place : data.data.place
       });
       }
+      this.update();
+
       // this.snaks.openSnackBar(data.message, 'بستن');
     });
     this.socket.on('reservedlist', (data) => {
@@ -177,21 +182,34 @@ export class FoodsListComponent implements OnInit, OnDestroy {
       } else {
         this.cost += Number(data.cost * -1);
       }
+      this.update();
+
     });
     this.socket.on('viewName', (data) => {
      if (data) {
         localStorage.viewName = data;
         this.viewId = data;
      }
+     this.update();
+
     });
     this.socket.on('planned', (data) => {
+
+
+      console.log(data);
       this.planned = data;
       this.Dowsearch();
+
+      this.update();
+
     });
     this.socket.on('noplanned', (data) => {
+      console.log(data);
       this.planned = null;
       this.message = 'برای این هفته این برنامه ای وجود ندارد';
-      this.snaks.openSnackBar('برای این هفته هیچ برنامه غذایی تعریف نشده است', 'بستن');
+      // this.snaks.openSnackBar('برای این هفته هیچ برنامه غذایی تعریف نشده است', 'بستن');
+
+      this.update();
     });
     this.socket.emit('getplan', {
       year : this.clone.jYear(),
@@ -201,6 +219,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
       '//' + document.location.host + '/foods/' + this.date.format('jYYYY-jMM-jDD'));
   }
   ngOnDestroy() {
+    this.socket.close();
   }
   Dowsearch() {
      this.searched = this.planned.filter((item) => {
@@ -253,6 +272,8 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   });
   window.history.replaceState( {} , null ,  document.location.protocol +
     '//' + document.location.host + '/foods/' + this.date.format('jYYYY-jMM-jDD'));
+
+    this.update();
  }
  // get week d unix time
  GetUnixTime() {
@@ -405,8 +426,12 @@ getDateOfISOWeek(w, y) {
    this._clipboardService.copyFromContent(document.location.protocol +
     '//' + document.location.host + '/foods/' + this.date.format('jYYYY-jMM-jDD'));
    this.snaks.openSnackBar('در کلیپ بورد شما ذخیره شد', 'بستن');
+   this.update();
 
-
+  }
+  update() {
+    // Run change detection only for this component when update() method is called.
+    this.cdr.detectChanges();
   }
   private timeChecker(start: number, delay: any) {
     // tslint:disable-next-line:no-unused-expression

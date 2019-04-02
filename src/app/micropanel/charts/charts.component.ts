@@ -15,26 +15,13 @@ export class ChartsComponent implements OnInit {
     bars : [{
     Value :  360,
     Position : 0,
-    Key : 'قرمه سبزی - شام' ,
-   }, {
-    Value :  260,
-    Position : 0,
-    Key : 'جوجه کباب - ناهار' ,
-   }],
-  },{
-    name : 'چارت رزرو غذای روزانه',
-    type : 'week',
-    length : 7,
-    bars : [{
-    Value :  460,
-    Position : 0,
-    Key : 'قرمه سبزی - شام' ,
-   }, {
-    Value :  160,
-    Position : 0,
-    Key : 'جوجه کباب - ناهار' ,
-   }
-   ]
+    Key : 'قرمه سبزی - شام' ,}
+  //  }, {
+  //   Value :  260,
+  //   Position : 0,
+  //   Key : 'جوجه کباب - ناهار' ,
+  //  }
+  ],
  }];
   public data = [];
   public chart:Object = {};
@@ -43,6 +30,21 @@ export class ChartsComponent implements OnInit {
 
   ngOnInit() {
     this.loadChart();
+    setTimeout(() => {
+      this.updateChart({
+        name : 'چارت رزرو غذای روزانه',
+        type : 'day',
+        length : 7,
+        bars : [{
+        Value :  560,
+        Position : 1,
+        Key : 'قرمه سبزی - شام' ,
+       },{
+        Value :  460,
+        Position : 1,
+        Key : 'قرمه سبزی - ناهار' ,
+       }]})             
+    }, 1000);
   }
 
   onSelect(event){
@@ -131,5 +133,46 @@ export class ChartsComponent implements OnInit {
       }
     });
     return array;
+  }
+
+  updateChart(data={}){
+    for(let ResponseIndex in this.response){
+      let responseIndex = parseInt(ResponseIndex);      
+      if(this.response[responseIndex]['name'] == data['name']){
+        this.doUpdate(data['bars'], responseIndex);
+        break;
+      }
+    }
+  }
+
+  doUpdate(data=[], index){
+    let datasets:Object[] = this.data[index]['data']['datasets'];
+    let ArrayDataLength = this.data[index]['data']['labels'].length;
+    function newDataset(DATA = { Key: '', Position: 0, Value: 0 }){                  
+      let dataset = { label: DATA['Key'], data : Array.from(Array(ArrayDataLength), ()=> 0 ) }; // dataset = { data : [0,0,0,0,0,0,] }      
+      let dayIndex = DATA['Position'];
+      dataset['data'][dayIndex] = DATA['Value'];
+      datasets.push(dataset);
+      return;
+    }
+    for(let dataIndex in data){ // یه حلقه برای هر داده های جدید
+      let currentData = data[dataIndex]; // در آوردن داده جدید
+      let updated = false;
+      for(let datasetsIndex in datasets){ // درآوردن همه ی دیتاست ها
+        let currentDataset= datasets[datasetsIndex]; // انتخاب یک دیتاست
+        if(currentDataset['label'] == currentData['Key']){ // بررسی که اگر لیبل دیتاست با کلید داده یکی بود
+          if(currentDataset['data'][currentData['Position']] != 0){ // اگر روز داده با دیتاست برابر نبود با صفز آپدیت کن
+            updated = true;
+            currentDataset['data'][currentData['Position']] = currentData['Value'];
+            this.data[index].update();
+            break;
+          }
+        }
+      } 
+      if(updated == false){
+        newDataset(currentData);
+        this.data[index].update();
+      }
+    }    
   }
 }

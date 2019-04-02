@@ -31,10 +31,25 @@ export class ChartsComponent implements OnInit {
   ngOnInit() {
     this.loadChart();
   }
+
+  onSelect(event){
+    let selected = null;
+    if(event == 0) selected = 'daily';
+    else if(event == 1) selected = 'weekly';
+    else if(event == 2) selected = 'monthly';
+    else {}
+    if(selected == null) return;
+    this.selected = selected;
+    this.loadChart();
+  }
   
   loadLabels(){
     if(this.selected == 'daily'){
       return ['شنبه','یک شنبه','دوشنبه','سه شنبه','چهار شنبه','پنج شنبه','جمعه'];
+    } else if(this.selected == 'weekly'){
+      return ['هفته اول', 'هفته دوم', 'هفته سوم', 'هفته چهارم'];
+    } else if(this.selected == 'monthly'){
+      return ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
     }
   }
 

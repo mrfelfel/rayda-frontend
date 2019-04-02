@@ -1,4 +1,4 @@
-<mat-tab-group backgroundColor="primary">
+<mat-tab-group (selectedIndexChange)="onSelect($event)" backgroundColor="primary">
   <mat-tab label="روزانه"></mat-tab>
   <mat-tab label="هفتگی"></mat-tab>
   <mat-tab label="ماهانه"></mat-tab>

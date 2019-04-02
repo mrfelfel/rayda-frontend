@@ -26,14 +26,27 @@ export class ChartsComponent implements OnInit {
   private data = [];
   public chart:Object = {};
   public selected = 'daily';
-  private days = ['شنبه','یک شنبه','دوشنبه','سه شنبه','چهار شنبه','پنج شنبه','جمعه'];
   constructor() { }
 
   ngOnInit() {
-    this.newChart(0, this.days);
-    this.newChart(0, this.days);
+    this.loadChart();
   }
   
+  loadLabels(){
+    if(this.selected == 'daily'){
+      return ['شنبه','یک شنبه','دوشنبه','سه شنبه','چهار شنبه','پنج شنبه','جمعه'];
+    }
+  }
+
+
+  async loadChart(){
+    document.getElementById('content').innerHTML = '';
+    let labels = this.loadLabels();
+    for(let i in this.response){
+      this.newChart(parseInt(i), labels);
+    }
+  }
+
   async newChart(index=0, allLabels=[]){
     let datasets = [];
     let data = this.response[index]['bars'];

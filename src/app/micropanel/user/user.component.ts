@@ -1,19 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild,Inject } from '@angular/core';
 import ReconnectingWebSocket from 'reconnecting-websocket';
+import {MatPaginator, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+
+
 @Component({
   selector: 'app-useri',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+  
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  displayedColumns: string[] = ['delete', 'edit', 'info', 'position', 'username'];
+  dataSource = new MatTableDataSource<Object>([]);
 
-  constructor() { }
+  constructor(private dialog:MatDialog) { }
   card = {
     new : false,
   };
   card_number = null;
   winsocket = null;
   ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.data = [{
+      username: '4311416644'
+    }, {
+      username: 'mail.google.com'
+    }]
     const os = navigator.platform;
 
     let OSName = 'Unknown OS';
@@ -54,9 +67,35 @@ export class UserComponent implements OnInit {
     };
     }
   }
+
+  addUser(){
+    this.dialog.open(TheUserComponent, { data: {username: '', password: '', repeat: '', info: false} })
+  }
+
+  updateUser(data={}){
+    data['info'] = false;
+    this.dialog.open(TheUserComponent, { data })
+  }
+
+  infoUser(data){
+    data['info'] = true;
+    this.dialog.open(TheUserComponent, { data });
+  }
+
   websocketstart(websocketServerLocation) {
     this.winsocket = new ReconnectingWebSocket(websocketServerLocation);
   }
   ErrorMsg(data) {
   }
+}
+
+@Component({
+  selector: 'app-useri',
+  templateUrl: './newUser.html',
+})
+export class TheUserComponent{
+    constructor( public dialogRef: MatDialogRef<TheUserComponent> , @Inject(MAT_DIALOG_DATA) public data: Object) {}
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
 }

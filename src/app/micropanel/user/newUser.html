@@ -1,0 +1,22 @@
+<div mat-dialog-content *ngIf="data['info'] == false">
+    <mat-form-field>
+        <input matInput placeholder="نام کاربری" autocomplete="off" name="username" [(ngModel)]="data['username']">
+    </mat-form-field><br>
+    <mat-form-field>
+        <input type="password" matInput placeholder="رمز عبور" name="password" [(ngModel)]="data['password']">
+    </mat-form-field><br>
+    <mat-form-field>
+        <input type="password" matInput placeholder="رمز عبور تکرار" name="repeat" [(ngModel)]="data['repeat']">
+    </mat-form-field>
+</div>
+<div mat-dialog-content *ngIf="data['info'] == true">
+    <p>نام کاربری :‌‌ {{data['username']}}</p>
+</div>
+<div mat-dialog-actions style="direction: ltr" *ngIf="data['info'] == false">
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>ثبت</button>
+  <button mat-button (click)="onNoClick()">بیخیال</button>
+</div>
+
+<div mat-dialog-actions style="direction: ltr" *ngIf="data['info'] == true">
+  <button mat-button (click)="onNoClick()">بستن</button>
+</div>

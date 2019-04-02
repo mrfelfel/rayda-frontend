@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserComponent } from './user/user.component';
+import { UserComponent,TheUserComponent } from './user/user.component';
 import { Routes, RouterModule } from '@angular/router';
 import * as material from '@angular/material';
 import { FoodComponent } from './food/food.component';
@@ -18,7 +18,7 @@ const routes: Routes = [
 ];
 // hi
 @NgModule({
-  declarations: [UserComponent, FoodComponent, ReportsComponent, ChartsComponent],
+  declarations: [UserComponent, FoodComponent, ReportsComponent, ChartsComponent, TheUserComponent],
   imports: [
     CommonModule,
     material.MatIconModule,
@@ -29,10 +29,15 @@ const routes: Routes = [
     material.MatFormFieldModule,
     material.MatInputModule,
     material.MatButtonModule,
+    material.MatTableModule,
+    material.MatPaginatorModule,
+    material.MatIconModule,
+    material.MatDialogModule,
     FormsModule,
     material.MatSlideToggleModule,
     material.MatButtonToggleModule,
     RouterModule.forChild(routes)
-  ]
+  ],
+  entryComponents: [TheUserComponent]
 })
 export class MicropanelModule { }

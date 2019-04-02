@@ -20,12 +20,25 @@ export class ChartsComponent implements OnInit {
     Value :  260,
     Position : 0,
     Key : 'جوجه کباب - ناهار' ,
+   }],
+  },{
+    name : 'چارت رزرو غذای روزانه',
+    type : 'week',
+    length : 7,
+    bars : [{
+    Value :  460,
+    Position : 0,
+    Key : 'قرمه سبزی - شام' ,
+   }, {
+    Value :  160,
+    Position : 0,
+    Key : 'جوجه کباب - ناهار' ,
    }
    ]
  }];
-  private data = [];
+  public data = [];
   public chart:Object = {};
-  public selected = 'daily';
+  public selected = 'day';
   constructor() { }
 
   ngOnInit() {
@@ -34,9 +47,9 @@ export class ChartsComponent implements OnInit {
 
   onSelect(event){
     let selected = null;
-    if(event == 0) selected = 'daily';
-    else if(event == 1) selected = 'weekly';
-    else if(event == 2) selected = 'monthly';
+    if(event == 0) selected = 'day';
+    else if(event == 1) selected = 'week';
+    else if(event == 2) selected = 'month';
     else {}
     if(selected == null) return;
     this.selected = selected;
@@ -44,11 +57,11 @@ export class ChartsComponent implements OnInit {
   }
   
   loadLabels(){
-    if(this.selected == 'daily'){
+    if(this.selected == 'day'){
       return ['شنبه','یک شنبه','دوشنبه','سه شنبه','چهار شنبه','پنج شنبه','جمعه'];
-    } else if(this.selected == 'weekly'){
+    } else if(this.selected == 'week'){
       return ['هفته اول', 'هفته دوم', 'هفته سوم', 'هفته چهارم'];
-    } else if(this.selected == 'monthly'){
+    } else if(this.selected == 'month'){
       return ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
     }
   }
@@ -56,6 +69,7 @@ export class ChartsComponent implements OnInit {
 
   async loadChart(){
     document.getElementById('content').innerHTML = '';
+    this.data = [];
     let labels = this.loadLabels();
     for(let i in this.response){
       this.newChart(parseInt(i), labels);
@@ -64,6 +78,7 @@ export class ChartsComponent implements OnInit {
 
   async newChart(index=0, allLabels=[]){
     let datasets = [];
+    if(this.response[index]['type'] != this.selected) return;
     let data = this.response[index]['bars'];
     for(let i in allLabels){// یه حلقه به تعداد روز ها      
       let day = await this.loadA(data, parseInt(i)); // داده های برای یک روز رو در میاریم 

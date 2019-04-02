@@ -10,6 +10,7 @@ import {JwtService} from './@core/jwt.service';
 import {AuthService} from './@core/auth.service';
 import {UniversityService} from './@core/university.service';
 import { Http } from '@angular/http';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 const VAPID_PUBLIC = 'BCnMCiUJ2fAFLZsR35QufdKeLCVsi1SGYqvm4tU0HaHG6kPpNZBRgGYAzFH4tMzRMc-qmrjuIHuyS8ty6wxsRtI';
 
 
@@ -28,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   clientVersion = '0.1.1 beta03';
   selectedUni =  '';
 // tslint:disable-next-line:max-line-length
-constructor( private cdr: ChangeDetectorRef, private http: Http, private swUpdate: SwUpdate, private swPush: SwPush,  changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router,  public snaks: SnaksService, private jwt: JwtService, private Auth: AuthService, private university: UniversityService, windowRef: WindowRefService,
+constructor( private cdr: ChangeDetectorRef, private http: Http, private swUpdate: SwUpdate, private swPush: SwPush,  changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router,  public snaks: SnaksService, private jwt: JwtService, private Auth: AuthService, private university: UniversityService, windowRef: WindowRefService, private dialog:MatDialog,
 private ngZone: NgZone  ) {
   this.mobileQuery = media.matchMedia('(max-width: 600px)');
   this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -56,6 +57,20 @@ adminRoute = true;
 subscription: any;
 public Proutes = null;
 public check = 0;
+public userName = '';
+public balance = 0;
+public bcost = 0;
+public nameIcon = ()=>{
+  let viewName = window.localStorage.getItem('viewName');
+  let uid = window.localStorage.getItem('uid');
+  if(viewName == null){
+    this.userName = uid;
+    return uid.slice(0,1);
+  } else {
+    this.userName = viewName;
+    return viewName.slice(0,1);
+  }
+} 
 shouldRun = true;
   private RequestPushNotify(swPush: SwPush) {
     console.log('[Push Service] Requesting subscription');
@@ -120,6 +135,11 @@ shouldRun = true;
             {
             'query': 'token=' + localStorage.token
             });
+            this.socket.on('data_gram', (data)=>{
+              if(data.type == 'balance'){
+                 this.balance = data.data.balance;
+               }
+            })
             this.socket.on('news', ( doo: { message: any; }) => {
              this.snaks.openSnackBar(doo.message, 'بستن');
              this.update();
@@ -194,6 +214,41 @@ shouldRun = true;
 
     }
 
+    openDialog(): void {
+      const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+        width: '300px',
+        data: {bcost: this.bcost }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        // console.log('The dialog was closed');
+        if (!result) {
+          this.snaks.openSnackBar('انصراف از پرداخت', 'بستن');
+        }
+        if (!result.bcost) {
+          this.snaks.openSnackBar('انصراف از پرداخت', 'بستن');
+        }
+  
+        if (result.bcost) {
+          if (Number(result.bcost) < 1000) {
+            this.snaks.openSnackBar('خطا مبلغ ورودی حداقل باید 1000 ریال باشد', 'بستن');
+             return;
+          }
+          this.snaks.snackBar.open('در حال اتصال به بانک ...', 'بستن', {
+            duration : 60000,
+          });
+        // tslint:disable-next-line:max-line-length
+        let uid = window.localStorage.getItem('uid');
+        this.http.get(`https://payment.rayda.ir/pay/${uid}/${result.bcost}`).toPromise()
+        .then((d) => {
+          window.location.href = d.json()['message'];
+        })
+        .catch((e) => {
+          this.snaks.openSnackBar(e.json()['message'], 'بستن');
+        });
+      }
+      });
+    }
+
 
 ngOnDestroy(): void {
   this.mobileQuery.removeListener(this._mobileQueryListener);
@@ -248,5 +303,24 @@ update() {
   this.cdr.detectChanges();
  }
 
+
+}
+
+
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: 'dialog.html',
+})
+// tslint:disable-next-line:component-class-suffix
+export class DialogOverviewExampleDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 
 }

@@ -56,8 +56,7 @@ h1.rayda-app-name {
   padding-top: 10px;
   height: 112px;
 }
-.side-nav-header h3 {
-}
+
 .footer-text {
   z-index: 999;
   bottom: 0;
@@ -91,4 +90,12 @@ mat-sidenav-container {
 .mini-size {
   font-size: 12px;
 
+}
+.nameIcon{
+  background-color: rgba($color: #000000, $alpha: .1);
+}
+
+div[mat-menu-item][flex]{
+  display: flex;
+  flex-wrap: nowrap;
 }

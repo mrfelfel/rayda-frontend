@@ -6,17 +6,19 @@ import * as material from '@angular/material';
 import { FoodComponent } from './food/food.component';
 import { ReportsComponent } from './reports/reports.component';
 import { FormsModule } from '@angular/forms';
+import { ChartsComponent } from './charts/charts.component';
 
 
 const routes: Routes = [
   { path: 'user', component: UserComponent},
   { path: 'reports', component: ReportsComponent},
   { path: 'food-manage', component: FoodComponent},
+  { path: 'charts', component: ChartsComponent }
 
 ];
 // hi
 @NgModule({
-  declarations: [UserComponent, FoodComponent, ReportsComponent],
+  declarations: [UserComponent, FoodComponent, ReportsComponent, ChartsComponent],
   imports: [
     CommonModule,
     material.MatIconModule,

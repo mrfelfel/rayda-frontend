@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import * as material from '@angular/material';
 import { FoodComponent } from './food/food.component';
 import { ReportsComponent } from './reports/reports.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsComponent } from './charts/charts.component';
 
 
@@ -21,7 +21,9 @@ const routes: Routes = [
   declarations: [UserComponent, FoodComponent, ReportsComponent, ChartsComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     material.MatIconModule,
+    material.MatAutocompleteModule,
     material.MatCardModule,
     material.MatTabsModule,
     material.MatChipsModule,

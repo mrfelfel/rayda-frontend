@@ -15,12 +15,8 @@ export class ChartsComponent implements OnInit {
     bars : [{
     Value :  360,
     Position : 0,
-    Key : 'قرمه سبزی - شام' ,}
-  //  }, {
-  //   Value :  260,
-  //   Position : 0,
-  //   Key : 'جوجه کباب - ناهار' ,
-  //  }
+    Key : 'قرمه سبزی - شام' ,
+   }
   ],
  }];
   public data = [];
@@ -39,10 +35,6 @@ export class ChartsComponent implements OnInit {
         Value :  560,
         Position : 1,
         Key : 'قرمه سبزی - شام' ,
-       },{
-        Value :  460,
-        Position : 1,
-        Key : 'قرمه سبزی - ناهار' ,
        }]})             
     }, 1000);
   }

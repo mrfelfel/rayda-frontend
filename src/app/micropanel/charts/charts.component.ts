@@ -13,16 +13,31 @@ export class ChartsComponent implements OnInit {
     type : 'day',
     length : 7,
     bars : [{
-    Value :  360,
+    Value :  0,
     Position : 0,
-    Key : 'قرمه سبزی - شام' ,}
+    Key : 'نمونه اولیه' ,}
   //  }, {
   //   Value :  260,
   //   Position : 0,
   //   Key : 'جوجه کباب - ناهار' ,
   //  }
   ],
- }];
+ },
+ {
+  name : 'چارت مالی هفتگی',
+  type : 'week',
+  length : 7,
+  bars : [{
+  Value :  12000,
+  Position : 0,
+  Key : 'نمونه اولیه' ,}
+//  }, {
+//   Value :  260,
+//   Position : 0,
+//   Key : 'جوجه کباب - ناهار' ,
+//  }
+],
+}];
   public data = [];
   public chart:Object = {};
   public selected = 'day';
@@ -30,7 +45,7 @@ export class ChartsComponent implements OnInit {
 
   ngOnInit() {
     this.loadChart();
-    setTimeout(() => {
+    /*setTimeout(() => {
       this.updateChart({
         name : 'چارت رزرو غذای روزانه',
         type : 'day',
@@ -43,8 +58,13 @@ export class ChartsComponent implements OnInit {
         Value :  460,
         Position : 1,
         Key : 'قرمه سبزی - ناهار' ,
-       }]})             
+       },{
+        Value :  897,
+        Position : 1,
+        Key : 'خوراک فلفل - ناهار' ,
+       }]})
     }, 1000);
+    */
   }
 
   onSelect(event){
@@ -57,7 +77,7 @@ export class ChartsComponent implements OnInit {
     this.selected = selected;
     this.loadChart();
   }
-  
+
   loadLabels(){
     if(this.selected == 'day'){
       return ['شنبه','یک شنبه','دوشنبه','سه شنبه','چهار شنبه','پنج شنبه','جمعه'];
@@ -82,16 +102,16 @@ export class ChartsComponent implements OnInit {
     let datasets = [];
     if(this.response[index]['type'] != this.selected) return;
     let data = this.response[index]['bars'];
-    for(let i in allLabels){// یه حلقه به تعداد روز ها      
-      let day = await this.loadA(data, parseInt(i)); // داده های برای یک روز رو در میاریم 
-      if(day.length == 0) continue      
-        for(let i in await Array.from(Array(day.length - datasets.length), ()=> 0)){ // یه آرایه به اندازه کل داده ها          
+    for(let i in allLabels){// یه حلقه به تعداد روز ها
+      let day = await this.loadA(data, parseInt(i)); // داده های برای یک روز رو در میاریم
+      if(day.length == 0) continue
+        for(let i in await Array.from(Array(day.length - datasets.length), ()=> 0)){ // یه آرایه به اندازه کل داده ها
           let dataset = { label: day[i]['Key'], data : await Array.from(Array(allLabels.length), ()=> 0 ) }; // dataset = { data : [0,0,0,0,0,0,] }
           let dayIndex = day[i]['Position'];
           dataset['data'][dayIndex] = day[i]['Value'];
           await datasets.push(dataset);
       }
-    }  
+    }
 
     let div = document.createElement('div');
     div.style.height = '400px';
@@ -109,6 +129,7 @@ export class ChartsComponent implements OnInit {
         datasets: datasets
       },
       options: {
+        responsive: true,
         scales: {
           yAxes: [{
             ticks: {
@@ -129,7 +150,7 @@ export class ChartsComponent implements OnInit {
     let array = [];
     await data.map(d=>{
       if(d['Position'] == index){
-        array.push(d);        
+        array.push(d);
       }
     });
     return array;
@@ -137,7 +158,7 @@ export class ChartsComponent implements OnInit {
 
   updateChart(data={}){
     for(let ResponseIndex in this.response){
-      let responseIndex = parseInt(ResponseIndex);      
+      let responseIndex = parseInt(ResponseIndex);
       if(this.response[responseIndex]['name'] == data['name']){
         this.doUpdate(data['bars'], responseIndex);
         break;
@@ -148,8 +169,8 @@ export class ChartsComponent implements OnInit {
   doUpdate(data=[], index){
     let datasets:Object[] = this.data[index]['data']['datasets'];
     let ArrayDataLength = this.data[index]['data']['labels'].length;
-    function newDataset(DATA = { Key: '', Position: 0, Value: 0 }){                  
-      let dataset = { label: DATA['Key'], data : Array.from(Array(ArrayDataLength), ()=> 0 ) }; // dataset = { data : [0,0,0,0,0,0,] }      
+    function newDataset(DATA = { Key: '', Position: 0, Value: 0 }){
+      let dataset = { label: DATA['Key'], data : Array.from(Array(ArrayDataLength), ()=> 0 ) }; // dataset = { data : [0,0,0,0,0,0,] }
       let dayIndex = DATA['Position'];
       dataset['data'][dayIndex] = DATA['Value'];
       datasets.push(dataset);
@@ -168,11 +189,11 @@ export class ChartsComponent implements OnInit {
             break;
           }
         }
-      } 
+      }
       if(updated == false){
         newDataset(currentData);
         this.data[index].update();
       }
-    }    
+    }
   }
 }

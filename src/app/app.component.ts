@@ -70,7 +70,7 @@ public nameIcon = () => {
     return uid.slice(0, 1);
   } else {
     this.userName = viewName;
-    return viewName.slice(0, 1);
+    return viewName.slice(0, 1) + '.' + viewName[viewName.length - 1];
   }
 }
   private RequestPushNotify(swPush: SwPush) {

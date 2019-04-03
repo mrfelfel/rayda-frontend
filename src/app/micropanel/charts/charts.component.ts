@@ -45,7 +45,7 @@ export class ChartsComponent implements OnInit {
 
   ngOnInit() {
     this.loadChart();
-    /*setTimeout(() => {
+    setTimeout(() => {
       this.updateChart({
         name : 'چارت رزرو غذای روزانه',
         type : 'day',
@@ -63,8 +63,26 @@ export class ChartsComponent implements OnInit {
         Position : 1,
         Key : 'خوراک فلفل - ناهار' ,
        }]})
-    }, 1000);
-    */
+    }, 7000);
+    setTimeout(() => {
+    this.updateChart({
+      name : 'چارت رزرو غذای روزانه',
+      type : 'day',
+      length : 7,
+      bars : [{
+      Value :  569,
+      Position : 1,
+      Key : 'قرمه سبزی - شام' ,
+     },{
+      Value :  469,
+      Position : 1,
+      Key : 'قرمه سبزی - ناهار' ,
+     },{
+      Value :  997,
+      Position : 1,
+      Key : 'خوراک فلفل - ناهار' ,
+     }]})
+  }, 16000);
   }
 
   onSelect(event){

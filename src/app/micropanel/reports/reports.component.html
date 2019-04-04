@@ -6,7 +6,6 @@
 
     </mat-card-header>
     <mat-card-content>
-        <img src="/assets/reports.svg" style="width : 100% ; height: 300px;"  >
       <mat-tab-group style="margin-top : 15px" backgroundColor="accent">
         <mat-tab label="گزارشات رزرو"></mat-tab>
         <mat-tab label="گزارشات کاربری"></mat-tab>
@@ -16,8 +15,28 @@
         <mat-tab label="وضعیت دستگاه ها"></mat-tab>
         <mat-tab label="مشاهده گر لحظات"></mat-tab>
       </mat-tab-group>
+
+      <div class="content" *ngFor="let item of list; let i = index">
+        <span>{{item['listname']}}</span>
+        <button mat-icon-button (click)="setHidden(item)">
+          <mat-icon>
+            <svg *ngIf="item['hidden'] == true || item['hidden'] == null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14 28l10-10 10 10z"/></svg>
+            <svg *ngIf="item['hidden'] == false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14 20l10 10 10-10z"/></svg>
+          </mat-icon>
+        </button>
+        <table *ngIf="item['hidden'] == true || item['hidden'] == null">
+          <thead>
+            <tr>           
+              <th *ngFor="let col of item['cols']">{{setTH(col, i)}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of item['data']">           
+              <td *ngFor="let key of heads[i]">{{data[key]}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </mat-card-content>
-    <mat-card-actions>
-    </mat-card-actions>
   </mat-card>
 </div>

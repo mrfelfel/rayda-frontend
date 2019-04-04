@@ -148,6 +148,9 @@ public nameIcon = () => {
                 this.exit();
               }
             });
+            this.socket.on('logout', (data) => {
+                this.exit();
+            });
             this.socket.on('news', ( doo: { message: any; }) => {
              this.snaks.openSnackBar(doo.message, 'بستن');
              this.update();

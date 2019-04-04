@@ -9,7 +9,7 @@ import {MatPaginator, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DA
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns: string[] = ['delete', 'edit', 'info', 'position', 'username'];
   dataSource = new MatTableDataSource<Object>([]);
@@ -91,7 +91,7 @@ export class UserComponent implements OnInit {
   selector: 'app-useri',
   templateUrl: './newUser.html',
 })
-export class TheUserComponent{
+export class TheUserComponent {
     constructor( public dialogRef: MatDialogRef<TheUserComponent> , @Inject(MAT_DIALOG_DATA) public data: Object) {}
     onNoClick(): void {
       this.dialogRef.close();

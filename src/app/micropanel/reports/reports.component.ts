@@ -27,7 +27,22 @@ export class ReportsComponent implements OnInit {
       firstname : 'محمد جواد',
     }]
    },{
-    listname : 'لیست کاربران ',
+    listname : 'لیست جدید ها',
+    listcategory: 'users',
+    cols : [{
+      view : 'نام',
+      code : 'firstname'
+    },{
+      view : 'نام خانوادگی',
+      code : 'lastname'
+    }],
+    data : [{
+      firstname : 'محمد جواد',
+      lastname : 'یاحقی'
+    }]
+   },{
+    listname : 'جدید های هفته',
+    listcategory: 'users',
     cols : [{
       view : 'نام',
       code : 'firstname'
@@ -55,7 +70,7 @@ export class ReportsComponent implements OnInit {
       item['hidden'] = !item['hidden'];
     }
   }
-  
+
 
   setTH(col, i){
     let cols: Object[] = this.heads[i];

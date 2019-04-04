@@ -142,6 +142,12 @@ public nameIcon = () => {
                this.update();
 
             });
+            this.socket.on('error', (data) => {
+
+              if (data.type === 'UnauthorizedError') {
+                this.exit();
+              }
+            });
             this.socket.on('news', ( doo: { message: any; }) => {
              this.snaks.openSnackBar(doo.message, 'بستن');
              this.update();

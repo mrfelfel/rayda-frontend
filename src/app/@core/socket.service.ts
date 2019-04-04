@@ -11,6 +11,7 @@ export class SocketService {
      this.ConnectToserver();
 
      this.socket.on('disconnect', () => {
+       console.log('diss...');
              this.connected = false;
      });
   }
@@ -21,10 +22,12 @@ export class SocketService {
   }
 
   public disconnect() {
+    this.connected = false;
     this.socket.close();
   }
 
   private ConnectToserver() {
+    console.log('on...');
     if (!this.connected) {
       this.socket = io.connect('https://message.rayda.ir/',
       {

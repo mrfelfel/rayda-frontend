@@ -122,10 +122,6 @@ public nameIcon = () => {
          });
      }
      this.router.events.subscribe(async (d) =>  {
-       if ((!localStorage.pushify) && (localStorage.token)) {
-         localStorage.setItem('pushify', 'true');
-         this.RequestPushNotify(this.swPush);
-         }
          if ((this.showRoute === true) && (!this.Proutes) && (this.check === 0)) {
            this.check++;
            try {
@@ -144,6 +140,7 @@ public nameIcon = () => {
             });
             this.socket.on('error', (data) => {
 
+              console.log(data);
               if (data.type === 'UnauthorizedError') {
                 this.exit();
               }
@@ -220,6 +217,11 @@ public nameIcon = () => {
          this.showRoute =  this.Auth.IsLoggedIn();
 
          this.GetUserData();
+
+         if ((!localStorage.pushify) && (localStorage.token)) {
+          localStorage.setItem('pushify', 'true');
+          this.RequestPushNotify(this.swPush);
+          }
      });
     });
 
@@ -275,6 +277,7 @@ GetUserData() {
 }
 exit() {
   this.socket.emit('nopush', localStorage.endpoint);
+  this.socketService.disconnect();
   localStorage.removeItem('token');
   localStorage.removeItem('pushify');
   localStorage.removeItem('uid');

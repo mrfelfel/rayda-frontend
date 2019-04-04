@@ -22,6 +22,7 @@ export class MoneyComponent implements OnInit {
   filteredOptions: Observable<Object[]>;
   public user:Object = null;
   public search:String = '';
+  private tab:Number = 0;
   constructor(private router:Router) { }
 
   ngOnInit() {
@@ -54,6 +55,8 @@ export class MoneyComponent implements OnInit {
   onSelect(event){
     if(event == 2){
       this.router.navigate(['/panel/reports'], { queryParams: { 'code': 'financial' } })
+    } else {
+      this.tab = parseInt(event);
     }
   }
 }

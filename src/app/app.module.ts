@@ -10,6 +10,8 @@ import { environment } from '../environments/environment';
 import { HttpModule } from '@angular/http';
 import {AuthGuard} from './@core/auth.guard';
 import {UniversityService} from './@core/university.service';
+import {SocketService} from './@core/socket.service';
+
 import { SafePipe } from './safe.pipe';
 import { FormsModule } from '@angular/forms';
 
@@ -39,7 +41,7 @@ import { FormsModule } from '@angular/forms';
     HttpModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [SnaksService, AuthGuard, UniversityService],
+  providers: [SnaksService, AuthGuard, UniversityService, SocketService],
   entryComponents: [DialogOverviewExampleDialog],
   bootstrap: [AppComponent]
 })

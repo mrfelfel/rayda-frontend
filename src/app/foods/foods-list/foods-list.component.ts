@@ -10,6 +10,7 @@ import {TimeService} from '../../time.service';
 import {SnaksService} from '../../snaks.service';
 import {ServerService} from '../../@core/server.service';
 import {UniversityService} from '../../@core/university.service';
+import {SocketService} from '../../@core/socket.service';
 
 import * as moment from 'jalali-moment';
 import * as _ from 'lodash';
@@ -55,7 +56,7 @@ interface Reservation {
   ],
   templateUrl: './foods-list.component.html',
   styleUrls: ['./foods-list.component.scss'],
-  providers : [BookingService, JwtService, TimeService]
+  providers : [BookingService, JwtService, TimeService, SocketService]
 })
 export class FoodsListComponent implements OnInit, OnDestroy {
    constructor( private snaks: SnaksService,
@@ -67,13 +68,13 @@ export class FoodsListComponent implements OnInit, OnDestroy {
      private university: UniversityService,
      private activatedRoute: ActivatedRoute,
      private _clipboardService: ClipboardService,
-     private cdr: ChangeDetectorRef
+     private cdr: ChangeDetectorRef,
+     private socketService: SocketService
      ) {}
   @ViewChild('tabGroup') tabGroup;
-  Gweeknum = moment().isoWeek();
-  TestWeek = moment('1398/1/1', 'jYYYY/jM/jD').jWeek();
   weekNum = 0;
   yearNum = moment().jYear();
+  usocket = this.socketService.connect();
   socket = io.connect('https://realtime.rayda.ir',
   {
     'query': 'token=' + localStorage.token
@@ -145,6 +146,8 @@ export class FoodsListComponent implements OnInit, OnDestroy {
       this.update();
 
     });
+
+
     this.socket.on('reserved', (data) => {
 
 

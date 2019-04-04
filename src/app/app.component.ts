@@ -9,6 +9,8 @@ import {SnaksService} from './snaks.service';
 import {JwtService} from './@core/jwt.service';
 import {AuthService} from './@core/auth.service';
 import {UniversityService} from './@core/university.service';
+import {SocketService} from './@core/socket.service';
+
 import { Http } from '@angular/http';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 const VAPID_PUBLIC = 'BCnMCiUJ2fAFLZsR35QufdKeLCVsi1SGYqvm4tU0HaHG6kPpNZBRgGYAzFH4tMzRMc-qmrjuIHuyS8ty6wxsRtI';
@@ -18,14 +20,14 @@ const VAPID_PUBLIC = 'BCnMCiUJ2fAFLZsR35QufdKeLCVsi1SGYqvm4tU0HaHG6kPpNZBRgGYAzF
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers : [UniversityService, WindowRefService],
+  providers : [UniversityService, WindowRefService, SocketService],
   changeDetection: ChangeDetectionStrategy.OnPush
 
 
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 // tslint:disable-next-line:max-line-length
-constructor( private cdr: ChangeDetectorRef, private http: Http, private swUpdate: SwUpdate, private swPush: SwPush,  changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router,  public snaks: SnaksService, private jwt: JwtService, private Auth: AuthService, private university: UniversityService, windowRef: WindowRefService, private dialog: MatDialog,
+constructor( private cdr: ChangeDetectorRef, private http: Http, private swUpdate: SwUpdate, private swPush: SwPush,  changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router,  public snaks: SnaksService, private jwt: JwtService, private Auth: AuthService, private socketService: SocketService, private university: UniversityService, windowRef: WindowRefService, private dialog: MatDialog,
 private ngZone: NgZone  ) {
   this.mobileQuery = media.matchMedia('(max-width: 600px)');
   this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -58,13 +60,12 @@ subscription: any;
 public Proutes = null;
 public check = 0;
 public userName = '';
-public balance = localStorage.balance;
+public balance = 0;
 public bcost = 0;
 shouldRun = true;
 public nameIcon = () => {
   const viewName = window.localStorage.getItem('viewName');
   const uid = window.localStorage.getItem('uid');
-  this.balance = localStorage.balance;
   if (viewName == null) {
     this.userName = uid;
     return uid.slice(0, 1);
@@ -132,14 +133,14 @@ public nameIcon = () => {
            } catch (error) {
              this.adminRoute = false;
            }
-           this.socket = io.connect('https://message.rayda.ir/',
-            {
-            'query': 'token=' + localStorage.token
-            });
+            this.socket = this.socketService.connect();
             this.socket.on('data_gram', (data) => {
               if (data.type === 'balance') {
-                 this.balance = data.data.balance;
+                 this.balance = data.balance;
                }
+
+               this.update();
+
             });
             this.socket.on('news', ( doo: { message: any; }) => {
              this.snaks.openSnackBar(doo.message, 'بستن');

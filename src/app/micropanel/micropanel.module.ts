@@ -7,6 +7,7 @@ import { FoodComponent } from './food/food.component';
 import { ReportsComponent } from './reports/reports.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsComponent } from './charts/charts.component';
+import { SearchFilterPipe } from './reports/search.pipe';
 
 
 const routes: Routes = [
@@ -18,7 +19,7 @@ const routes: Routes = [
 ];
 // hi
 @NgModule({
-  declarations: [UserComponent, FoodComponent, ReportsComponent, ChartsComponent, TheUserComponent],
+  declarations: [UserComponent, FoodComponent, ReportsComponent, ChartsComponent, TheUserComponent, SearchFilterPipe],
   imports: [
     CommonModule,
     ReactiveFormsModule,

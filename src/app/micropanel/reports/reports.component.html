@@ -24,6 +24,10 @@
             <svg *ngIf="item['hidden'] == false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14 20l10 10 10-10z"/></svg>
           </mat-icon>
         </button>
+        <br>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="جستوجو" [(ngModel)]="item['search']">
+        </mat-form-field>
         <table *ngIf="item['hidden'] == true || item['hidden'] == null">
           <thead>
             <tr>           
@@ -31,7 +35,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let data of item['data']">           
+            <tr *ngFor="let data of item['data'] | searchfilter: heads[i]: item['search']">           
               <td *ngFor="let key of heads[i]">{{data[key]}}</td>
             </tr>
           </tbody>

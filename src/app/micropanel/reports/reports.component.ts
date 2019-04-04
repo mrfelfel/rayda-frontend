@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { isArray } from 'util';
 
 @Component({
   selector: 'app-reports',
@@ -51,6 +52,7 @@ export class ReportsComponent implements OnInit {
     let cols: Object[] = this.heads[i];
     if(cols == null) {
       this.heads[i] = [];
+      cols = [];
     }
     if(cols.includes(col['code']) == false){
       this.heads[i].push(col['code']);

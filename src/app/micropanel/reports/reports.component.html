@@ -7,10 +7,13 @@
     <mat-card-content>
       <mat-form-field appearance="outline" style="min-width: 250px;">
         <mat-label>جستوجو جدول</mat-label>
-        <input matInput placeholder="نام جدول" [matAutocomplete]="auto">
+        <input matInput placeholder="نام جدول" [matAutocomplete]="auto" [(ngModel)]="search">
       </mat-form-field>
+      <button mat-icon-button (click)="endSearch()" *ngIf="search.length != 0">
+        <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm10 27.17L31.17 34 24 26.83 16.83 34 14 31.17 21.17 24 14 16.83 16.83 14 24 21.17 31.17 14 34 16.83 26.83 24 34 31.17z"/></svg></mat-icon>
+      </button>
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let item of list" (click)="findTable(item)">
+        <mat-option *ngFor="let item of list" [value]="item['listname'] +' - '+ calcCategory(item)" (click)="findTable(item)">
           {{ item['listname'] }} - {{calcCategory(item)}}
         </mat-option>
       </mat-autocomplete>

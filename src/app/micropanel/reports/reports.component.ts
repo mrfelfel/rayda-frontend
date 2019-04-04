@@ -45,6 +45,7 @@ export class ReportsComponent implements OnInit {
   public tab:Number = 0;
   public tabs = [{code : 'reserve', name : 'گزارشات رزرو'}, { code: 'users', name: 'لیست کاربران' }];
   private heads = [];
+  public search:String = '';
 
   ngOnInit(){}
 
@@ -66,6 +67,7 @@ export class ReportsComponent implements OnInit {
   }
 
   showContent(item){
+    if(item['forceHide'] == true) return false;
     if(item['listcategory'] == this.tabs[parseInt(this.tab.toString())]['code']){
       return true;
     } else {
@@ -85,12 +87,20 @@ export class ReportsComponent implements OnInit {
     return col['view'];
   }
 
-  findTable(item){
+  endSearch(){
+    for(let i in this.list){
+      this.list[i]['forceHide'] = false;
+    }
+    this.search = '';
+  }
+
+  findTable(item){    
     let name = item['listname'], category = item['listcategory'];
     for(let i in this.list){
-      if(this.list[i]['listname'].includes(name) && this.list[i]['listcategory'] == category){
+      this.list[i]['forceHide'] = true;
+      if(this.list[i]['listname'] == name && this.list[i]['listcategory'] == category){
+        this.list[i]['forceHide'] = false;
         this.focusTable(this.list[i]);
-        break;
       }
     }
   }

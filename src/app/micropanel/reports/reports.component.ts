@@ -51,14 +51,23 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit(){
     this.activatedRoute.queryParamMap.subscribe(query=>{
-      let code = query.get('code');      
-      for(let i in this.tabs){
-        let tab = this.tabs[i];
-        if(tab['code'] == code){
-          this.tab = parseInt(i);
-          break;
+      let code = query.get('code');  
+      if(code != null){
+        let selected = false;
+        for(let i in this.tabs){
+          let tab = this.tabs[i];
+          if(tab['code'] == code){
+            this.tab = parseInt(i);
+            selected = true;
+            break;
+          }
         }
-      }
+        if(selected == false){
+          this.tab = 0;
+        }
+      } else {
+        this.tab = 0;
+      } 
     });
   }
 

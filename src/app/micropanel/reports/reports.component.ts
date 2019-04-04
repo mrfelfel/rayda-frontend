@@ -21,6 +21,10 @@ export class ReportsComponent implements OnInit {
     data : [{
       lastname : 'یاحقی',
       firstname : 'محمد جواد',
+    },
+    {
+      lastname : 'یاوری',
+      firstname : 'محمد جواد',
     }]
    },{
     listname : 'لیست کاربران ',

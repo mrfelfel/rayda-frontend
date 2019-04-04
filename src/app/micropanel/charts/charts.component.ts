@@ -218,7 +218,7 @@ export class ChartsComponent implements OnInit {
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: true,
+              beginAtZero: true
             }
           }]
         },
@@ -232,6 +232,7 @@ export class ChartsComponent implements OnInit {
         }
       }
     });
+    Chart.defaults.global.defaultFontFamily = 'SDF';
     this.data.push(chart);
   }
 

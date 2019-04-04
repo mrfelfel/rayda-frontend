@@ -101,6 +101,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   unliked = null;
 
   locked = true;
+  error = false;
   message = 'در حال اتصال ...';
   nameSpace = '';
 
@@ -135,6 +136,9 @@ export class FoodsListComponent implements OnInit, OnDestroy {
    }
     this.socket.on('connect', function (socket) {
       this.locked = false;
+    });
+    this.socket.on('error', function (socket) {
+      this.error = true;
     });
     this.socket.on('news', (d) => {
       this.snaks.openSnackBar(d.message, 'بستن');
@@ -175,6 +179,11 @@ export class FoodsListComponent implements OnInit, OnDestroy {
       this.cost = data.cost;
       this.uid = data.uid;
       this.nameSpace = data.nameSpace;
+    });
+    this.socket.on('mode', (data) => {
+      if (!data) {
+           this.error = true;
+      }
     });
     this.socket.on('balancing', (data) => {
       if (data.add) {
@@ -360,7 +369,11 @@ getDateOfISOWeek(w, y) {
   }
   reserve(item, button) {
 
-
+    console.log(this.error);
+    if (this.error) {
+      this.snaks.openSnackBar('رزرو این هفته به پایان رسیده است', 'بستن');
+         return;
+    }
     if (this.cost === 0) {
       this.snaks.openSnackBar('موجودی کافی نیست', 'بستن');
          return;
@@ -370,6 +383,10 @@ getDateOfISOWeek(w, y) {
         this.socket.emit('reserve', item);
   }
   unreserve(item) {
+    if (this.error) {
+      this.snaks.openSnackBar('لغو این هفته به پایان رسیده است', 'بستن');
+         return;
+    }
     item.week = this.date.jWeek();
     item.year = this.clone.jYear();
     this.socket.emit('unreserve', item);

@@ -35,11 +35,7 @@
             </tr>
           </thead>
           <tbody>
-<<<<<<< HEAD
-            <tr *ngFor="let data of item['data'] | searchfilter: heads[i]: item['search']">           
-=======
-            <tr *ngFor="let data of item['data']">
->>>>>>> 801b09cb086b73b55b55618422bc6f2cac39b6c0
+            <tr *ngFor="let data of item['data'] | searchfilter: heads[i]: item['search']">
               <td *ngFor="let key of heads[i]">{{data[key]}}</td>
             </tr>
           </tbody>

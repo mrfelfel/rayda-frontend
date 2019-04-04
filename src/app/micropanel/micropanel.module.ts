@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserComponent,TheUserComponent } from './user/user.component';
+import * as userComponent from './user/user.component';
 import { Routes, RouterModule } from '@angular/router';
 import * as material from '@angular/material';
 import { FoodComponent } from './food/food.component';
@@ -9,9 +9,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsComponent } from './charts/charts.component';
 import { SearchFilterPipe } from './reports/search.pipe';
 
+import { MaterialPersianDateAdapter, PERSIAN_DATE_FORMATS } from '../@core/material.persian-date.adapter';
 
 const routes: Routes = [
-  { path: 'user', component: UserComponent},
+  { path: 'user', component: userComponent.UserComponent},
   { path: 'reports', component: ReportsComponent},
   { path: 'food-manage', component: FoodComponent},
   { path: 'charts', component: ChartsComponent }
@@ -19,7 +20,8 @@ const routes: Routes = [
 ];
 // hi
 @NgModule({
-  declarations: [UserComponent, FoodComponent, ReportsComponent, ChartsComponent, TheUserComponent, SearchFilterPipe],
+  // tslint:disable-next-line:max-line-length
+  declarations: [userComponent.UserComponent, FoodComponent, ReportsComponent, ChartsComponent, userComponent.TheUserComponent, SearchFilterPipe],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -39,8 +41,13 @@ const routes: Routes = [
     FormsModule,
     material.MatSlideToggleModule,
     material.MatButtonToggleModule,
+    material.MatDatepickerModule,
     RouterModule.forChild(routes)
   ],
-  entryComponents: [TheUserComponent]
+  providers: [
+    { provide: material.DateAdapter, useClass: MaterialPersianDateAdapter, deps: [material.MAT_DATE_LOCALE] },
+    { provide: material.MAT_DATE_FORMATS, useValue: PERSIAN_DATE_FORMATS }
+  ],
+  entryComponents: [userComponent.TheUserComponent]
 })
 export class MicropanelModule { }

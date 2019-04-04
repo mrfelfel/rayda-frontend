@@ -8,19 +8,6 @@ import * as _ from 'lodash';
 })
 export class ChartsComponent implements OnInit {
 
-<<<<<<< HEAD
-  private response:Object[] = [{
-    name : 'چارت رزرو غذای روزانه',
-    type : 'day',
-    length : 7,
-    bars : [{
-    Value :  360,
-    Position : 0,
-    Key : 'قرمه سبزی - شام' ,
-   }
-  ],
- }];
-=======
   private response: Object[] = [
     {
       name : 'چارت رزرو غذای روزانه بلادرنگ',
@@ -149,7 +136,6 @@ export class ChartsComponent implements OnInit {
        }]
     }
   ];
->>>>>>> a9433cf063653cb9405634d766922eaa7b868598
   public data = [];
   public InBackgroundData = [];
   public chart: Object = {};
@@ -158,20 +144,6 @@ export class ChartsComponent implements OnInit {
 
   ngOnInit() {
     this.loadChart();
-<<<<<<< HEAD
-    setTimeout(() => {
-      this.updateChart({
-        name : 'چارت رزرو غذای روزانه',
-        type : 'day',
-        length : 7,
-        bars : [{
-        Value :  560,
-        Position : 1,
-        Key : 'قرمه سبزی - شام' ,
-       }]})             
-    }, 1000);
-=======
->>>>>>> a9433cf063653cb9405634d766922eaa7b868598
   }
 
   onSelect(event) {

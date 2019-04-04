@@ -1,4 +1,4 @@
-<div  style="padding : 10px">
+<div  style="padding : 30px">
   <mat-card class="biG">
     <mat-card-header>
       <mat-card-title>صفحه گزارشات</mat-card-title>
@@ -26,12 +26,12 @@
         </button>
         <table *ngIf="item['hidden'] == true || item['hidden'] == null">
           <thead>
-            <tr>           
+            <tr>
               <th *ngFor="let col of item['cols']">{{setTH(col, i)}}</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let data of item['data']">           
+            <tr *ngFor="let data of item['data']">
               <td *ngFor="let key of heads[i]">{{data[key]}}</td>
             </tr>
           </tbody>

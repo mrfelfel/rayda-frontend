@@ -10,6 +10,7 @@ export class ReportsComponent implements OnInit {
 
   public list:Object[] = [{
     listname : 'لیست کاربران ',
+    listcategory: 'reserve',
     cols : [{
       view : 'نام',
       code : 'firstname'
@@ -36,7 +37,10 @@ export class ReportsComponent implements OnInit {
     }]
    }];
 
+  public tab:Number = 0;
+  public tabs = [{code : 'reserve', name : 'گزارشات رزرو'}, { code: 'users', name: 'لیست کاربران' }];
   private heads = [];
+  public search:String;
 
   ngOnInit(){}
 
@@ -47,6 +51,7 @@ export class ReportsComponent implements OnInit {
       item['hidden'] = !item['hidden'];
     }
   }
+  
 
   setTH(col, i){
     let cols: Object[] = this.heads[i];
@@ -58,5 +63,24 @@ export class ReportsComponent implements OnInit {
       this.heads[i].push(col['code']);
     }
     return col['view'];
+  }
+
+  findTable(){
+    let search = this.search;
+    for(let i in this.list){
+      if(this.list[i]['listname'].includes(search)){
+        this.focusTable(this.list[i]);
+        break;
+      }
+    }
+  }
+
+  focusTable(table={}){
+    for(let i in this.tabs){
+      if(this.tabs[i]['code'] == table['listcategory']){
+        this.tab = parseInt(i);
+        break;
+      }
+    }
   }
 }

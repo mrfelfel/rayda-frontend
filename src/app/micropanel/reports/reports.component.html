@@ -3,47 +3,42 @@
     <mat-card-header>
       <mat-card-title>صفحه گزارشات</mat-card-title>
       <mat-card-subtitle>سیستم گزارشات بادام</mat-card-subtitle>
-
     </mat-card-header>
     <mat-card-content>
-      <mat-tab-group style="margin-top : 15px" backgroundColor="accent">
-        <mat-tab label="گزارشات رزرو"></mat-tab>
-        <mat-tab label="گزارشات کاربری"></mat-tab>
-        <mat-tab label="گزارشات کارت ها"></mat-tab>
-        <mat-tab label="گزارشات مالی"></mat-tab>
-        <mat-tab label="گزارشات سیستم"></mat-tab>
-        <mat-tab label="وضعیت دستگاه ها"></mat-tab>
-        <mat-tab label="مشاهده گر لحظات"></mat-tab>
+      <mat-form-field appearance="outline">
+        <mat-label>جستوجو جدول</mat-label>
+        <input matInput placeholder="نام جدول" [(ngModel)]="search" (keyup)="findTable()">
+      </mat-form-field>
+      <mat-tab-group [(selectedIndex)]="tab" style="margin-top : 15px" backgroundColor="accent">
+        <mat-tab *ngFor="let tab of tabs" [label]="tab['name']"></mat-tab>
       </mat-tab-group>
 
-      <div class="content" *ngFor="let item of list; let i = index">
-        <span>{{item['listname']}}</span>
-        <button mat-icon-button (click)="setHidden(item)">
-          <mat-icon>
-            <svg *ngIf="item['hidden'] == true || item['hidden'] == null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14 28l10-10 10 10z"/></svg>
-            <svg *ngIf="item['hidden'] == false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14 20l10 10 10-10z"/></svg>
-          </mat-icon>
-        </button>
-        <br>
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="جستوجو" [(ngModel)]="item['search']">
-        </mat-form-field>
-        <table *ngIf="item['hidden'] == true || item['hidden'] == null">
-          <thead>
-            <tr>
-              <th *ngFor="let col of item['cols']">{{setTH(col, i)}}</th>
-            </tr>
-          </thead>
-          <tbody>
-<<<<<<< HEAD
-            <tr *ngFor="let data of item['data'] | searchfilter: heads[i]: item['search']">           
-=======
-            <tr *ngFor="let data of item['data']">
->>>>>>> 801b09cb086b73b55b55618422bc6f2cac39b6c0
-              <td *ngFor="let key of heads[i]">{{data[key]}}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div *ngFor="let item of list; let i = index" >
+        <div class="content" *ngIf="item['listcategory'] == tabs[tab]['code']">
+          <span>{{item['listname']}}</span>
+          <button mat-icon-button (click)="setHidden(item)">
+            <mat-icon>
+              <svg *ngIf="item['hidden'] == true || item['hidden'] == null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14 28l10-10 10 10z"/></svg>
+              <svg *ngIf="item['hidden'] == false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14 20l10 10 10-10z"/></svg>
+            </mat-icon>
+          </button>
+          <br>
+          <mat-form-field  *ngIf="item['hidden'] == true || item['hidden'] == null">
+            <input matInput placeholder="جستوجو" [(ngModel)]="item['search']">
+          </mat-form-field>
+          <table *ngIf="item['hidden'] == true || item['hidden'] == null">
+            <thead>
+              <tr>
+                <th *ngFor="let col of item['cols']">{{setTH(col, i)}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of item['data'] | searchfilter: heads[i]: item['search']">           
+                <td *ngFor="let key of heads[i]">{{data[key]}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>

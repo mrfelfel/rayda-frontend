@@ -24,12 +24,8 @@ const VAPID_PUBLIC = 'BCnMCiUJ2fAFLZsR35QufdKeLCVsi1SGYqvm4tU0HaHG6kPpNZBRgGYAzF
 
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
-  private _window: ICustomWindow;
-
-  clientVersion = '0.1.1 beta03';
-  selectedUni =  '';
 // tslint:disable-next-line:max-line-length
-constructor( private cdr: ChangeDetectorRef, private http: Http, private swUpdate: SwUpdate, private swPush: SwPush,  changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router,  public snaks: SnaksService, private jwt: JwtService, private Auth: AuthService, private university: UniversityService, windowRef: WindowRefService, private dialog:MatDialog,
+constructor( private cdr: ChangeDetectorRef, private http: Http, private swUpdate: SwUpdate, private swPush: SwPush,  changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router,  public snaks: SnaksService, private jwt: JwtService, private Auth: AuthService, private university: UniversityService, windowRef: WindowRefService, private dialog: MatDialog,
 private ngZone: NgZone  ) {
   this.mobileQuery = media.matchMedia('(max-width: 600px)');
   this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -40,6 +36,10 @@ private ngZone: NgZone  ) {
 
 
 }
+  private _window: ICustomWindow;
+
+  clientVersion = '0.1.1 beta03';
+  selectedUni =  '';
   mobileQuery: MediaQueryList;
 
 
@@ -58,20 +58,21 @@ subscription: any;
 public Proutes = null;
 public check = 0;
 public userName = '';
-public balance = 0;
+public balance = localStorage.balance;
 public bcost = 0;
-public nameIcon = ()=>{
-  let viewName = window.localStorage.getItem('viewName');
-  let uid = window.localStorage.getItem('uid');
-  if(viewName == null){
+shouldRun = true;
+public nameIcon = () => {
+  const viewName = window.localStorage.getItem('viewName');
+  const uid = window.localStorage.getItem('uid');
+  this.balance = localStorage.balance;
+  if (viewName == null) {
     this.userName = uid;
-    return uid.slice(0,1);
+    return uid.slice(0, 1);
   } else {
     this.userName = viewName;
-    return viewName.slice(0,1);
+    return viewName.slice(0, 1) + '.' + viewName[viewName.length - 1];
   }
-} 
-shouldRun = true;
+}
   private RequestPushNotify(swPush: SwPush) {
     console.log('[Push Service] Requesting subscription');
     this.swPush.requestSubscription({
@@ -135,11 +136,11 @@ shouldRun = true;
             {
             'query': 'token=' + localStorage.token
             });
-            this.socket.on('data_gram', (data)=>{
-              if(data.type == 'balance'){
+            this.socket.on('data_gram', (data) => {
+              if (data.type === 'balance') {
                  this.balance = data.data.balance;
                }
-            })
+            });
             this.socket.on('news', ( doo: { message: any; }) => {
              this.snaks.openSnackBar(doo.message, 'بستن');
              this.update();
@@ -227,7 +228,7 @@ shouldRun = true;
         if (!result.bcost) {
           this.snaks.openSnackBar('انصراف از پرداخت', 'بستن');
         }
-  
+
         if (result.bcost) {
           if (Number(result.bcost) < 1000) {
             this.snaks.openSnackBar('خطا مبلغ ورودی حداقل باید 1000 ریال باشد', 'بستن');
@@ -237,7 +238,7 @@ shouldRun = true;
             duration : 60000,
           });
         // tslint:disable-next-line:max-line-length
-        let uid = window.localStorage.getItem('uid');
+        const uid = window.localStorage.getItem('uid');
         this.http.get(`https://payment.rayda.ir/pay/${uid}/${result.bcost}`).toPromise()
         .then((d) => {
           window.location.href = d.json()['message'];
@@ -298,8 +299,8 @@ addSubscriber(subscription) {
 }
 
 update() {
-  // Run change detection only for this component when update() method is called.
 
+  // Run change detection only for this component when update() method is called.
   this.cdr.detectChanges();
  }
 

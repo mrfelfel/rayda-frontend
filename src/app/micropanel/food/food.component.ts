@@ -2,6 +2,9 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import * as _ from 'lodash';
 import * as moment from 'jalali-moment';
 import * as wordify from './index.js';
+import { FormControl } from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 @Component({
   selector: 'app-food',
   templateUrl: './food.component.html',
@@ -38,9 +41,18 @@ export class FoodComponent implements OnInit {
       viewValue : 'شام'
     }];
 
+    myControl = new FormControl();
+    foods: string[] = ['قرمه سبزی', 'کوکو سبزی', 'کدو حلوایی'];
+    filteredOptions: Observable<string[]>;
+
 
   ngOnInit() {
 
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
 
     for (let index = 0; index < 100; index++) {
       const element = 1370 + index;
@@ -89,5 +101,10 @@ export class FoodComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.foods.filter(option => option.toLowerCase().includes(filterValue));
+  }
 
 }

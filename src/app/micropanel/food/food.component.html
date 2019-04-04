@@ -74,14 +74,19 @@
 
 
                                 <mat-card style="padding-left:15px; padding-bottom: 5px; padding-top: 20px; margin: 5px;" class="col l3 m3 s12" *ngFor="let mitem of daysdata[indexi]; let mindex = index">
+                                  <form class="example-form">
+                                    <mat-form-field style="width:100%">
+                                      <input type="text" placeholder="انتخاب غذا" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="mitem.food">
+                                      <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                          {{option}}
+                                        </mat-option>
+                                      </mat-autocomplete>
+                                    </mat-form-field>
+                                  </form>
+
                                   <mat-form-field  style="width:100%">
-
-                                    <input matInput placeholder="نام غذا"  [(ngModel)]="mitem.food">
-
-                                  </mat-form-field>
-
-                                  <mat-form-field  style="width:100%">
-                                    <textarea  cols="5" rows="5" placeholder="توضیحات ..." matInput></textarea>
+                                    <textarea  cols="5" rows="5" placeholder="توضیحات ..." matInput  ></textarea>
 
                                   </mat-form-field>
                                     <mat-form-field  style="width:100%">

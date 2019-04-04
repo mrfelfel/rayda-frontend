@@ -23,8 +23,6 @@ export class UserComponent implements OnInit {
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.data = [{
-      username: '4311416644'
-    }, {
       username: 'mail.google.com'
     }]
     const os = navigator.platform;

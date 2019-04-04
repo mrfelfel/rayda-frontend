@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
-import { forEach } from '@angular/router/src/utils/collection';
-
+import * as _ from 'lodash';
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
@@ -9,36 +8,134 @@ import { forEach } from '@angular/router/src/utils/collection';
 })
 export class ChartsComponent implements OnInit {
 
-  private response: Object[] = [{
-    name : 'چارت رزرو غذای روزانه',
-    type : 'day',
-    length : 7,
-    bars : [{
-    Value :  0,
-    Position : 0,
-    Key : 'نمونه اولیه' , }
-  //  }, {
-  //   Value :  260,
-  //   Position : 0,
-  //   Key : 'جوجه کباب - ناهار' ,
-  //  }
-  ],
- },
- {
-  name : 'چارت مالی هفتگی',
-  type : 'week',
-  length : 4,
-  bars : [{
-  Value :  12000,
-  Position : 0,
-  Key : 'نمونه اولیه' , }
-//  }, {
-//   Value :  260,
-//   Position : 0,
-//   Key : 'جوجه کباب - ناهار' ,
-//  }
-],
-}];
+  private response: Object[] = [
+    {
+      name : 'چارت رزرو غذای روزانه بلادرنگ',
+      type : 'week',
+      length : 4,
+      bars : [{
+        Value :  35,
+        Position : 3,
+        Bg : '#ef6c00',
+        Key : 'رزرو ها' ,
+       }, {
+        Value :  36,
+        Position : 3,
+        Bg : '#ef6c00',
+        Key : 'پرداخت ها' ,
+       }, {
+        Value :  56,
+        Position : 0,
+        Key : 'لغو ها' ,
+        Bg : '#006442'
+       }]
+    },
+    {
+      name : '1',
+      type : 'day',
+      length : 7,
+      bars : [{
+        Value :  35,
+        Position : 3,
+        Bg : '#ef6c00',
+        Key : 'رزرو ها' ,
+       }, {
+        Value :  36,
+        Position : 3,
+        Bg : '#ef6c00',
+        Key : 'پرداخت ها' ,
+       }, {
+        Value :  56,
+        Position : 0,
+        Key : 'لغو ها' ,
+        Bg : '#006442'
+       }]
+    },
+    {
+      name : '2',
+      type : 'day',
+      length : 7,
+      bars : [{
+        Value :  35,
+        Position : 3,
+        Bg : '#ef6c00',
+        Key : 'رزرو ها' ,
+       }, {
+        Value :  36,
+        Position : 3,
+        Bg : '#ef6c00',
+        Key : 'پرداخت ها' ,
+       }, {
+        Value :  56,
+        Position : 0,
+        Key : 'لغو ها' ,
+        Bg : '#006442'
+       }]
+    },
+    {
+      name : '3',
+      type : 'day',
+      length : 7,
+      bars : [{
+        Value :  35,
+        Position : 3,
+        Bg : '#ef6c00',
+        Key : 'رزرو ها' ,
+       }, {
+        Value :  36,
+        Position : 3,
+        Bg : '#ef6c00',
+        Key : 'پرداخت ها' ,
+       }, {
+        Value :  56,
+        Position : 0,
+        Key : 'لغو ها' ,
+        Bg : '#006442'
+       }]
+    },
+    {
+      name : '4',
+      type : 'day',
+      length : 7,
+      bars : [{
+        Value :  35,
+        Position : 3,
+        Bg : '#ef6c00',
+        Key : 'رزرو ها' ,
+       }, {
+        Value :  36,
+        Position : 3,
+        Bg : '#ef6c00',
+        Key : 'پرداخت ها' ,
+       }, {
+        Value :  56,
+        Position : 0,
+        Key : 'لغو ها' ,
+        Bg : '#006442'
+       }]
+    },
+    {
+      name : '5',
+      type : 'day',
+      length : 7,
+      bars : [{
+        Value :  35,
+        Position : 3,
+        Bg : '#ef6c00',
+        Key : 'رزرو ها' ,
+       }, {
+        Value :  36,
+        Position : 3,
+        Bg : '#ef6c00',
+        Key : 'پرداخت ها' ,
+       }, {
+        Value :  56,
+        Position : 0,
+        Key : 'لغو ها' ,
+        Bg : '#006442'
+       }]
+    }
+  ];
   public data = [];
   public InBackgroundData = [];
   public chart: Object = {};
@@ -47,21 +144,6 @@ export class ChartsComponent implements OnInit {
 
   ngOnInit() {
     this.loadChart();
-    setTimeout(() => {
-    this.updateChart({
-      name : 'چارت مالی هفتگی',
-      type : 'week',
-      length : 4,
-      bars : [{
-      Value :  5000,
-      Position : 0,
-      Key : 'رزرو ها' ,
-     }, {
-      Value :  2000,
-      Position : 0,
-      Key : 'لغو ها' ,
-     }]});
-  }, 5000);
   }
 
   onSelect(event) {
@@ -101,31 +183,26 @@ export class ChartsComponent implements OnInit {
     // tslint:disable-next-line:forin
     for (const i in this.response) {
       // tslint:disable-next-line:radix
-      this.newChart(parseInt(i), labels);
+      if (this.response[i]['type'] !== this.selected) { continue; }
+    // tslint:disable-next-line:radix
+    this.newChart(parseInt(i), labels);
+
+        this.response.forEach((data) => {
+          this.updateChart(data);
+        });
     }
   }
 
   async newChart(index= 0, allLabels= []) {
     const datasets = [];
-    if (this.response[index]['type'] !== this.selected) { return; }
-    const data = this.response[index]['bars'];
-    // tslint:disable-next-line:forin
-    for (const i in allLabels) {// یه حلقه به تعداد روز ها
-      const day = await this.loadA(data, parseInt(i)); // داده های برای یک روز رو در میاریم
-      if (day.length === 0) { continue; }
-        for (const i in await Array.from(Array(day.length - datasets.length), () => 0)) { // یه آرایه به اندازه کل داده ها
-          const dataset = { label: day[i]['Key'], data : await Array.from(Array(allLabels.length), () => 0 ) }; // dataset = { data : [0,0,0,0,0,0,] }
-          const dayIndex = day[i]['Position'];
-          dataset['data'][dayIndex] = day[i]['Value'];
-          await datasets.push(dataset);
-      }
-    }
-
+    console.log(this.response[index]['type']);
+    console.log('hi ', this.selected);
     const div = document.createElement('div');
-    div.style.height = '400px';
-    div.style.width = '500px';
-    div.style.margin = '10px 20px';
+    div.style.margin = '4px 4px';
+
+    div.style.height = '700px !important';
     const canvas = document.createElement('canvas');
+    this.CanvasSize(canvas);
     canvas.setAttribute('name', this.response[index]['name']);
     div.appendChild(canvas);
     document.getElementById('content').appendChild(div);
@@ -148,15 +225,31 @@ export class ChartsComponent implements OnInit {
         title: {
           display: true,
           text: this.response[index]['name']
+        },
+        onResize : (d) => {
+
+          console.log(d);
         }
       }
     });
     this.data.push(chart);
   }
 
+  private CanvasSize(canvas: HTMLCanvasElement) {
+    canvas.height = 300;
+    if (screen.width <= 321) {
+      canvas.width = screen.width;
+    } else if (screen.width <= 600) {
+      canvas.width = screen.width - 50;
+    } else {
+      canvas.width = 650;
+    }
+  }
+
   async loadA(data = [], index= 0) {
     const array = [];
     await data.map(d => {
+
       if (d['Position'] === index) {
         array.push(d);
       }
@@ -165,14 +258,13 @@ export class ChartsComponent implements OnInit {
   }
 
   updateChart(data= {} ) {
-
     // console.log(data['name']);
     for (let index = 0; index < this.response.length; index++) {
       const element = this.response[index];
-      console.log(element['name']);
       if (element['name'] === data['name']) {
         if (element['type'] !== this.selected) { break; }
         this.doUpdate(data['bars'], element['name']);
+        element['bars'] = data['bars'];
         break;
       }
     }
@@ -186,14 +278,16 @@ export class ChartsComponent implements OnInit {
       if (element.options.title.text === name) {
          index = lindex;
          break;
+      } else {
+
       }
 
     }
 
     const datasets: Object[] = this.data[index]['data']['datasets'];
     const ArrayDataLength = this.data[index]['data']['labels'].length;
-    function newDataset(DATA = { Key: '', Position: 0, Value: 0 }) {
-      const dataset = { label: DATA['Key'], data : Array.from(Array(ArrayDataLength), () => 0 ) }; // dataset = { data : [0,0,0,0,0,0,] }
+    function newDataset(DATA = { Bg : '', Key: '', Position: 0, Value: 0 }) {
+      const dataset = { backgroundColor: DATA['Bg'], label: DATA['Key'], data : Array.from(Array(ArrayDataLength), () => 0 ) }; // dataset = { data : [0,0,0,0,0,0,] }
       const dayIndex = DATA['Position'];
       dataset['data'][dayIndex] = DATA['Value'];
       datasets.push(dataset);

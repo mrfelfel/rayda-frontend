@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { isArray } from 'util';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-reports',
@@ -47,7 +47,20 @@ export class ReportsComponent implements OnInit {
   private heads = [];
   public search:String = '';
 
-  ngOnInit(){}
+  constructor(private activatedRoute:ActivatedRoute){}
+
+  ngOnInit(){
+    this.activatedRoute.queryParamMap.subscribe(query=>{
+      let code = query.get('code');      
+      for(let i in this.tabs){
+        let tab = this.tabs[i];
+        if(tab['code'] == code){
+          this.tab = parseInt(i);
+          break;
+        }
+      }
+    });
+  }
 
   setHidden(item){
     if(item['hidden'] == null){

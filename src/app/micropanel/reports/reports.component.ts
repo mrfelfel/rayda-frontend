@@ -31,11 +31,11 @@ export class ReportsComponent implements OnInit {
       code : 'lastname'
     }],
     data : [{
-      lastname : 'یاحقی',
       firstname : 'محمد جواد',
+      lastname : 'یاحقی'
     }]
    }];
-   
+
   private heads = [];
 
   ngOnInit(){}

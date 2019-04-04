@@ -5,16 +5,21 @@
       <mat-card-subtitle>سیستم گزارشات بادام</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" style="min-width: 250px;">
         <mat-label>جستوجو جدول</mat-label>
-        <input matInput placeholder="نام جدول" [(ngModel)]="search" (keyup)="findTable()">
+        <input matInput placeholder="نام جدول" [matAutocomplete]="auto">
       </mat-form-field>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let item of list" (click)="findTable(item)">
+          {{ item['listname'] }} - {{calcCategory(item)}}
+        </mat-option>
+      </mat-autocomplete>
       <mat-tab-group [(selectedIndex)]="tab" style="margin-top : 15px" backgroundColor="accent">
         <mat-tab *ngFor="let tab of tabs" [label]="tab['name']"></mat-tab>
       </mat-tab-group>
 
       <div *ngFor="let item of list; let i = index" >
-        <div class="content" *ngIf="item['listcategory'] == tabs[tab]['code']">
+        <div class="content" *ngIf="showContent(item)">
           <span>{{item['listname']}}</span>
           <button mat-icon-button (click)="setHidden(item)">
             <mat-icon>
@@ -23,7 +28,7 @@
             </mat-icon>
           </button>
           <br>
-          <mat-form-field  *ngIf="item['hidden'] == true || item['hidden'] == null">
+          <mat-form-field *ngIf="item['hidden'] == true || item['hidden'] == null">
             <input matInput placeholder="جستوجو" [(ngModel)]="item['search']">
           </mat-form-field>
           <table *ngIf="item['hidden'] == true || item['hidden'] == null">

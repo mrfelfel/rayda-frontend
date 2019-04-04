@@ -28,6 +28,7 @@ export class ReportsComponent implements OnInit {
     }]
    },{
     listname : 'لیست کاربران ',
+    listcategory: 'users',
     cols : [{
       view : 'نام',
       code : 'firstname'
@@ -44,7 +45,6 @@ export class ReportsComponent implements OnInit {
   public tab:Number = 0;
   public tabs = [{code : 'reserve', name : 'گزارشات رزرو'}, { code: 'users', name: 'لیست کاربران' }];
   private heads = [];
-  public search:String;
 
   ngOnInit(){}
 
@@ -55,7 +55,23 @@ export class ReportsComponent implements OnInit {
       item['hidden'] = !item['hidden'];
     }
   }
-  
+
+  calcCategory(item){
+    for(let i in this.tabs){
+      if(this.tabs[i]['code'] == item['listcategory']){
+        return this.tabs[i]['name'];
+        break;
+      }
+    }
+  }
+
+  showContent(item){
+    if(item['listcategory'] == this.tabs[parseInt(this.tab.toString())]['code']){
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   setTH(col, i){
     let cols: Object[] = this.heads[i];
@@ -69,10 +85,10 @@ export class ReportsComponent implements OnInit {
     return col['view'];
   }
 
-  findTable(){
-    let search = this.search;
+  findTable(item){
+    let name = item['listname'], category = item['listcategory'];
     for(let i in this.list){
-      if(this.list[i]['listname'].includes(search)){
+      if(this.list[i]['listname'].includes(name) && this.list[i]['listcategory'] == category){
         this.focusTable(this.list[i]);
         break;
       }

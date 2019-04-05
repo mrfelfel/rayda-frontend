@@ -10,6 +10,7 @@ import { ChartsComponent } from './charts/charts.component';
 import { SearchFilterPipe } from './reports/search.pipe';
 
 import { MaterialPersianDateAdapter, PERSIAN_DATE_FORMATS } from '../@core/material.persian-date.adapter';
+import { BoxComponent } from './box/box.component';
 
 const routes: Routes = [
   { path: 'user', component: userComponent.UserComponent},
@@ -21,7 +22,7 @@ const routes: Routes = [
 // hi
 @NgModule({
   // tslint:disable-next-line:max-line-length
-  declarations: [userComponent.UserComponent, FoodComponent, ReportsComponent, ChartsComponent, userComponent.TheUserComponent, SearchFilterPipe],
+  declarations: [userComponent.UserComponent, FoodComponent, ReportsComponent, ChartsComponent, userComponent.TheUserComponent, SearchFilterPipe, BoxComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

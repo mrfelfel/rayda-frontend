@@ -1,0 +1,37 @@
+<mat-card style="padding-left:15px; padding-bottom: 5px; padding-top: 20px; margin: 5px;" class="col l3 m3 s12">
+  <form class="example-form">
+    <mat-form-field style="width:100%">
+      <input type="text" placeholder="انتخاب غذا" aria-label="Number" matInput [formControl]="myControl"
+        [matAutocomplete]="auto" [(ngModel)]="data.food">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of foodFilter()" [value]="option['name']"
+          (click)="newEmit()">
+          {{option['name']}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+
+  <mat-form-field style="width:100%">
+    <textarea cols="5" rows="5" placeholder="توضیحات ..." matInput></textarea>
+
+  </mat-form-field>
+  <mat-form-field style="width:100%">
+    <mat-select placeholder="وعده" [(ngModel)]="data.meal">
+      <mat-option *ngFor="let meal of meals" [value]="meal['name']" (click)="data.meal = meal['name']; newEmit()">
+        {{meal['name']}}
+      </mat-option>
+    </mat-select>
+
+  </mat-form-field>
+  <mat-form-field style="width:100%">
+
+    <input matInput placeholder="قیمت" type="number">
+
+  </mat-form-field>
+
+
+  <button mat-raised-button color="warn" style="float:left">حذف</button>
+
+
+</mat-card>

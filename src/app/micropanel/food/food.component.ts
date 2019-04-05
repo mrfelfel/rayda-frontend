@@ -18,9 +18,14 @@ export class FoodComponent implements OnInit {
     price: 100000,
     type: ['پرهزینه'],
     descriptions: 'غذای مشتی'
+  },{
+    name: 'ساندویج',
+    price: 100000,
+    type: ['کم هزینه'],
+    descriptions: 'سگ پز'
   }];
   public foodTypes:Object[] = [{ code: '', name: 'پرهزینه'}, { code: '', name: 'متوسط هزینه' }, { code: '', name: 'کم هزینه' }];
-  public foodData = { name: '', price: 0, type : [], descriptions : '' }
+  public foodData:any = { name: '', price: 0, type : [], descriptions : '' }
   public mealsColumns:String[] = ['delete', 'edit', 'name', 'price', 'places', 'description'];
   public mealsData:Object[] = [{
     name : 'شام',
@@ -70,12 +75,6 @@ export class FoodComponent implements OnInit {
       })
     );
 
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
-
     for (let index = 0; index < 100; index++) {
       const element = 1370 + index;
       this.years.push(element.toString());
@@ -84,6 +83,7 @@ export class FoodComponent implements OnInit {
 
      this.MakeWeeks();
   }
+  
 
   MakeWeeks() {
     this.dates = [];
@@ -106,13 +106,15 @@ export class FoodComponent implements OnInit {
   }
 
   AddBox(item) {
-    if (!this.daysdata[item]) {
-      this.daysdata[item] = [];
+    
+    if (this.daysdata[item] == null) {
+      this.daysdata[item] = [{ meal: 0, food: '' }];
+    } else {
+      this.daysdata[item].push({
+        meal : 0,
+        food : ''
+      });
     }
-    this.daysdata[item].push({
-      meal : 2,
-      food : ''
-    });
     this.cdr.detectChanges();
   }
 
@@ -121,11 +123,6 @@ export class FoodComponent implements OnInit {
 
 
     this.cdr.detectChanges();
-  }
-
-  private _filter(value: string): object[] {
-    const filterValue = value.toLowerCase();
-    return this.foodsData.filter(food=>food['name'].toLowerCase().includes(filterValue));
   }
 
   getPlace(index){
@@ -166,5 +163,9 @@ export class FoodComponent implements OnInit {
     }
     this.mealData = { name: '', price: '', places: [], description: '' };
     this.editMode = false;
+  }
+  
+  onBoxChange(event){
+    this.daysdata[event['day']][event['meal']] = event['data'];
   }
 }

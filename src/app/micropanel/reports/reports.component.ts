@@ -27,7 +27,7 @@ export class ReportsComponent implements OnInit {
       firstname : 'محمد جواد',
     }]
    },{
-    listname : 'لیست کاربران ',
+    listname : 'گزارشات کاربران',
     listcategory: 'users',
     cols : [{
       view : 'نام',
@@ -51,7 +51,7 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit(){
     this.activatedRoute.queryParamMap.subscribe(query=>{
-      let code = query.get('code');  
+      let code = query.get('code');
       if(code != null){
         let selected = false;
         for(let i in this.tabs){
@@ -67,7 +67,7 @@ export class ReportsComponent implements OnInit {
         }
       } else {
         this.tab = 0;
-      } 
+      }
     });
   }
 
@@ -116,7 +116,7 @@ export class ReportsComponent implements OnInit {
     this.search = '';
   }
 
-  findTable(item){    
+  findTable(item){
     let name = item['listname'], category = item['listcategory'];
     for(let i in this.list){
       this.list[i]['forceHide'] = true;

@@ -25,7 +25,11 @@ export class FoodComponent implements OnInit {
     descriptions: 'سگ پز'
   }];
   public foodTypes:Object[] = [{ code: '', name: 'پرهزینه'}, { code: '', name: 'متوسط هزینه' }, { code: '', name: 'کم هزینه' }];
+<<<<<<< HEAD
   public foodData:any = { name: '', price: 0, type : [], descriptions : '' }
+=======
+  public foodData: any = { name: '', price: 0, type : [], descriptions : '' }
+>>>>>>> a2df3e0ef26a39971df320a278f0efa3b185366a
   public mealsColumns:String[] = ['delete', 'edit', 'name', 'price', 'places', 'description'];
   public mealsData:Object[] = [{
     name : 'شام',

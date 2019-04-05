@@ -27,7 +27,6 @@ export class SocketService {
   }
 
   private ConnectToserver() {
-    console.log('on...');
     if (!this.connected) {
       this.socket = io.connect('https://message.rayda.ir/',
       {

@@ -34,7 +34,9 @@ export class SocketService {
       'query': 'token=' + localStorage.token
       });
 
-      this.connected = true;
+      this.socket.on('connect', () => {
+        this.connected = true;
+      });
       }
   }
 }

@@ -34,6 +34,7 @@ export class FoodComponent implements OnInit {
    public filteredPlaces: Observable<object[]>;
 
   public editMode:Boolean = false;
+  public updateMode:Boolean = false;
   constructor(     private cdr: ChangeDetectorRef    ) {
      }
      current = {
@@ -152,13 +153,17 @@ export class FoodComponent implements OnInit {
   }
 
   newFood(){
-    this.foodsData.push(this.foodData);
+    if(this.updateMode == false){
+      this.foodsData.push(this.foodData);
+    }
     this.foodData = { name: '', price: 0, type : '', descriptions : '' };
     this.editMode = false;
   }
 
   newMeal(){
-    this.mealsData.push(this.mealData);
+    if(this.updateMode == false){
+      this.mealsData.push(this.mealData);
+    }
     this.mealData = { name: '', price: '', places: [], description: '' };
     this.editMode = false;
   }

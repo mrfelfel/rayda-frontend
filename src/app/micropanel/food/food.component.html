@@ -135,7 +135,7 @@
                 <input matInput placeholder="نوع غذا" [matAutocomplete]="auto" [(ngModel)]="foodData['type']">
               </mat-form-field>
               <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let type of foodTypes" [value]="type['name']">{{type['name']}}</mat-option>
+                <mat-option *ngFor="let type of foodTypes" [value]="type['name']" (click)="foodData['type'] = [type['name']]">{{type['name']}}</mat-option>
               </mat-autocomplete><br>
               <mat-form-field style="min-width: 50%;">
                 <textarea matInput rows="5" placeholder="توضیحات" [(ngModel)]="foodData['descriptions']"></textarea>

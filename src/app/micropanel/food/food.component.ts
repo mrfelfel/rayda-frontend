@@ -20,7 +20,7 @@ export class FoodComponent implements OnInit {
     descriptions: 'غذای مشتی'
   }];
   public foodTypes:Object[] = [{ code: '', name: 'پرهزینه'}, { code: '', name: 'متوسط هزینه' }, { code: '', name: 'کم هزینه' }];
-  public foodData = { name: '', price: 0, type : [], descriptions : '' }
+  public foodData: any = { name: '', price: 0, type : [], descriptions : '' }
   public mealsColumns:String[] = ['delete', 'edit', 'name', 'price', 'places', 'description'];
   public mealsData:Object[] = [{
     name : 'شام',

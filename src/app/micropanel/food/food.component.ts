@@ -118,7 +118,8 @@ export class FoodComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  Delete(i , m) {
+  Delete(event) {
+    let i = event['day'], m = event['meal'];
     this.daysdata[i].splice(m, 1);
 
 

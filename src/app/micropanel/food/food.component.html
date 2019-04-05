@@ -73,7 +73,7 @@
                 <div class="row">
                   
                   <div *ngFor="let mitem of daysdata[indexi]; let mindex = index">
-                    <app-box (onChange)="onBoxChange($event)" [datas]="daysdata[indexi][mindex]" [foods]="foodsData" [meals]="mealsData" [day]="indexi" [meal]="mindex"></app-box>
+                    <app-box (onChange)="onBoxChange($event)" (onDelete)="Delete($event)" [datas]="daysdata[indexi][mindex]" [foods]="foodsData" [meals]="mealsData" [day]="indexi" [meal]="mindex"></app-box>
                   </div>
 
                   <!-- <mat-card style="padding-left:15px; padding-bottom: 5px; padding-top: 20px; margin: 5px;"

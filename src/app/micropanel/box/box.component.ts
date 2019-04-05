@@ -14,6 +14,7 @@ export class BoxComponent implements OnInit {
   @Input() meal:Number;
   @Input() datas = { meal: 0, food: '' };
   @Output() onChange = new EventEmitter();
+  @Output() onDelete = new EventEmitter();
   myControl = new FormControl();
   public data = { meal: 0, food: '' }
   constructor() { }
@@ -33,5 +34,11 @@ export class BoxComponent implements OnInit {
       meal: this.meal,
       data: this.data
     });
+  }
+  Delete(){
+    this.onDelete.emit({
+      day: this.day,
+      meal: this.meal,
+    })
   }
 }

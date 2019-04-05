@@ -150,4 +150,16 @@ export class FoodComponent implements OnInit {
       this.mealData.places.splice(i, 1);
     }
   }
+
+  newFood(){
+    this.foodsData.push(this.foodData);
+    this.foodData = { name: '', price: 0, type : '', descriptions : '' };
+    this.editMode = false;
+  }
+
+  newMeal(){
+    this.mealsData.push(this.mealData);
+    this.mealData = { name: '', price: '', places: [], description: '' };
+    this.editMode = false;
+  }
 }

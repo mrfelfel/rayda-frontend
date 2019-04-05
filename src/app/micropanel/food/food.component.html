@@ -142,7 +142,7 @@
               </mat-form-field><br>
             </div>
             <div class="buttons" style="direction: ltr;">
-              <button mat-raised-button color="primary">ثبت</button>
+              <button mat-raised-button color="primary" (click)="newFood()">ثبت</button>
               <button mat-button (click)="editMode = false">انصراف</button>
             </div>
           </div>
@@ -227,7 +227,7 @@
                   </mat-form-field><br>
                 </div>
                 <div class="buttons" style="direction: ltr;">
-                  <button mat-raised-button color="primary">ثبت</button>
+                  <button mat-raised-button color="primary" (click)="newMeal()">ثبت</button>
                   <button mat-button (click)="editMode = false">انصراف</button>
                 </div>
               </div>

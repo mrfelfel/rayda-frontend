@@ -4,7 +4,7 @@
 
       <mat-card-content  color="primary" >
 
-          <div class="img-header"  >
+          <div class="img-header" >
 
             <div style="width:300px">
 
@@ -54,7 +54,7 @@
          </div>
       <div class="row" >
            <div class="col l4 m6 s12" *ngFor="let item of searched; trackBy: trackByFn">
-             <mat-card  class="food-card">
+             <mat-card  class="food-card" >
                <ng-template let-checker="checker" [ngTemplateOutletContext]="{ checker: checking(item) }" [ngTemplateOutlet]="food" #food>
 
                 <h1>{{a}}</h1>

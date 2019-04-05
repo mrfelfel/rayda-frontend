@@ -13,26 +13,11 @@ import {map, startWith} from 'rxjs/operators';
 export class FoodComponent implements OnInit {
 
   public foodsColumns:String[] = ['delete', 'edit', 'name', 'price', 'type', 'descriptions'];
-  public foodsData:Object[] = [{
-    name: 'پیتزا',
-    price: 100000,
-    type: ['پرهزینه'],
-    descriptions: 'غذای مشتی'
-  },{
-    name: 'ساندویج',
-    price: 100000,
-    type: ['کم هزینه'],
-    descriptions: 'سگ پز'
-  }];
+  public foodsData:Object[] = [];
   public foodTypes:Object[] = [{ code: '', name: 'پرهزینه'}, { code: '', name: 'متوسط هزینه' }, { code: '', name: 'کم هزینه' }];
   public foodData:any = { name: '', price: 0, type : [], descriptions : '' }
   public mealsColumns:String[] = ['delete', 'edit', 'name', 'price', 'places', 'description'];
-  public mealsData:Object[] = [{
-    name : 'شام',
-    description : 'وعده معمولی',
-    price : 15500,
-    places : [1,2,3]
-   }];
+  public mealsData:Object[] = [];
    public mealData = { name: '', price: '', places: [], description: '' }
    public places: Object[] =  [{code : 1,  name : 'امیر المومنین'},{code : 2,  name : 'اصلی '},{code : 3,  name : 'ماشین سازی '}];
    public placeControl = new FormControl();
@@ -83,7 +68,7 @@ export class FoodComponent implements OnInit {
 
      this.MakeWeeks();
   }
-  
+
 
   MakeWeeks() {
     this.dates = [];
@@ -106,7 +91,6 @@ export class FoodComponent implements OnInit {
   }
 
   AddBox(item) {
-    
     if (this.daysdata[item] == null) {
       this.daysdata[item] = [{ meal: 0, food: '' }];
     } else {
@@ -165,7 +149,7 @@ export class FoodComponent implements OnInit {
     this.mealData = { name: '', price: '', places: [], description: '' };
     this.editMode = false;
   }
-  
+
   onBoxChange(event){
     this.daysdata[event['day']][event['meal']] = event['data'];
   }

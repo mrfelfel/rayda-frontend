@@ -71,6 +71,7 @@ export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
   NOCARD = false;
   AvailableCard = false;
   UserList = [];
+  UserData = []; // UserData OA
   mealList = null;
   foodList = null;
   selectedMeal = null;
@@ -180,135 +181,6 @@ export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
 
 
-    if (localStorage.uid === 'amk-admin') {
-      this.stats = [
-        [
-          156, 142
-        ],
-        [
-          195, 150
-
-        ],
-        [
-          177, 111
-
-        ],
-        [
-          133, 83
-
-        ],
-        [
-          65, 25
-
-        ],
-        [
-                0, 0
-
-        ],
-        [
-                0, 0
-
-        ]
-
-      ];
-    } else if (localStorage.uid === 'ath-admin') {
-      this.stats = [
-        [
-          90, 71
-
-        ],
-        [
-          104, 63
-
-        ],
-        [
-          102, 62
-
-        ],
-        [
-          104, 27
-
-        ],
-        [
-          24, 8
-
-        ],
-        [
-                0, 0
-
-        ],
-        [
-                0, 0
-
-        ]
-
-      ];
-    } else if (localStorage.uid === 'sav-admin') {
-      this.stats = [
-        [
-          40, 26
-
-        ],
-        [
-          47, 17
-
-        ],
-        [
-          28, 16
-
-        ],
-        [
-          17, 6
-
-        ],
-        [
-          4, 0
-
-        ],
-        [
-                0, 0
-
-        ],
-        [
-                0, 0
-
-        ]
-
-      ];
-    } else {
-
-      this.stats = [
-        [
-          0, 0
-
-        ],
-        [
-          0, 0
-
-        ],
-        [
-          0, 0
-
-        ],
-        [
-          0, 0
-
-        ],
-        [
-          0, 0
-
-        ],
-        [
-                0, 0
-
-        ],
-        [
-                0, 0
-
-        ]
-
-      ];
-    }
 
     this.wsocket.on('delivered', (data) => {
       if (data.delivered) {
@@ -353,6 +225,9 @@ export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.wsocket.on('refresh', (data) => {
       window.location.reload();
+    });
+    this.wsocket.on('reserveds', (data) => {
+      this.UserData = data;
     });
     this.wsocket.on('weekdata', (data) => {
 
@@ -467,7 +342,30 @@ export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   ExExport() {
-    this.excelService.exportAsExcelFile(this.UserList, 'list');
+    const user = this.UserData;
+
+    const transkey = [{
+        name: 'نام خانوادگی',
+        code: 'family'
+      },
+      {
+        name: 'نام',
+        code: 'name'
+      }, {
+        name: 'کد ملی',
+        code: 'IDNumber'
+      }, {
+        name: 'شناسه یکتا',
+        code: 'uid'
+      }, {
+        name: 'محل تحویل',
+        code: 'place'
+      }, {
+        name: 'شناسه دانشجویی',
+        code: 'EmployeeNumber'
+      }
+    ];
+    this.excelService.exportAsExcelFile(this.ObjectTranslator(user , transkey), 'list');
   }
   ngOnDestroy() {
     this.wsocket.disconnect();
@@ -568,7 +466,26 @@ export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   websocketstart(websocketServerLocation) {
     this.winsocket = new ReconnectingWebSocket(websocketServerLocation);
-}
+  }
+  ObjectTranslator(Objects, kt) {
+    for (let i = 0; i < Objects.length; i++) {
+      Object.keys(Objects[i]).forEach((item, index) => {
+
+        kt.forEach((x) => {
+          if (x.code === item) {
+            Object.defineProperty(Objects[i], x.name,
+            Object.getOwnPropertyDescriptor(Objects[i], x.code));
+            delete Objects[i][x.code];
+          }
+        });
+
+      });
+    }
+
+
+
+    return Objects;
+  }
 }
 
 @Component({

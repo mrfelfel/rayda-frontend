@@ -11,8 +11,9 @@ import { ClipboardModule } from 'ngx-clipboard';
 
 const routes: Routes = [
   { path: '', component: FoodsListComponent},
-  { path: ':id', component: FoodsListComponent },
   { path: 'bazzar', component: BazzarComponent},
+
+  { path: ':id', component: FoodsListComponent },
 
 ];
 @NgModule({

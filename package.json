@@ -64,6 +64,7 @@
     "ng2-charts": "2.0.0-beta.8",
     "ng2-jalali-date-picker": "^2.2.6",
     "ngx-clipboard": "^12.0.0",
+    "ngx-socket-io": "^2.1.1",
     "node-sass": "^4.9.3",
     "notyf": "^2.0.1",
     "persian-tools": "^0.0.5",

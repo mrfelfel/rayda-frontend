@@ -56,7 +56,7 @@ interface Reservation {
   ],
   templateUrl: './foods-list.component.html',
   styleUrls: ['./foods-list.component.scss'],
-  providers : [BookingService, JwtService, TimeService, SocketService]
+  providers : [BookingService, JwtService, TimeService]
 })
 export class FoodsListComponent implements OnInit, OnDestroy {
    constructor( private snaks: SnaksService,
@@ -74,7 +74,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   @ViewChild('tabGroup') tabGroup;
   weekNum = 0;
   yearNum = moment().jYear();
-  usocket = this.socketService.connect();
+  usocket = this.socketService.socket;
   socket = io.connect('https://realtime.rayda.ir',
   {
     'query': 'token=' + localStorage.token
@@ -222,6 +222,10 @@ export class FoodsListComponent implements OnInit, OnDestroy {
       // this.snaks.openSnackBar('برای این هفته هیچ برنامه غذایی تعریف نشده است', 'بستن');
 
       this.update();
+    });
+
+    this.usocket.on('news', (data) => {
+      console.log(data);
     });
     this.socket.emit('getplan', {
       year : this.clone.jYear(),

@@ -15,6 +15,12 @@ import {SocketService} from './@core/socket.service';
 import { SafePipe } from './safe.pipe';
 import { FormsModule } from '@angular/forms';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+const config: SocketIoConfig = { url: 'https://deliver.rayda.ir/', options: {
+  query: 'token=' + localStorage.token,
+  transports: ['websocket']
+} };
+
 
 @NgModule({
   declarations: [
@@ -37,9 +43,11 @@ import { FormsModule } from '@angular/forms';
     material.MatIconModule,
     material.MatDialogModule,
     material.MatInputModule,
+    // tslint:disable-next-line:whitespace
     FormsModule,
     HttpModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    SocketIoModule.forRoot(config)
   ],
   providers: [SnaksService, AuthGuard, UniversityService, SocketService],
   entryComponents: [DialogOverviewExampleDialog],

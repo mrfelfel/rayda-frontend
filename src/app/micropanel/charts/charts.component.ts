@@ -10,128 +10,23 @@ export class ChartsComponent implements OnInit {
 
   private response: Object[] = [
     {
-      name : 'چارت رزرو غذای روزانه بلادرنگ',
+      name : 'چارت کنترل خطای برنامه',
       type : 'week',
       length : 4,
       bars : [{
-        Value :  35,
+        Value :  1,
         Position : 3,
         Bg : '#ef6c00',
-        Key : 'رزرو ها' ,
+        Key : 'توسعه' ,
        }, {
-        Value :  36,
+        Value :  2,
         Position : 3,
         Bg : '#ef6c00',
-        Key : 'پرداخت ها' ,
+        Key : 'تست' ,
        }, {
-        Value :  56,
+        Value :  3,
         Position : 0,
-        Key : 'لغو ها' ,
-        Bg : '#006442'
-       }]
-    },
-    {
-      name : '1',
-      type : 'day',
-      length : 7,
-      bars : [{
-        Value :  35,
-        Position : 3,
-        Bg : '#ef6c00',
-        Key : 'رزرو ها' ,
-       }, {
-        Value :  36,
-        Position : 3,
-        Bg : '#ef6c00',
-        Key : 'پرداخت ها' ,
-       }, {
-        Value :  56,
-        Position : 0,
-        Key : 'لغو ها' ,
-        Bg : '#006442'
-       }]
-    },
-    {
-      name : '2',
-      type : 'day',
-      length : 7,
-      bars : [{
-        Value :  35,
-        Position : 3,
-        Bg : '#ef6c00',
-        Key : 'رزرو ها' ,
-       }, {
-        Value :  36,
-        Position : 3,
-        Bg : '#ef6c00',
-        Key : 'پرداخت ها' ,
-       }, {
-        Value :  56,
-        Position : 0,
-        Key : 'لغو ها' ,
-        Bg : '#006442'
-       }]
-    },
-    {
-      name : '3',
-      type : 'day',
-      length : 7,
-      bars : [{
-        Value :  35,
-        Position : 3,
-        Bg : '#ef6c00',
-        Key : 'رزرو ها' ,
-       }, {
-        Value :  36,
-        Position : 3,
-        Bg : '#ef6c00',
-        Key : 'پرداخت ها' ,
-       }, {
-        Value :  56,
-        Position : 0,
-        Key : 'لغو ها' ,
-        Bg : '#006442'
-       }]
-    },
-    {
-      name : '4',
-      type : 'day',
-      length : 7,
-      bars : [{
-        Value :  35,
-        Position : 3,
-        Bg : '#ef6c00',
-        Key : 'رزرو ها' ,
-       }, {
-        Value :  36,
-        Position : 3,
-        Bg : '#ef6c00',
-        Key : 'پرداخت ها' ,
-       }, {
-        Value :  56,
-        Position : 0,
-        Key : 'لغو ها' ,
-        Bg : '#006442'
-       }]
-    },
-    {
-      name : '5',
-      type : 'day',
-      length : 7,
-      bars : [{
-        Value :  35,
-        Position : 3,
-        Bg : '#ef6c00',
-        Key : 'رزرو ها' ,
-       }, {
-        Value :  36,
-        Position : 3,
-        Bg : '#ef6c00',
-        Key : 'پرداخت ها' ,
-       }, {
-        Value :  56,
-        Position : 0,
-        Key : 'لغو ها' ,
+        Key : 'کنترل',
         Bg : '#006442'
        }]
     }

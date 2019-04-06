@@ -7,10 +7,11 @@
           </h3>
 
 
-          <mat-tab-group [selectedIndex]="selected.value"  (selectedIndexChange)="selected.setValue($event)">
+           <mat-tab-group [selectedIndex]="selected.value"  (selectedIndexChange)="selected.setValue($event)">
               <mat-tab label="تحویل غذا" >
                 <div class="tcontent">
 
+                  <button mat-button (click)="ExExport()" *ngIf="this.UserData.length!==0">خروجی </button>
                   <h3 *ngIf="msg_txt">
                    {{msg_txt}}
                   </h3>
@@ -289,11 +290,14 @@
                                   </mat-tab-group>
                               </div>
                             </mat-tab>
-                            -->
+                          -->
             </mat-tab-group>
 
 
 
+            <h3>این صفحه به بخش جدیدی منتقل شده است</h3>
+
+          <a href="https://delivery.liara.run">نرم افزار تحویل غذا</a>
         </mat-card-content>
 
     </mat-card>

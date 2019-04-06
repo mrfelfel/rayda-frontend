@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
-
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
   public socket: SocketIOClient.Socket;
-  private connected = false;
+  public connected = false;
+  public d = 0;
   constructor() {
+    this.d++;
+    console.log(this.d);
      this.ConnectToserver();
-
      this.socket.on('disconnect', () => {
-       console.log('diss...');
-             this.connected = false;
+      this.connected = false;
      });
   }
 

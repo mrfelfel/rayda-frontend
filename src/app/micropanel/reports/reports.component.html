@@ -5,8 +5,14 @@
       <mat-card-subtitle>سیستم گزارشات بادام</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
+      <h1>لطفا توجه کنید بادام در مراحل توسعه پایانی قرار داد گزارشات مورد نیاز شما توسط بادام تولید شده است</h1>
+      <h2>
+        گزارشات زیر به صورت اتوماتیک برای شما ایمیل خواهد شد
+
+        ساعت ارسال : 11:29:31
+      </h2>
       <mat-form-field appearance="outline" style="min-width: 250px;">
-        <mat-label>جستوجو جدول</mat-label>
+        <mat-label>جستجو جدول</mat-label>
         <input matInput placeholder="نام جدول" [matAutocomplete]="auto" [(ngModel)]="search">
       </mat-form-field>
       <button mat-icon-button (click)="endSearch()" *ngIf="search.length != 0">
@@ -41,7 +47,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of item['data'] | searchfilter: heads[i]: item['search']">           
+              <tr *ngFor="let data of item['data'] | searchfilter: heads[i]: item['search']">
                 <td *ngFor="let key of heads[i]">{{data[key]}}</td>
               </tr>
             </tbody>

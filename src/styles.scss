@@ -15,7 +15,7 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$rayda-system-primary: mat-palette($mat-orange,800);
+$rayda-system-primary: mat-palette($mat-blue,800);
 $rayda-system-accent: mat-palette($mat-grey, 700);
 
 // The warn palette is optional (defaults to red).
@@ -31,6 +31,19 @@ $rayda-system-theme: mat-light-theme($rayda-system-primary, $rayda-system-accent
 
 
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: SDF;
+  font-display: fallback;
+  src: url('assets/IRANSans4/eot/IRANSansWeb.eot'),
+       url('assets/IRANSans4/woff/IRANSansWeb.woff') format('woff'),
+}
+$mdc-theme-primary: #1565c0; // primary color
+$mdc-theme-secondary: #135db3; // secondary color
+$mdc-typography-font-family: "SDF";
+
+
+
+@import "~@angular-mdc/theme/material";
 
 .rayda-sidenav-container {
   flex: 1;
@@ -42,12 +55,10 @@ $rayda-system-theme: mat-light-theme($rayda-system-primary, $rayda-system-accent
 .origi2{
   background: #FDD835;
 }
-@font-face {
-  font-family: SDF;
-  font-display: fallback;
-  src: url('assets/IRANSans4/eot/IRANSansWeb.eot'),
-       url('assets/IRANSans4/woff/IRANSansWeb.woff') format('woff'),
+.white-mdc-tab-text-label-color {
+  @include mdc-tab-text-label-color('text-primary-on-dark');
 }
+
 
 
  body,html {

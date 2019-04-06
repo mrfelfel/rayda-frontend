@@ -18,6 +18,9 @@ import * as io from 'socket.io-client';
 import { FormControl } from '@angular/forms';
 import { ClipboardService } from 'ngx-clipboard';
 import { switchMap } from 'rxjs/operators';
+import { MdcTabActivatedEvent } from '@angular-mdc/web';
+import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
+
 interface FoodData {
   dow:  Number;
   ID:   string;
@@ -56,7 +59,7 @@ interface Reservation {
   ],
   templateUrl: './foods-list.component.html',
   styleUrls: ['./foods-list.component.scss'],
-  providers : [BookingService, JwtService, TimeService, SocketService]
+  providers : [BookingService, JwtService, TimeService]
 })
 export class FoodsListComponent implements OnInit, OnDestroy {
    constructor( private snaks: SnaksService,
@@ -69,12 +72,12 @@ export class FoodsListComponent implements OnInit, OnDestroy {
      private activatedRoute: ActivatedRoute,
      private _clipboardService: ClipboardService,
      private cdr: ChangeDetectorRef,
-     private socketService: SocketService
+     private socketService: SocketService,
      ) {}
   @ViewChild('tabGroup') tabGroup;
   weekNum = 0;
   yearNum = moment().jYear();
-  usocket = this.socketService.connect();
+  usocket = this.socketService.socket;
   socket = io.connect('https://realtime.rayda.ir',
   {
     'query': 'token=' + localStorage.token
@@ -101,6 +104,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   weekurl = null;
   unliked = null;
 
+  tab = 0;
   locked = true;
   error = false;
   message = 'در حال اتصال ...';
@@ -176,6 +180,8 @@ export class FoodsListComponent implements OnInit, OnDestroy {
     this.socket.on('reservedlist', (data) => {
       this.reserved = data;
       this.locked = false;
+      this.update();
+
      //  console.log(this.reserved);
     });
     this.socket.on('me', (data) => {
@@ -223,6 +229,10 @@ export class FoodsListComponent implements OnInit, OnDestroy {
 
       this.update();
     });
+
+    this.usocket.on('news', (data) => {
+      console.log(data);
+    });
     this.socket.emit('getplan', {
       year : this.clone.jYear(),
       week : this.date.jWeek()
@@ -235,7 +245,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   }
   Dowsearch() {
      this.searched = this.planned.filter((item) => {
-          if (item.dow === this.selected.value) {
+          if (item.dow === this.tab) {
             return item;
           }
     });
@@ -458,6 +468,12 @@ getDateOfISOWeek(w, y) {
     return new Date().getTime() < start + delay;
   }
 
+  private logTab(event: MdcTabActivatedEvent): void {
+    console.log(event.index);
+    this.tab = event.index;
+
+    this.update();
+  }
 }
 
 

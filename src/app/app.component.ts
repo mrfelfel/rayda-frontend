@@ -129,7 +129,8 @@ public nameIcon = () => {
            } catch (error) {
              this.adminRoute = false;
            }
-            this.socket = this.socketService.connect();
+           console.log('hi');
+           this.socket = this.socketService.connect();
             this.socket.on('data_gram', (data) => {
               if (data.type === 'balance') {
                  this.balance = data.balance;
@@ -265,7 +266,6 @@ public nameIcon = () => {
 
 ngOnDestroy(): void {
   this.mobileQuery.removeListener(this._mobileQueryListener);
-  this.socket.close();
   // this.update();
 }
 ngAfterViewInit() {

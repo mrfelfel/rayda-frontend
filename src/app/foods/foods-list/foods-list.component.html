@@ -39,7 +39,7 @@
 
   </div>
 <br><br>
-<mdc-tab-bar   *ngIf="planned"  (activated)="logTab($event); Dowsearch()">
+<mdc-tab-bar   *ngIf="planned" useAutomaticActivation [activeTabIndex]="0"  (activated)="logTab($event); Dowsearch()">
   <mdc-tab-scroller>
     <mdc-tab class="white-mdc-tab-text-label-color" *ngFor="let tab of days" [label]="tab" >
 
@@ -60,7 +60,6 @@
     <mat-card  class="food-card" >
       <ng-template let-checker="checker" [ngTemplateOutletContext]="{ checker: checking(item) }" [ngTemplateOutlet]="food" #food>
 
-       <h1>{{a}}</h1>
 
       <mat-card-header>
          <i class="material-icons" style="position: absolute; left: 10px; bottom: 5px" *ngIf="checker">

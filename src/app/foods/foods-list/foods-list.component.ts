@@ -19,6 +19,7 @@ import { FormControl } from '@angular/forms';
 import { ClipboardService } from 'ngx-clipboard';
 import { switchMap } from 'rxjs/operators';
 import { MdcTabActivatedEvent } from '@angular-mdc/web';
+import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
 
 interface FoodData {
   dow:  Number;
@@ -179,6 +180,8 @@ export class FoodsListComponent implements OnInit, OnDestroy {
     this.socket.on('reservedlist', (data) => {
       this.reserved = data;
       this.locked = false;
+      this.update();
+
      //  console.log(this.reserved);
     });
     this.socket.on('me', (data) => {
@@ -468,6 +471,8 @@ getDateOfISOWeek(w, y) {
   private logTab(event: MdcTabActivatedEvent): void {
     console.log(event.index);
     this.tab = event.index;
+
+    this.update();
   }
 }
 

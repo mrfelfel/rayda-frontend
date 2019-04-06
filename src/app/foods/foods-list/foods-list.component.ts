@@ -18,6 +18,8 @@ import * as io from 'socket.io-client';
 import { FormControl } from '@angular/forms';
 import { ClipboardService } from 'ngx-clipboard';
 import { switchMap } from 'rxjs/operators';
+import { MdcTabActivatedEvent } from '@angular-mdc/web';
+
 interface FoodData {
   dow:  Number;
   ID:   string;
@@ -69,7 +71,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
      private activatedRoute: ActivatedRoute,
      private _clipboardService: ClipboardService,
      private cdr: ChangeDetectorRef,
-     private socketService: SocketService
+     private socketService: SocketService,
      ) {}
   @ViewChild('tabGroup') tabGroup;
   weekNum = 0;
@@ -101,6 +103,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   weekurl = null;
   unliked = null;
 
+  tab = 0;
   locked = true;
   error = false;
   message = 'در حال اتصال ...';
@@ -239,7 +242,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   }
   Dowsearch() {
      this.searched = this.planned.filter((item) => {
-          if (item.dow === this.selected.value) {
+          if (item.dow === this.tab) {
             return item;
           }
     });
@@ -462,6 +465,10 @@ getDateOfISOWeek(w, y) {
     return new Date().getTime() < start + delay;
   }
 
+  private logTab(event: MdcTabActivatedEvent): void {
+    console.log(event.index);
+    this.tab = event.index;
+  }
 }
 
 

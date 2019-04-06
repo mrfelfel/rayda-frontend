@@ -8,6 +8,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {SessionGuard} from '../@core/session.guard';
 import * as material from '@angular/material';
+import { InputComponent } from './input/input.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate : [SessionGuard]},
   { path: 'profile', component: ShowProfileComponent},
@@ -15,7 +16,7 @@ const routes: Routes = [
 
 ];
 @NgModule({
-  declarations: [LoginComponent, ForgotPasswordComponent, ShowProfileComponent, EditProfileComponent],
+  declarations: [LoginComponent, ForgotPasswordComponent, ShowProfileComponent, EditProfileComponent, InputComponent],
   imports: [
     CommonModule,
     material.MatCardModule,

@@ -1,0 +1,17 @@
+<div *ngIf="type=='checkbox'">
+  <mat-checkbox>{{placeholder}}</mat-checkbox>
+</div>
+
+<div *ngIf="type=='input'">
+  <mat-form-field appearance="legacy">
+      <mat-label>{{placeholder}}</mat-label>
+      <input matInput [value]="value" [(ngModel)]="value" (ngModelChange)="valueChange.emit(value)">
+    </mat-form-field>
+</div>
+
+<div *ngIf="type=='password'">
+    <mat-form-field appearance="legacy">
+      <mat-label>{{placeholder}}</mat-label>
+      <input matInput type="password" [value]="value" [(ngModel)]="value" (ngModelChange)="valueChange.emit(value)">
+    </mat-form-field>
+  </div>

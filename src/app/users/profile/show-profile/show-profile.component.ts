@@ -20,6 +20,8 @@ export class ShowProfileComponent implements OnInit {
   timer = 1;
 
       async newPass() {
+        console.log(this.d);
+        
         if (!this.d.password) {
           this.snak.snackBar.open('گذرواژه فعلی را خالی رها نکنید');
           return;

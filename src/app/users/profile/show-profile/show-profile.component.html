@@ -8,14 +8,15 @@
       <mat-card-content>
          <form action="#">
               <p style="padding:0; margin:0">کلمه عبور</p>
-              <mat-form-field >
+              <!-- <mat-form-field >
                   <input  [(ngModel)]="d.password" name="d.password" type="password" matInput placeholder="گذرواژه فعلی" autocomplete="current-password">
-                </mat-form-field>
-                <br>
+                </mat-form-field> -->
+                <app-input type="password" [value]="d.password" (valueChange)="setValue('d.password', $event)" placeholder="گذرواژه فعلی"></app-input>
                 <mat-form-field >
                     <input  [(ngModel)]="d.new_password" name="d.new_password" type="password" matInput placeholder="گذرواژه جدید" autocomplete="new-password">
 
                   </mat-form-field>
+                <!-- <app-input type="password" [(ngModel)]="d.new_password" placeholder="گذرواژه جدید"></app-input> -->
                   <br>
                   <mat-form-field >
                     <input  [(ngModel)]="d.repeat_password" name="d.repeat_password" type="password" matInput placeholder="تکرار گذرواژه جدید" autocomplete="new-password">

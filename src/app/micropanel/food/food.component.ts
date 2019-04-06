@@ -3,8 +3,8 @@ import * as _ from 'lodash';
 import * as moment from 'jalali-moment';
 import * as wordify from './index.js';
 import { FormControl } from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-food',
   templateUrl: './food.component.html',
@@ -12,68 +12,68 @@ import {map, startWith} from 'rxjs/operators';
 })
 export class FoodComponent implements OnInit {
 
-  public foodsColumns:String[] = ['delete', 'edit', 'name', 'price', 'type', 'descriptions'];
-  public foodsData:Object[] = [{
+  public foodsColumns: String[] = ['delete', 'edit', 'name', 'price', 'type', 'descriptions'];
+  public foodsData: Object[] = [{
     name: 'پیتزا',
     price: 100000,
     type: ['پرهزینه'],
     descriptions: 'غذای مشتی'
-  },{
+  }, {
     name: 'ساندویج',
     price: 100000,
     type: ['کم هزینه'],
     descriptions: 'سگ پز'
   }];
-  public foodTypes:Object[] = [{ code: '', name: 'پرهزینه'}, { code: '', name: 'متوسط هزینه' }, { code: '', name: 'کم هزینه' }];
-  public foodData:any = { name: '', price: 0, type : [], descriptions : '' }
-  public mealsColumns:String[] = ['delete', 'edit', 'name', 'price', 'places', 'description'];
-  public mealsData:Object[] = [{
-    name : 'شام',
-    description : 'وعده معمولی',
-    price : 15500,
-    places : [1,2,3]
-   }];
-   public mealData = { name: '', price: '', places: [], description: '' }
-   public places: Object[] =  [{code : 1,  name : 'امیر المومنین'},{code : 2,  name : 'اصلی '},{code : 3,  name : 'ماشین سازی '}];
-   public placeControl = new FormControl();
-   public filteredPlaces: Observable<object[]>;
+  public foodTypes: Object[] = [{ code: '', name: 'پرهزینه' }, { code: '', name: 'متوسط هزینه' }, { code: '', name: 'کم هزینه' }];
+  public foodData: any = { name: '', price: 0, type: [], descriptions: '' }
+  public mealsColumns: String[] = ['delete', 'edit', 'name', 'price', 'places', 'description'];
+  public mealsData: Object[] = [{
+    name: 'شام',
+    description: 'وعده معمولی',
+    price: 15500,
+    places: [1, 2, 3]
+  }];
+  public mealData = { name: '', price: '', places: [], description: '' }
+  public places: Object[] = [{ code: 1, name: 'امیر المومنین' }, { code: 2, name: 'اصلی ' }, { code: 3, name: 'ماشین سازی ' }];
+  public placeControl = new FormControl();
+  public filteredPlaces: Observable<object[]>;
 
-  public editMode:Boolean = false;
-  public updateMode:Boolean = false;
-  constructor(     private cdr: ChangeDetectorRef    ) {
-     }
-     current = {
-         year : moment().locale('fa').year().toString(),
-         week : moment().jWeek()
-     };
-     wordify = wordify;
-     days = [
-      'شنبه',
-      'یکشنبه',
-      'دوشنبه',
-      'سه شنبه',
-      'چهار شنبه',
-      'پنجشنبه',
-      'جمعه'
-    ];
-    years = [];
-    dates = [];
-    items = [];
-    daysdata = [];
+  public editMode: Boolean = false;
+  public updateMode: Boolean = false;
+  constructor(private cdr: ChangeDetectorRef) {
+  }
+  current = {
+    year: moment().locale('fa').year().toString(),
+    week: moment().jWeek()
+  };
+  wordify = wordify;
+  days = [
+    'شنبه',
+    'یکشنبه',
+    'دوشنبه',
+    'سه شنبه',
+    'چهار شنبه',
+    'پنجشنبه',
+    'جمعه'
+  ];
+  years = [];
+  dates = [];
+  items = [];
+  daysdata = [];
 
-    myControl = new FormControl();
-    filteredOptions: Observable<object[]>;
+  myControl = new FormControl();
+  filteredOptions: Observable<object[]>;
 
 
   ngOnInit() {
     this.filteredPlaces = this.placeControl.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => {
-        value = value.toLowerCase();
-        return this.places.filter(plcae=>plcae['name'].toLowerCase().includes(value));
-      })
-    );
+      .pipe(
+        startWith(''),
+        map(value => {
+          value = value.toLowerCase();
+          return this.places.filter(plcae => plcae['name'].toLowerCase().includes(value));
+        })
+      );
 
     for (let index = 0; index < 100; index++) {
       const element = 1370 + index;
@@ -81,9 +81,9 @@ export class FoodComponent implements OnInit {
 
     }
 
-     this.MakeWeeks();
+    this.MakeWeeks();
   }
-  
+
 
   MakeWeeks() {
     this.dates = [];
@@ -92,7 +92,7 @@ export class FoodComponent implements OnInit {
     for (let index = 1; index <= 52; index++) {
       const weekDate = m.year(Number(this.current.year)).week(index);
 
-      const result  = weekDate.clone().startOf('week').format('YYYY/MM/DD');
+      const result = weekDate.clone().startOf('week').format('YYYY/MM/DD');
 
       this.dates.push(result);
 
@@ -106,13 +106,13 @@ export class FoodComponent implements OnInit {
   }
 
   AddBox(item) {
-    
+
     if (this.daysdata[item] == null) {
       this.daysdata[item] = [{ meal: 0, food: '' }];
     } else {
       this.daysdata[item].push({
-        meal : 0,
-        food : ''
+        meal: 0,
+        food: ''
       });
     }
     this.cdr.detectChanges();
@@ -126,23 +126,23 @@ export class FoodComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  getPlace(index){
-    for(let i in this.places){
-      if(this.places[i]['code'] == index){
+  getPlace(index) {
+    for (let i in this.places) {
+      if (this.places[i]['code'] == index) {
         return this.places[i]['name'];
         break;
       }
     }
   }
 
-  onPlaceSelect(event){
+  onPlaceSelect(event) {
     let index = event['option']['value'];
-    if(this.mealData.places.includes(index) == false){
+    if (this.mealData.places.includes(index) == false) {
       this.mealData.places.push(index);
     }
   }
 
-  removePlaceChip(index){
+  removePlaceChip(index) {
     const i = this.mealData.places.indexOf(index);
 
     if (i >= 0) {
@@ -150,23 +150,23 @@ export class FoodComponent implements OnInit {
     }
   }
 
-  newFood(){
-    if(this.updateMode == false){
+  newFood() {
+    if (this.updateMode == false) {
       this.foodsData.push(this.foodData);
     }
-    this.foodData = { name: '', price: 0, type : '', descriptions : '' };
+    this.foodData = { name: '', price: 0, type: '', descriptions: '' };
     this.editMode = false;
   }
 
-  newMeal(){
-    if(this.updateMode == false){
+  newMeal() {
+    if (this.updateMode == false) {
       this.mealsData.push(this.mealData);
     }
     this.mealData = { name: '', price: '', places: [], description: '' };
     this.editMode = false;
   }
-  
-  onBoxChange(event){
+
+  onBoxChange(event) {
     this.daysdata[event['day']][event['meal']] = event['data'];
   }
 }

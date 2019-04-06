@@ -75,45 +75,6 @@
                   <div *ngFor="let mitem of daysdata[indexi]; let mindex = index">
                     <app-box (onChange)="onBoxChange($event)" (onDelete)="Delete($event)" [datas]="daysdata[indexi][mindex]" [foods]="foodsData" [meals]="mealsData" [day]="indexi" [meal]="mindex"></app-box>
                   </div>
-
-                  <!-- <mat-card style="padding-left:15px; padding-bottom: 5px; padding-top: 20px; margin: 5px;"
-                    class="col l3 m3 s12" *ngFor="let mitem of daysdata[indexi]; let mindex = index">
-                    <form class="example-form">
-                      <mat-form-field style="width:100%">
-                        <input type="text" placeholder="انتخاب غذا" aria-label="Number" matInput
-                          [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="mitem.food">
-                        <mat-autocomplete #auto="matAutocomplete">
-                          <mat-option *ngFor="let option of foodFilter(indexi, mindex)" [value]="option['name']" (click)="mitem.food = option['name']">
-                            {{option['name']}}
-                          </mat-option>
-                        </mat-autocomplete>
-                      </mat-form-field>
-                    </form>
-
-                    <mat-form-field style="width:100%">
-                      <textarea cols="5" rows="5" placeholder="توضیحات ..." matInput></textarea>
-
-                    </mat-form-field>
-                    <mat-form-field style="width:100%">
-                      <mat-select placeholder="وعده" [(ngModel)]="mitem.meal" >
-                        <mat-option *ngFor="let meal of mealsData" [value]="meal['name']">
-                          {{meal['name']}}
-                        </mat-option>
-                      </mat-select>
-
-                    </mat-form-field>
-                    <mat-form-field style="width:100%">
-
-                      <input matInput placeholder="قیمت" type="number">
-
-                    </mat-form-field>
-
-
-                    <button mat-raised-button color="warn" style="float:left"
-                      (click)="Delete(indexi,mindex)">حذف</button>
-
-
-                  </mat-card> -->
                 </div>
 
 
@@ -178,7 +139,7 @@
                 <th mat-header-cell *matHeaderCellDef>نوع غذا</th>
                 <td mat-cell *matCellDef="let element">
                   <mat-chip-list>
-                    <mat-chip *ngFor="let item of element['type']">{{item}}</mat-chip>
+                    <mat-chip *ngFor="let item of element['type']"><pre>{{item}}</pre></mat-chip>
                   </mat-chip-list>
                 </td>
               </ng-container>

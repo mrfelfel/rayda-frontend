@@ -10,10 +10,11 @@ import {
 })
 export class InputComponent implements OnInit {
 
-  @Input() type:String;
-  @Input() placeholder:String;
-  @Input() value:any;
-  @Output() valueChange:EventEmitter<any> = new EventEmitter();
+  @Input() type: String;
+  @Input() placeholder: String;
+  @Input() disabled: Boolean;
+  @Input() value: any;
+  @Output() valueChange: EventEmitter<any> = new EventEmitter();
   constructor() { }
 
   ngOnInit() {

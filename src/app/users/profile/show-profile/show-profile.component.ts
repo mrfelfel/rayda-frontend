@@ -16,10 +16,19 @@ export class ShowProfileComponent implements OnInit {
     repeat_password : ''
 
   };
+  transkey = [{
+    name: 'نام خانوادگی',
+    code: 'family'
+  },
+  {
+    name: 'نام',
+    code: 'name'
+  }
+  ];
   login = 1;
   timer = 1;
 
-      async newPass() {        
+      async newPass() {
         if (!this.d.password) {
           this.snak.snackBar.open('گذرواژه فعلی را خالی رها نکنید');
           return;
@@ -59,15 +68,27 @@ export class ShowProfileComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  setValue(name, value){
-    if(name == 'd.password'){
-      this.d.password = value;
+  setValue(name, value) {
+      this.d[name] = value;
+  }
+
+  ObjectTranslator(Objects, kt) {
+    for (let i = 0; i < Objects.length; i++) {
+      Object.keys(Objects[i]).forEach((item, index) => {
+
+        kt.forEach((x) => {
+          if (x.code === item) {
+            Object.defineProperty(Objects[i], x.name,
+            Object.getOwnPropertyDescriptor(Objects[i], x.code));
+            delete Objects[i][x.code];
+          }
+        });
+
+      });
     }
-    if(name == 'd.new_password'){
-      this.d.new_password = value;
-    }
-    if(name == 'd.repeat_password'){
-      this.d.repeat_password = value;
-    }
+
+
+
+    return Objects;
   }
 }

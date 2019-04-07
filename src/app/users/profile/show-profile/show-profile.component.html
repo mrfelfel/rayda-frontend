@@ -7,10 +7,11 @@
       <mat-card>
         <mat-card-content>
           <form action="#">
-            <app-input type="password" [value]="d.password" (valueChange)="setValue('d.password', $event)" placeholder="گذرواژه فعلی"></app-input>
-            <app-input type="password" [value]="d.new_password" (valueChange)="setValue('d.new_password', $event)" placeholder="گذرواژه جدید"></app-input>
-            <app-input type="password" [value]="d.repeat_password" (valueChange)="setValue('d.repeat_password', $event)" placeholder="تکرار گذرواژه جدید"></app-input>
-    
+            <app-input type="input"     [value]="d.username" (valueChange)="setValue('username', $event)" placeholder="نام کاربری" disabled="true"></app-input>
+            <app-input type="password" [value]="d.password" (valueChange)="setValue('password', $event)" placeholder="گذرواژه فعلی"></app-input>
+            <app-input type="password" [value]="d.new_password" (valueChange)="setValue('new_password', $event)" placeholder="گذرواژه جدید"></app-input>
+            <app-input type="password" [value]="d.repeat_password" (valueChange)="setValue('repeat_password', $event)" placeholder="تکرار گذرواژه جدید"></app-input>
+
             <p *ngIf="d.new_password !== d.repeat_password">
               کلمه عبور و تکرار آن باید برابر باشند
             </p> <br>
@@ -18,7 +19,7 @@
               روزرسانی</button>
             <button mat-raised-button color="primary" style="float:left" *ngIf="login == 2"> بررسی صحت اطلاعات ...
               {{timer}}</button>
-    
+
           </form>
         </mat-card-content>
       </mat-card>

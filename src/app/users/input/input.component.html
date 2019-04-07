@@ -3,15 +3,15 @@
 </div>
 
 <div *ngIf="type=='input'">
-  <mat-form-field appearance="legacy">
+  <mat-form-field appearance="outline">
       <mat-label>{{placeholder}}</mat-label>
-      <input matInput [value]="value" [(ngModel)]="value" (ngModelChange)="valueChange.emit(value)">
+      <input matInput [value]="value" [(ngModel)]="value" (ngModelChange)="valueChange.emit(value)" [disabled]="disabled">
     </mat-form-field>
 </div>
 
 <div *ngIf="type=='password'">
-    <mat-form-field appearance="legacy">
+    <mat-form-field appearance="outline">
       <mat-label>{{placeholder}}</mat-label>
-      <input matInput type="password" [value]="value" [(ngModel)]="value" (ngModelChange)="valueChange.emit(value)">
+      <input matInput type="password" [value]="value" [disabled]="disabled" [(ngModel)]="value" (ngModelChange)="valueChange.emit(value)">
     </mat-form-field>
   </div>

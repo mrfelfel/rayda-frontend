@@ -27,7 +27,8 @@ const routes: Routes = [
     material.MatButtonModule,
     material.MatIconModule,
     material.MatSelectModule,
-
+    material.MatTabsModule,
+    material.MatToolbarModule,
     FormsModule, ReactiveFormsModule,
     RouterModule.forChild(routes)
   ]

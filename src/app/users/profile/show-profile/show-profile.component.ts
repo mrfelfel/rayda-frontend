@@ -19,9 +19,7 @@ export class ShowProfileComponent implements OnInit {
   login = 1;
   timer = 1;
 
-      async newPass() {
-        console.log(this.d);
-        
+      async newPass() {        
         if (!this.d.password) {
           this.snak.snackBar.open('گذرواژه فعلی را خالی رها نکنید');
           return;
@@ -59,5 +57,17 @@ export class ShowProfileComponent implements OnInit {
   update() {
     // Run change detection only for this component when update() method is called.
     this.cdr.detectChanges();
+  }
+
+  setValue(name, value){
+    if(name == 'd.password'){
+      this.d.password = value;
+    }
+    if(name == 'd.new_password'){
+      this.d.new_password = value;
+    }
+    if(name == 'd.repeat_password'){
+      this.d.repeat_password = value;
+    }
   }
 }

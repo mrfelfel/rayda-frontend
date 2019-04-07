@@ -15,13 +15,14 @@ export class FoodComponent implements OnInit {
   public foodsColumns:String[] = ['delete', 'edit', 'name', 'price', 'type', 'descriptions'];
   public foodsData:Object[] = [];
   public foodTypes:Object[] = [{ code: '', name: 'پرهزینه'}, { code: '', name: 'متوسط هزینه' }, { code: '', name: 'کم هزینه' }];
-  public foodData:any = { name: '', price: 0, type : [], descriptions : '' }
+  public foodData:any = { name: '', price: [], type : [], descriptions : '' }
   public mealsColumns:String[] = ['delete', 'edit', 'name', 'price', 'places', 'description'];
   public mealsData:Object[] = [];
-   public mealData = { name: '', price: '', places: [], description: '' }
-   public places: Object[] =  [{code : 1,  name : 'امیر المومنین'},{code : 2,  name : 'اصلی '},{code : 3,  name : 'ماشین سازی '}];
-   public placeControl = new FormControl();
-   public filteredPlaces: Observable<object[]>;
+  public mealData = { name: '', price: '', places: [], description: '' }
+  public places: Object[] =  [{code : 1,  name : 'امیر المومنین'},{code : 2,  name : 'اصلی '},{code : 3,  name : 'ماشین سازی '}];
+  public placeControl = new FormControl();
+  public filteredPlaces: Observable<object[]>;
+  public groupPrice:Object[] = [{code : 1, name : 'دانشجویان', value : 15500}];
 
   public editMode:Boolean = false;
   public updateMode:Boolean = false;

@@ -22,7 +22,9 @@ export class FoodComponent implements OnInit {
    public places: Object[] =  [{code : 1,  name : 'امیر المومنین'}, {code : 2,  name : 'اصلی '}, {code : 3,  name : 'ماشین سازی '}];
    public placeControl = new FormControl();
    public filteredPlaces: Observable<object[]>;
-
+   public placeColumns: String[] = ['delete', 'name'];
+   public placeData: Object = { name: '' };
+   public placesData: Object[] = [{ name: 'مرکز اصلی'}];
   public editMode: Boolean = false;
   public updateMode: Boolean = false;
   constructor(     private cdr: ChangeDetectorRef    ) {
@@ -157,5 +159,16 @@ export class FoodComponent implements OnInit {
   startScheduling() {
 
     console.log(this.daysdata);
+  }
+
+  addNewPlace(){
+    if(this.placeData['name'].length == 0) return;
+    this.placesData.push(this.placeData);
+    this.placeData = { name: '' }
+    this.cdr.detectChanges();
+  }
+
+  deletePlace(index){
+    this.placesData.splice(index,1);
   }
 }

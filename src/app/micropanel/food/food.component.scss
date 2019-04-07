@@ -1,3 +1,12 @@
+mat-toolbar{
+  height: 30px;
+  line-height: 30px;
+}
+
+mat-toolbar span{
+  font-size: .9rem;
+}
+
 .img-header {
   position: absolute;
   left: 0;
@@ -16,3 +25,30 @@ mat-card {
   overflow: hidden;
 }
 
+
+
+table.custom{
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border: 1px solid rgba($color: #000000, $alpha: .1);
+  border-bottom: none;
+}
+
+table.custom thead,
+table.custom tr{
+  border-bottom: 1px solid rgba($color: #000000, $alpha: .1);
+}
+
+table.custom td, table.custom th {
+  padding: 15px 10px;
+  display: table-cell;
+  text-align: right;
+  vertical-align: middle;
+}
+
+table.custom td p{
+  margin: 0;
+}

@@ -39,6 +39,8 @@ const routes: Routes = [
     material.MatPaginatorModule,
     material.MatIconModule,
     material.MatDialogModule,
+    material.MatCheckboxModule,
+    material.MatToolbarModule,
     FormsModule,
     material.MatSlideToggleModule,
     material.MatButtonToggleModule,

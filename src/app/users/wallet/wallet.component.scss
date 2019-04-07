@@ -1,0 +1,78 @@
+div.flex{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+mat-card{
+    min-width: 340px;
+    min-height: 250px;
+    height: 100%;
+    padding: 0 !important;
+    margin: 10px;
+}
+
+mat-card:hover{
+    box-shadow: 0 3px 6px rgba($color: #000000, $alpha: 0.3);
+}
+
+mat-card-header{
+    color: #000;
+    background-color: rgba($color: #000000, $alpha: .05);
+}
+
+mat-card-title{
+    font-size: 1rem !important;
+    padding-top: 10px;
+}
+
+div.main-money{
+    text-align: center;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+div.main-money span:first-child,
+div.data div.money span:first-child{ 
+    font-size: .8rem;
+    margin-bottom: 5px;
+}
+
+div.data{
+    display: flex;
+    flex-wrap: nowrap;
+    border: 1px solid rgba($color: #000000, $alpha: .1);
+    border-left: none;
+    border-right: none;
+}
+
+div.data div.money{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+    border-left: 1px solid rgba($color: #000000, $alpha: .1);
+}
+
+div.data div.money:last-child{
+    border-left: none;
+}
+
+div.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    height: 250px;
+    cursor: pointer;
+}
+
+div.center svg{
+    width: 60px;
+    height: 60px;
+}

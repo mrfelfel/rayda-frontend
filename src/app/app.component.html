@@ -72,11 +72,11 @@
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="exit(); snav.close()">خروج از حساب</button>
         </mat-menu>
-        <mat-progress-spinner diameter="70" color="primary" mode="determinate" strokeWidth="4" [value]="proccess/1.25"></mat-progress-spinner>
+        <mat-progress-spinner *ngIf="proccess!=100" diameter="70" color="primary" mode="determinate" strokeWidth="4" [value]="proccess/1.25"></mat-progress-spinner>
         <div class="avatar">
           <span>{{nameIcon()}}</span>
         </div>
-        <span class="proccess">{{proccess}}%</span>
+        <span class="proccess" *ngIf="proccess!=100">{{proccess}}%</span>
         <span class="name">{{userName}}</span>
         <span class="access">حق درسترسی:‌ کاربر</span>
       </div>

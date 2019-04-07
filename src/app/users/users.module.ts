@@ -9,14 +9,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {SessionGuard} from '../@core/session.guard';
 import * as material from '@angular/material';
 import { InputComponent } from './input/input.component';
+import { WalletComponent } from './wallet/wallet.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate : [SessionGuard]},
   { path: 'profile', component: ShowProfileComponent},
   { path: 'forgot', component: ForgotPasswordComponent,  canActivate : [SessionGuard]},
+  { path: 'wallet', component: WalletComponent }
 
 ];
 @NgModule({
-  declarations: [LoginComponent, ForgotPasswordComponent, ShowProfileComponent, EditProfileComponent, InputComponent],
+  declarations: [LoginComponent, ForgotPasswordComponent, ShowProfileComponent, EditProfileComponent, InputComponent, WalletComponent],
   imports: [
     CommonModule,
     material.MatCardModule,

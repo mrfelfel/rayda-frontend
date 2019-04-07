@@ -7,6 +7,17 @@
           </h3>
 
 
+          <button mat-raised-button (click)="ExExport()" *ngIf="this.UserData.length!==0">دریافت خروجی</button>
+
+          <mat-form-field>
+            <mat-label>انتخاب وعده</mat-label>
+            <mat-select [(ngModel)]="meal" (selectionChange)="Checkchange()">
+              <mat-option *ngFor="let m of meals" [value]="m.id">
+                {{m.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
            <mat-tab-group [selectedIndex]="selected.value"  (selectedIndexChange)="selected.setValue($event)">
               <mat-tab label="تحویل غذا" >
                 <div class="tcontent">
@@ -295,9 +306,8 @@
 
 
 
-            <h3>این صفحه به بخش جدیدی منتقل شده است</h3>
+            <h3>این صفحه در حال جایگزینی نرم افزاری است </h3>
 
-          <a href="https://delivery.liara.run">نرم افزار تحویل غذا</a>
         </mat-card-content>
 
     </mat-card>

@@ -1,4 +1,4 @@
-import { Component, OnInit , OnDestroy, Inject, AfterViewInit} from '@angular/core';
+import { Component, OnInit , OnDestroy, Inject, AfterViewInit, ChangeDetectorRef} from '@angular/core';
 import Push from 'push.js';
 import {SnaksService} from '../../snaks.service';
 import {Router} from '@angular/router';
@@ -31,9 +31,11 @@ export interface PeriodicElement {
 export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // tslint:disable-next-line:max-line-length
-  constructor(private dialog: MatDialog, private snaks: SnaksService, private cards: CardsService, private booking: BookingService, private excelService: XlsxService, private http: ServerService , private router: Router, private universityMessage: UniversityService) {
-
-   }
+  constructor(private dialog: MatDialog, private snaks: SnaksService, private cards: CardsService, private booking: BookingService, private excelService: XlsxService, private http: ServerService , private router: Router, private universityMessage: UniversityService, private cdr: ChangeDetectorRef ) {
+    setInterval(() => {
+      this.cdr.detectChanges();
+    }, 50);
+  }
 
   socket: SocketIOClient.Socket;
   tempD = 'http://localhost:5001';
@@ -64,6 +66,7 @@ export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
   Sum = 1;
   Mode = 'deliver';
   All = 0;
+  meal = 1;
   card_number = null;
   delivered = [];
   userDelivered = null;
@@ -297,6 +300,10 @@ export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     }
 
+    this.meal = this.CheckMeal(moment().hour());
+
+    this.wsocket.emit('Selectmeal', this.meal);
+
   }
   NewDeliver() {
     let data = '';
@@ -485,6 +492,21 @@ export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     return Objects;
+  }
+  CheckMeal(time) {
+    if ((  time >= 17) && (  time <= 22)) {
+        return 2;
+    } else if ((  time >= 11) && (  time <= 14)) {
+        return 1;
+    } else {
+        return 0;
+    }
+
+  }
+  Checkchange() {
+
+    this.UserData = null;
+    this.wsocket.emit('Selectmeal', this.meal);
   }
 }
 

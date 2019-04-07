@@ -276,13 +276,16 @@ ngAfterViewInit() {
 GetUserData() {
 }
 exit() {
-  this.socket.emit('nopush', localStorage.endpoint);
-  this.socketService.disconnect();
-  localStorage.removeItem('token');
-  localStorage.removeItem('pushify');
-  localStorage.removeItem('uid');
 
-  localStorage.removeItem('endpoint');
+  const rayToken = localStorage.rayToken;
+  const raychat  = localStorage.getItem('www.raychat.io');
+  this.socket.emit('nopush', localStorage.endpoint);
+
+
+  this.socketService.disconnect();
+  localStorage.clear();
+  localStorage.setItem('www.raychat.io', raychat);
+  localStorage.setItem('rayToken', rayToken);
   this.router.navigate(['/users/login']);
   this.showRoute = false;
   this.logedIn = false;

@@ -12,19 +12,19 @@ import {map, startWith} from 'rxjs/operators';
 })
 export class FoodComponent implements OnInit {
 
-  public foodsColumns:String[] = ['delete', 'edit', 'name', 'price', 'type', 'descriptions'];
-  public foodsData:Object[] = [];
-  public foodTypes:Object[] = [{ code: '', name: 'پرهزینه'}, { code: '', name: 'متوسط هزینه' }, { code: '', name: 'کم هزینه' }];
-  public foodData:any = { name: '', price: 0, type : [], descriptions : '' }
-  public mealsColumns:String[] = ['delete', 'edit', 'name', 'price', 'places', 'description'];
-  public mealsData:Object[] = [];
-   public mealData = { name: '', price: '', places: [], description: '' }
-   public places: Object[] =  [{code : 1,  name : 'امیر المومنین'},{code : 2,  name : 'اصلی '},{code : 3,  name : 'ماشین سازی '}];
+  public foodsColumns: String[] = ['delete', 'edit', 'name', 'price', 'type', 'descriptions'];
+  public foodsData: Object[] = [];
+  public foodTypes: Object[] = [{ code: '', name: 'پرهزینه'}, { code: '', name: 'متوسط هزینه' }, { code: '', name: 'کم هزینه' }];
+  public foodData: any = { name: '', price: 0, type : [], descriptions : '' };
+  public mealsColumns: String[] = ['delete', 'edit', 'name', 'price', 'places', 'description'];
+  public mealsData: Object[] = [];
+   public mealData = { name: '', price: '', places: [], description: '' };
+   public places: Object[] =  [{code : 1,  name : 'امیر المومنین'}, {code : 2,  name : 'اصلی '}, {code : 3,  name : 'ماشین سازی '}];
    public placeControl = new FormControl();
    public filteredPlaces: Observable<object[]>;
 
-  public editMode:Boolean = false;
-  public updateMode:Boolean = false;
+  public editMode: Boolean = false;
+  public updateMode: Boolean = false;
   constructor(     private cdr: ChangeDetectorRef    ) {
      }
      current = {
@@ -56,7 +56,7 @@ export class FoodComponent implements OnInit {
       startWith(''),
       map(value => {
         value = value.toLowerCase();
-        return this.places.filter(plcae=>plcae['name'].toLowerCase().includes(value));
+        return this.places.filter(plcae => plcae['name'].toLowerCase().includes(value));
       })
     );
 
@@ -103,30 +103,30 @@ export class FoodComponent implements OnInit {
   }
 
   Delete(event) {
-    let i = event['day'], m = event['meal'];
+    const i = event['day'], m = event['meal'];
     this.daysdata[i].splice(m, 1);
 
 
     this.cdr.detectChanges();
   }
 
-  getPlace(index){
-    for(let i in this.places){
-      if(this.places[i]['code'] == index){
+  getPlace(index) {
+    for (const i in this.places) {
+      if (this.places[i]['code'] === index) {
         return this.places[i]['name'];
         break;
       }
     }
   }
 
-  onPlaceSelect(event){
-    let index = event['option']['value'];
-    if(this.mealData.places.includes(index) == false){
+  onPlaceSelect(event) {
+    const index = event['option']['value'];
+    if (this.mealData.places.includes(index) === false) {
       this.mealData.places.push(index);
     }
   }
 
-  removePlaceChip(index){
+  removePlaceChip(index) {
     const i = this.mealData.places.indexOf(index);
 
     if (i >= 0) {
@@ -134,23 +134,28 @@ export class FoodComponent implements OnInit {
     }
   }
 
-  newFood(){
-    if(this.updateMode == false){
+  newFood() {
+    if (this.updateMode === false) {
       this.foodsData.push(this.foodData);
     }
     this.foodData = { name: '', price: 0, type : '', descriptions : '' };
     this.editMode = false;
   }
 
-  newMeal(){
-    if(this.updateMode == false){
+  newMeal() {
+    if (this.updateMode === false) {
       this.mealsData.push(this.mealData);
     }
     this.mealData = { name: '', price: '', places: [], description: '' };
     this.editMode = false;
   }
 
-  onBoxChange(event){
+  onBoxChange(event) {
     this.daysdata[event['day']][event['meal']] = event['data'];
+  }
+
+  startScheduling() {
+
+    console.log(this.daysdata);
   }
 }

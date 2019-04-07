@@ -272,6 +272,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
  SetWeek(p): void {
 
    this.planned = null;
+   this.error = false;
    this.message = 'در حال اتصال';
    if (p === 'next') {
     this.date = this.date.add(7, 'd');
@@ -384,7 +385,7 @@ getDateOfISOWeek(w, y) {
 
     console.log(this.error);
     if (this.error) {
-      this.snaks.openSnackBar('رزرو این هفته به پایان رسیده است', 'بستن');
+      this.snaks.openSnackBar('رزرو این هفته غیر فعال است ', 'بستن');
          return;
     }
     if (this.cost === 0) {
@@ -397,7 +398,7 @@ getDateOfISOWeek(w, y) {
   }
   unreserve(item) {
     if (this.error) {
-      this.snaks.openSnackBar('لغو این هفته به پایان رسیده است', 'بستن');
+      this.snaks.openSnackBar('لغو این هفته غیر فعال است ', 'بستن');
          return;
     }
     item.week = this.date.jWeek();

@@ -95,6 +95,9 @@
 
       </mat-nav-list>
       <mat-nav-list *ngIf="!mobileQuery.matches">
+        <span *ngIf="!Proutes" >
+            <mat-spinner ></mat-spinner>
+        </span>
         <span *ngFor="let item of Proutes">
 
           <a mat-list-item *ngIf="item.viewMenu" class="mini-size" [routerLink]="item.path">

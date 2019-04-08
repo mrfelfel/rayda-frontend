@@ -7,9 +7,8 @@
           </h3>
 
 
-          <button mat-raised-button (click)="ExExport()" *ngIf="this.UserData.length!==0">دریافت خروجی</button>
 
-          <mat-form-field>
+          <mat-form-field >
             <mat-label>انتخاب وعده</mat-label>
             <mat-select [(ngModel)]="meal" (selectionChange)="Checkchange()">
               <mat-option *ngFor="let m of meals" [value]="m.id">
@@ -17,9 +16,11 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+          <button mat-raised-button (click)="ExExport()" *ngIf="this.UserData.length!==0">دریافت خروجی</button>
 
+          <h3 *ngIf="this.UserData.length ==0">در حال بر قراری ارتباط با سخت افزار</h3>
            <mat-tab-group [selectedIndex]="selected.value"  (selectedIndexChange)="selected.setValue($event)">
-              <mat-tab label="تحویل غذا" >
+              <mat-tab label="تحویل غذا" *ngIf="this.UserData.length!==0">
                 <div class="tcontent">
 
                   <h3 *ngIf="msg_txt">
@@ -84,228 +85,10 @@
                 </div>
 
               </mat-tab>
-             <!-- <mat-tab label="مدیریت کارت ها" >
-                <div class="tcontent">
-                  <p>
-                    به صفحه ثبت کارت خوش آمدید
-                  </p>
-                  <form method="POST"  (submit)="CardDefine()">
-                    <mat-form-field class="rayful" style="margin-top:5px">
-                        <input matInput [(ngModel)]="code_meli" name="code_meli" type="text" placeholder="کد ملی" aria-label="Number" >
-                      </mat-form-field>
-                      <mat-form-field class="rayful" style="margin-top:5px">
-                        <input matInput  [(ngModel)]="card_number" name="card_number" type="text" placeholder="شماره کارت" aria-label="Number" disabled >
-                      </mat-form-field>
-                      <button mat-raised-button *ngIf="foodDeliver" color="primary"   type="submit"  >تعریف کارت</button>
-                      <button mat-raised-button *ngIf="foodDeliver" color="primary"   type="reset"  (click)="RemoveCard()">حذف کارت</button>
-                  </form>
-                </div>
-              </mat-tab> -->
-              <!-- <mat-tab label="آمار">
-                  <div class="tcontent">
-                    <h4>
-                       به منوی آمار ها خوش آمدید
-                    </h4>
-                    <div class="row">
-                        <div class="col l4 m12 s12" >
-                          <mat-card>
-                            <mat-card-header>
-                              <mat-card-title>آمار رزرو </mat-card-title>
-                              <mat-card-subtitle>دریافت آمار با توجه به تنظیمات</mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content>
 
-
-                               <div class="text-center">
-                                  <b >انتخاب هفته</b>
-                                  <br>
-                                 شروع هفته از  {{date.format('jYYYY/jMM/jDD')}} تا {{clone.format('jYYYY/jMM/jDD')}}
-                                <br>
-                                <br>
-                              <button mat-raised-button >قبلی</button>
-                                  <button mat-raised-button >جاری</button>
-                                  <button mat-raised-button >بعدی</button>
-                              </div>
-                            </mat-card-content>
-                            <mat-card-actions>
-
-                              <button mat-button>دریافت مجدد امار</button>
-                            </mat-card-actions>
-                          </mat-card>
-                        </div>
-                        <div class="col l8 m12 s12" >
-
-                          <mat-card>
-                            <mat-card-header>
-                              <mat-card-title>مشاهده</mat-card-title>
-                              <mat-card-subtitle>اطلاعات آماری</mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content  style="padding-right:20px;">
-
-                              <div class="row">
-
-
-                                       <div *ngFor="let item of days; let index = index" style="text-align:center" >
-                                          <div class="col "  >
-                                            <p style="margin:0; font-size: 16px">
-                                                {{item}}
-
-                                            </p>
-                                            <div *ngFor="let meal of meals" style="margin:0; margin-bottom:5px; padding: 0">
-                                              <span *ngIf="meal.enabled">
-                                                  {{meal.name}}
-                                                  <h2>{{stats[index][meal.id - 1]}}</h2>
-                                              </span>
-
-
-
-                                            </div>
-                                          </div>
-                                       </div>
-                              </div>
-                            </mat-card-content>
-
-                          </mat-card>
-                          </div>
-
-                    </div>
-                  </div>
-                </mat-tab>
-
-              <mat-tab label="مدیریت الگو ها">
-
-                <div class="tcontent">
-                   <h5>
-                     مدیریت الگوی من
-                   </h5>
-
-                   <mat-tab-group>
-                     <mat-tab label="ایجاد الگو">
-                       <div class="exm">
-                         <br>
-                          <mat-form-field>
-                            <input matInput placeholder="نام الگو">
-                          </mat-form-field>
-                          <button mat-raised-button color="primary">ذخیره سازی نهایی</button>
-
-                          <mat-tab-group [selectedIndex]="dowselected.value"
-                          (selectedIndexChange)="dowselected.setValue($event)">
-                            <mat-tab *ngFor="let day of days" [label]="day">
-                               <button mat-raised-button (click)="NewDow()">ایجاد یک وعده / غذا جدید</button>
-                            </mat-tab>
-
-
-
-
-
-                          </mat-tab-group>
-                      </div>
-                     </mat-tab>
-
-                     <mat-tab label="الگو ها"></mat-tab>
-                   </mat-tab-group>
-                </div>
-              </mat-tab>
-              <mat-tab label="برنامه ریزی غذایی">
-                  <div class="tcontent"></div>
-                  <h4>به صفحه برنامه ریزی غذایی خوش آمدید
-                  </h4>
-                </mat-tab>
-                <mat-tab label="وعده ها">
-                    <div class="tcontent">
-                      <h4>
-                        به منوی مدیریت وعده ها خوش آمدید
-                      </h4>
-                      <div class="row" >
-                        <div class="col l3 m6 s12" *ngFor="let item of meals">
-                          <mat-card>
-                            <mat-card-header>
-                              <mat-card-title >
-                                {{item.name}}
-                              </mat-card-title>
-                              <mat-card-subtitle>وعده اصلی
-
-                              </mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content>
-                              <p>
-                                این وعده از وعده های اصلی بادام است
-                              </p>
-                            </mat-card-content>
-                            <mat-card-actions>
-                                <mat-slide-toggle [(ngModel)]="item.enabled" >فعال / غیر فعال کردن وعده</mat-slide-toggle>
-                            </mat-card-actions>
-                          </mat-card>
-                        </div>
-
-
-
-
-                      </div>
-                    </div>
-                  </mat-tab>
-                  <mat-tab label="غذا ها">
-                      <div class="tcontent">
-                        <h3>
-                          به صفحه مدیریت غذا ها خوش آمدید
-                        </h3>
-                        <form >
-                          <button mat-raised-button (click)="NewFood()">افزودن غذا</button>
-                        </form>
-                        <div class="row">
-                            <div class="col l3 m6 s12" *ngFor="let food of foods; let index = index">
-                                <mat-card>
-                                  <mat-card-header>
-                                    <mat-card-title
-                                    contenteditable="true"
-                                   [(ngModel)]="foods[index].name"></mat-card-title>
-                                    <mat-card-subtitle
-                                    contenteditable="true"
-                                   [(ngModel)]="foods[index].description"
-                                    ></mat-card-subtitle>
-                                  </mat-card-header>
-                                  <mat-card-content>
-
-                                  </mat-card-content>
-                                  <mat-card-actions>
-                                    <button mat-button color="primary" (click)="SubmitFood(index)">ارسال تغییرات به سرور</button>
-                                    <button mat-button color="primary" (click)="DelFood(index)">حذف</button>
-
-                                  </mat-card-actions>
-                                </mat-card>
-                              </div>
-                        </div>
-
-                      </div>
-                    </mat-tab>
-                    <mat-tab label="سیاست قیمت گذاری">
-                        <div class="tcontent"></div>
-                    </mat-tab>
-                    <mat-tab label="گروه های کاربری">
-                        <div class="tcontent"></div>
-                      </mat-tab>
-                      <mat-tab label="مواد غذایی">
-                          <div class="tcontent"></div>
-                        </mat-tab>
-                        <mat-tab label="پیمانکار">
-                            <div class="tcontent"></div>
-                          </mat-tab>
-                          <mat-tab label="مالی">
-                              <div class="tcontent">
-                                  <mat-tab-group>
-                                      <mat-tab label="کل تراکنش ها">
-                                      </mat-tab>
-                                      <mat-tab label="تراکنش ها بر اساس کاربر">
-                                        </mat-tab>
-                                  </mat-tab-group>
-                              </div>
-                            </mat-tab>
-                          -->
             </mat-tab-group>
 
 
-
-            <h3>این صفحه در حال جایگزینی نرم افزاری است </h3>
 
         </mat-card-content>
 

@@ -1,8 +1,22 @@
-mat-toolbar{
-    height: 30px;
-    line-height: 30px;
+mat-card-content.flex{
+    display: flex;
+    flex-wrap: nowrap;
 }
 
-mat-toolbar span{
-    font-size: .9rem;
+mat-card-content.flex img{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+}
+
+div.image{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div.info{
+    margin-right: 20px;
+    margin-top: 30px;
 }

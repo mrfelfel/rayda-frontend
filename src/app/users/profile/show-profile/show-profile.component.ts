@@ -10,6 +10,8 @@ export class ShowProfileComponent implements OnInit {
 
   constructor(private auth: AuthService, private snak: SnaksService, private cdr: ChangeDetectorRef) { }
   d = {
+    picture: null,
+    fullname: window.localStorage.getItem('viewName') || 'بدون نام',
     username : localStorage.uid,
     password : '',
     new_password : '',
@@ -90,5 +92,19 @@ export class ShowProfileComponent implements OnInit {
 
 
     return Objects;
+  }
+
+  selectImage(){
+    let FILE = (<HTMLInputElement>document.getElementById('file'));
+    FILE.click();
+    FILE.onchange = ()=>{
+        let file = FILE.files[0];
+        let reader = new FileReader();
+        reader.onloadend = ()=>{
+            this.d.picture = reader.result;
+            this.cdr.detectChanges();
+        }
+        reader.readAsDataURL(file);
+    }
   }
 }

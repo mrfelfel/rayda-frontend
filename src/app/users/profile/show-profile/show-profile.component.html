@@ -1,16 +1,40 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="title">
   <span>ویرایش پروفایل</span>
 </mat-toolbar>
 <mat-tab-group backgroundColor="primary">
+  <mat-tab label="تصاویر و مدارک">
+    <div class="main-container">
+      <mat-card class="userInfo">
+        <mat-card-content class="flex">
+          <div class="image">
+            <img class="avatar" [src]="d.picture || '/assets/user.png'" alt="تصویر پیش فرض"><br>
+            <button mat-button (click)="selectImage()">تغییر تصویر</button>
+          </div>
+          <div class="info">
+            <p>
+              <span>نام و نام خانوادگی</span>: <span>{{d.fullname}}</span>
+            </p>
+            <p>
+              <span>نام کاربری</span>: <span>{{d.username}}</span>
+            </p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
   <mat-tab label="تغییر رمز عبور">
     <div class="main-container">
       <mat-card>
         <mat-card-content>
           <form action="#">
-            <app-input type="input"     [value]="d.username" (valueChange)="setValue('username', $event)" placeholder="نام کاربری" disabled="true"></app-input>
-            <app-input type="password" [value]="d.password" (valueChange)="setValue('password', $event)" placeholder="گذرواژه فعلی"></app-input>
-            <app-input type="password" [value]="d.new_password" (valueChange)="setValue('new_password', $event)" placeholder="گذرواژه جدید"></app-input>
-            <app-input type="password" [value]="d.repeat_password" (valueChange)="setValue('repeat_password', $event)" placeholder="تکرار گذرواژه جدید"></app-input>
+            <app-input type="input" [value]="d.username" (valueChange)="setValue('username', $event)"
+              placeholder="نام کاربری" disabled="true"></app-input>
+            <app-input type="password" [value]="d.password" (valueChange)="setValue('password', $event)"
+              placeholder="گذرواژه فعلی"></app-input>
+            <app-input type="password" [value]="d.new_password" (valueChange)="setValue('new_password', $event)"
+              placeholder="گذرواژه جدید"></app-input>
+            <app-input type="password" [value]="d.repeat_password" (valueChange)="setValue('repeat_password', $event)"
+              placeholder="تکرار گذرواژه جدید"></app-input>
 
             <p *ngIf="d.new_password !== d.repeat_password">
               کلمه عبور و تکرار آن باید برابر باشند
@@ -26,3 +50,4 @@
     </div>
   </mat-tab>
 </mat-tab-group>
+<input type="file" style="display: none; opacity: 0;" id="file" accept="image/*">

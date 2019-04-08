@@ -1,5 +1,5 @@
 <div (keyup)="drg($event)" class="rayda-container no-select" [class.rayda-is-mobile]="mobileQuery.matches"
-  [class.dark-theme]="isDarkTheme">
+  [class.dark-theme]="isDarkTheme" *ngIf="showRoute">
 
   <mat-toolbar color="primary" class="rayda-toolbar rayda">
     <button *ngIf="showRoute && mobileQuery.matches" mat-icon-button (click)="snav.toggle()" class="rayda-icon"
@@ -25,7 +25,7 @@
 
     </a>
 
-    <button *ngIf="showRoute" mat-icon-button aria-label="اتصال به اینترنت">
+    <button *ngIf="showRoute" mat-icon-button disableRipple aria-label="اتصال به اینترنت" style="cursor: default;">
       <mat-icon *ngIf="!connected"   matTooltip="برنامه در مود افلاین کار میکند">
         <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-1.48 0-2.85.43-4.01 1.17l1.46 1.46C10.21 6.23 11.08 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3 0 1.13-.64 2.11-1.56 2.62l1.45 1.45C23.16 18.16 24 16.68 24 15c0-2.64-2.05-4.78-4.65-4.96zM3 5.27l2.75 2.74C2.56 8.15 0 10.77 0 14c0 3.31 2.69 6 6 6h11.73l2 2L21 20.73 4.27 4 3 5.27zM7.73 10l8 8H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h1.73z"/></svg>
       </mat-icon>
@@ -34,9 +34,9 @@
       </mat-icon>
   </button>
 
-  <button *ngIf="showRoute" mat-icon-button [matMenuTriggerFor]="menu" class="nameIcon">
+  <!-- <button *ngIf="showRoute" mat-icon-button [matMenuTriggerFor]="menu" class="nameIcon">
     <span>{{nameIcon()}}</span>
-  </button>
+  </button> -->
   <mat-menu #menu="matMenu">
     <div mat-menu-item flex>
       <span style="width: 100%" *ngIf="balance">{{balance}} ریال</span>
@@ -56,7 +56,7 @@
   <mat-sidenav-container id="sidecontainer" [hasBackdrop]="mobileQuery.matches" class="rayda-sidenav-container "
     [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav class="woped no-select" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-      [fixedInViewport]="mobileQuery.matches" [opened]="!mobileQuery.matches && showRoute" fixedTopGap="56">
+      [fixedInViewport]="mobileQuery.matches" [opened]="!mobileQuery.matches && showRoute == true" fixedTopGap="56">
       <div *ngIf="Me" class="profile">
         <img class="profile-avatar" src="https://api.rayda.ir/image?id={{Me.user.email}} " alt="عکس پروفایل">
       </div>
@@ -95,8 +95,8 @@
 
       </mat-nav-list>
       <mat-nav-list *ngIf="!mobileQuery.matches">
-        <span *ngIf="!Proutes" >
-            <mat-spinner ></mat-spinner>
+        <span *ngIf="!Proutes" style="display: flex; justify-content: center; margin-top: 30px; margin-bottom: 30px;">
+            <mat-spinner diameter="60"></mat-spinner>
         </span>
         <span *ngFor="let item of Proutes">
 
@@ -122,4 +122,12 @@
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
+</div>
+
+<div (keyup)="drg($event)" class="rayda-container no-select centerContent" [class.rayda-is-mobile]="mobileQuery.matches"
+[class.dark-theme]="isDarkTheme" *ngIf="!showRoute">
+  <!-- <mat-toolbar class="transparent">
+    <span style="margin : 3px">اتوماسیون تغذیه بادام</span>
+  </mat-toolbar> -->
+  <router-outlet></router-outlet>
 </div>

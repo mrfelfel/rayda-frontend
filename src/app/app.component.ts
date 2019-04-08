@@ -122,6 +122,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         });
       }
       this.router.events.subscribe(async (d) => {
+        setTimeout(() => {
+          document.getElementById('mainLoading').style.display = 'none';
+          document.getElementById('mainContent').removeAttribute('style');
+        }, 1000);
         if ((this.showRoute === true) && (!this.Proutes) && (this.check === 0)) {
           this.check++;
           try {
@@ -291,6 +295,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.logedIn = false;
     this.check = 0;
     this.Proutes = null;
+    this.update();
   }
 
   UniSaver() {

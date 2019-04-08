@@ -302,7 +302,6 @@ export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.meal = this.CheckMeal(moment().hour());
 
-    this.wsocket.emit('Selectmeal', this.meal);
 
   }
   NewDeliver() {
@@ -505,7 +504,7 @@ export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   Checkchange() {
 
-    this.UserData = null;
+    this.UserData = [];
     this.wsocket.emit('Selectmeal', this.meal);
   }
 }

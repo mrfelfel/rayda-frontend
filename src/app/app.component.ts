@@ -105,11 +105,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (this.swUpdate.isEnabled) {
         this.swUpdate.available.subscribe((evt) => {
-          // localStorage.clear();
-
-          // this.sanks.openSnackBar(' رایدا به روز رسانی شد ' + this.clientVersion, 'بستن');
-          // localStorage.removeItem('pushify');
-          this.exit();
           setTimeout(() => {
             window.location.reload();
           }, 100);

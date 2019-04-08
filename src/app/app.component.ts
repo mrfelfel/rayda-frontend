@@ -112,7 +112,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
           this.exit();
           setTimeout(() => {
             window.location.reload();
-          }, 1000);
+          }, 100);
         });
 
         this.swUpdate.checkForUpdate().then(() => {

@@ -115,6 +115,7 @@ div.header button[mat-icon-button]{
   position: absolute;
   top: 10px;
   left: 10px;
+  display: none;
 }
 
 div.header mat-progress-spinner{
@@ -143,6 +144,7 @@ div.header span.proccess{
   font-size: .7rem;
   padding: 3px 20px;
   border-radius: 2rem;
+  display: none;
 }
 
 div.header span.name{

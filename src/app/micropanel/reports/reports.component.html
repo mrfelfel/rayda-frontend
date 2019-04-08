@@ -1,16 +1,10 @@
-<div  style="padding : 30px">
+<div  style="padding : 5px">
   <mat-card class="biG">
     <mat-card-header>
       <mat-card-title>صفحه گزارشات</mat-card-title>
       <mat-card-subtitle>سیستم گزارشات بادام</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <h1>لطفا توجه کنید بادام در مراحل توسعه پایانی قرار داد گزارشات مورد نیاز شما توسط بادام تولید شده است</h1>
-      <h2>
-        گزارشات زیر به صورت اتوماتیک برای شما ایمیل خواهد شد
-
-        ساعت ارسال : 11:29:31
-      </h2>
       <mat-form-field appearance="outline" style="min-width: 250px;">
         <mat-label>جستجو جدول</mat-label>
         <input matInput placeholder="نام جدول" [matAutocomplete]="auto" [(ngModel)]="search">
@@ -23,7 +17,7 @@
           {{ item['listname'] }} - {{calcCategory(item)}}
         </mat-option>
       </mat-autocomplete>
-      <mat-tab-group [(selectedIndex)]="tab" style="margin-top : 15px" backgroundColor="accent">
+      <mat-tab-group [(selectedIndex)]="tab" style="margin-top : 15px" backgroundColor="primary">
         <mat-tab *ngFor="let tab of tabs" [label]="tab['name']"></mat-tab>
       </mat-tab-group>
 

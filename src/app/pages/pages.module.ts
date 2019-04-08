@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
+import { WalletComponent } from '../users/wallet/wallet.component';
 import { Routes, RouterModule } from '@angular/router';
 import * as material from '@angular/material';
 import { ChatComponent } from './chat/chat.component';
@@ -12,7 +13,7 @@ const routes: Routes = [
 
 ];
 @NgModule({
-  declarations: [HomeComponent, ChatComponent],
+  declarations: [HomeComponent, ChatComponent, WalletComponent],
   imports: [
     CommonModule,
     material.MatCardModule,

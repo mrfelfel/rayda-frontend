@@ -94,17 +94,17 @@ export class ShowProfileComponent implements OnInit {
     return Objects;
   }
 
-  selectImage(){
-    let FILE = (<HTMLInputElement>document.getElementById('file'));
+  selectImage() {
+    const FILE = (<HTMLInputElement>document.getElementById('file'));
     FILE.click();
-    FILE.onchange = ()=>{
-        let file = FILE.files[0];
-        let reader = new FileReader();
-        reader.onloadend = ()=>{
+    FILE.onchange = () => {
+        const file = FILE.files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
             this.d.picture = reader.result;
             this.cdr.detectChanges();
-        }
+        };
         reader.readAsDataURL(file);
-    }
+    };
   }
 }

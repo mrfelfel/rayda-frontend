@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import * as _ from 'lodash';
+import { SocketService } from '../../@core/socket.service';
+
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
@@ -8,37 +10,28 @@ import * as _ from 'lodash';
 })
 export class ChartsComponent implements OnInit {
 
-  private response: Object[] = [
-    {
-      name : 'چارت کنترل خطای برنامه',
-      type : 'week',
-      length : 4,
-      bars : [{
-        Value :  1,
-        Position : 3,
-        Bg : '#ef6c00',
-        Key : 'توسعه' ,
-       }, {
-        Value :  2,
-        Position : 3,
-        Bg : '#ef6c00',
-        Key : 'تست' ,
-       }, {
-        Value :  3,
-        Position : 0,
-        Key : 'کنترل',
-        Bg : '#006442'
-       }]
-    }
-  ];
+  private response: Object[] = [];
   public data = [];
   public InBackgroundData = [];
   public chart: Object = {};
   public selected = 'day';
-  constructor() { }
+  constructor(private socket: SocketService) { }
 
   ngOnInit() {
-    this.loadChart();
+
+    if (localStorage.charts) {
+      this.response = JSON.parse(localStorage.charts);
+      this.loadChart();
+    }
+    this.socket.socket.on('data_gram', (data) => {
+      if (data.mode === 'newChart') {
+        this.response = data.data;
+        this.loadChart();
+
+        localStorage.removeItem('charts');
+        localStorage.charts = JSON.stringify(this.response);
+      }
+    });
   }
 
   onSelect(event) {
@@ -183,7 +176,10 @@ export class ChartsComponent implements OnInit {
     const datasets: Object[] = this.data[index]['data']['datasets'];
     const ArrayDataLength = this.data[index]['data']['labels'].length;
     function newDataset(DATA = { Bg : '', Key: '', Position: 0, Value: 0 }) {
-      const dataset = { backgroundColor: DATA['Bg'], label: DATA['Key'], data : Array.from(Array(ArrayDataLength), () => 0 ) }; // dataset = { data : [0,0,0,0,0,0,] }
+      const dataset = {
+       backgroundColor: DATA['Bg'],
+       label: DATA['Key'],
+       data : Array.from(Array(ArrayDataLength), () => 0 ) }; // dataset = { data : [0,0,0,0,0,0,] }
       const dayIndex = DATA['Position'];
       dataset['data'][dayIndex] = DATA['Value'];
       datasets.push(dataset);

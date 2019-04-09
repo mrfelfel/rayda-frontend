@@ -1,7 +1,11 @@
 import { SwUpdate, SwPush } from '@angular/service-worker';
 import * as io from 'socket.io-client';
 import { Component, ChangeDetectorRef, OnInit, OnDestroy, Inject, ChangeDetectionStrategy, AfterViewInit, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, Event as RouterEvent,
+  NavigationStart,
+  NavigationEnd,
+  NavigationCancel,
+  NavigationError } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { environment } from './../environments/environment';
 import { WindowRefService, ICustomWindow } from './window-ref.service';
@@ -54,6 +58,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   public Me = null;
   soso = null;
   connected = false;
+  loading = false;
   showRoute = this.Auth.IsLoggedIn();
   logedIn = false;
   adminRoute = true;
@@ -117,6 +122,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         });
       }
       this.router.events.subscribe(async (d) => {
+        this.navigationInterceptor(d);
+
         setTimeout(() => {
           document.getElementById('mainLoading').style.display = 'none';
           document.getElementById('mainContent').removeAttribute('style');
@@ -321,6 +328,23 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
+  // Shows and hides the loading spinner during RouterEvent changes
+  navigationInterceptor(event: RouterEvent): void {
+    if (event instanceof NavigationStart) {
+      this.loading = true;
+    }
+    if (event instanceof NavigationEnd) {
+      this.loading = false;
+    }
+
+    // Set loading state to false in both of the below events to hide the spinner in case a request fails
+    if (event instanceof NavigationCancel) {
+      this.loading = false;
+    }
+    if (event instanceof NavigationError) {
+      this.loading = false;
+    }
+  }
 }
 
 

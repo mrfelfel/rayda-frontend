@@ -302,6 +302,7 @@ export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.meal = this.CheckMeal(moment().hour());
 
+    this.Checkchange();
 
   }
   NewDeliver() {

@@ -43,6 +43,7 @@ const config: SocketIoConfig = { url: 'https://deliver.rayda.ir/', options: {
     material.MatIconModule,
     material.MatDialogModule,
     material.MatProgressSpinnerModule,
+    material.MatProgressBarModule,
     // tslint:disable-next-line:whitespace
     FormsModule,
     HttpModule,

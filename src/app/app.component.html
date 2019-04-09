@@ -1,6 +1,7 @@
+
 <div (keyup)="drg($event)" class="rayda-container no-select" [class.rayda-is-mobile]="mobileQuery.matches"
   [class.dark-theme]="isDarkTheme" *ngIf="showRoute">
-
+  <mat-progress-bar  mode="indeterminate" *ngIf="loading" color="primary"></mat-progress-bar>
   <mat-toolbar color="primary" class="rayda-toolbar rayda">
     <button *ngIf="showRoute && mobileQuery.matches" mat-icon-button (click)="snav.toggle()" class="rayda-icon"
       aria-label="منوی اصلی">
@@ -118,7 +119,7 @@
       </p>
     </mat-sidenav>
 
-    <mat-sidenav-content id="my-content">
+    <mat-sidenav-content id="my-content" *ngIf="showRoute">
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
@@ -126,8 +127,5 @@
 
 <div (keyup)="drg($event)" class="rayda-container no-select centerContent" [class.rayda-is-mobile]="mobileQuery.matches"
 [class.dark-theme]="isDarkTheme" *ngIf="!showRoute">
-  <!-- <mat-toolbar class="transparent">
-    <span style="margin : 3px">اتوماسیون تغذیه بادام</span>
-  </mat-toolbar> -->
   <router-outlet></router-outlet>
 </div>

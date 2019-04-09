@@ -8,7 +8,7 @@ div.content{
     border-radius: .4rem;
 }
 
-div.content button[mat-icon-button]{
+div.content button[mat-icon-button].topleft{
     position: absolute;
     left: 10px;
     margin-top: -10px;
@@ -32,4 +32,13 @@ td, th {
     display: table-cell;
     text-align: right;
     vertical-align: middle;
+}
+
+div.pager{
+    display: flex;
+    flex-wrap: nowrap;
+    direction: ltr;
+    margin-top: 15px;
+    width: 100%;
+    overflow-x: auto;
 }

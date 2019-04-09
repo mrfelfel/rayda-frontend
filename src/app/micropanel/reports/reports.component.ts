@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -11,6 +11,11 @@ export class ReportsComponent implements OnInit {
   public list:Object[] = [{
     listname : 'لیست کاربران ',
     listcategory: 'reserve',
+    page: {
+      start: 1,
+      end: 5,
+      current: 1
+    },
     cols : [{
       view : 'نام',
       code : 'firstname'
@@ -26,20 +31,6 @@ export class ReportsComponent implements OnInit {
       lastname : 'یاوری',
       firstname : 'محمد جواد',
     }]
-   },{
-    listname : 'گزارشات کاربران',
-    listcategory: 'users',
-    cols : [{
-      view : 'نام',
-      code : 'firstname'
-    },{
-      view : 'نام خانوادگی',
-      code : 'lastname'
-    }],
-    data : [{
-      firstname : 'محمد جواد',
-      lastname : 'یاحقی'
-    }]
    }];
 
   public tab:Number = 0;
@@ -47,7 +38,7 @@ export class ReportsComponent implements OnInit {
   private heads = [];
   public search:String = '';
 
-  constructor(private activatedRoute:ActivatedRoute){}
+  constructor(private activatedRoute:ActivatedRoute, private cdr: ChangeDetectorRef){}
 
   ngOnInit(){
     this.activatedRoute.queryParamMap.subscribe(query=>{
@@ -134,5 +125,29 @@ export class ReportsComponent implements OnInit {
         break;
       }
     }
+  }
+
+  startRange(start=0, end=0){
+    let array = [];
+    for(let i = start; i <=end; i++) array.push(i);
+    return array;
+  }
+
+  setPage(index, value){
+    let old = this.list[index]['page']['current'];
+    this.list[index]['page']['current'] = value;
+    if(old < value){      
+      if(value - old != 1 || value == this.list[index]['page']['end']){
+        this.list[index]['page']['start']+=1;
+        this.list[index]['page']['end']+=1;
+      }
+    } else if(value < old){
+      if(this.list[index]['page']['start']-1 <= 0){
+        this.list[index]['page']['start'] = 1
+      } else {
+        this.list[index]['page']['start']-=1;
+        this.list[index]['page']['end']-=1;
+      }
+    }    
   }
 }

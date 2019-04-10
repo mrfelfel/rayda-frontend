@@ -415,9 +415,20 @@ p, text , h1,h2,h3,h4,h5,h6,p {
   background: linear-gradient(to bottom, rgba(204,31,115,1) 0%, rgba(133,20,75,1) 100%);
 }
 
+mat-toolbar.title{
+  background-color: #1976d2 !important;
+}
 
 mat-toolbar.title span{
     font-size: .9rem;
+    color: #fff;
+}
+
+.mat-tab-group.mat-background-primary .mat-tab-header, .mat-tab-group.mat-background-primary .matmat-tab-group[backgroundColor]{
+  background-color: #1976d2 !important;
+}
+-tab-links, .mat-tab-nav-bar.mat-background-primary .mat-tab-header, .mat-tab-nav-bar.mat-background-primary .mat-tab-links {
+  background-color: #1976d2 !important;
 }
 
 @media only screen and (max-width: 600px) {
@@ -433,8 +444,8 @@ mat-toolbar.title span{
   }
 
   mat-toolbar.title{
-    height: 30px;
-    line-height: 30px;
+    height: 50px;
+    line-height: 50px;
 }
 
 }

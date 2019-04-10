@@ -1,7 +1,7 @@
 
 <div (keyup)="drg($event)" class="rayda-container no-select" [class.rayda-is-mobile]="mobileQuery.matches"
   [class.dark-theme]="isDarkTheme" *ngIf="showRoute">
-  <mat-progress-bar  mode="indeterminate" *ngIf="loading" color="primary"></mat-progress-bar>
+  <mat-progress-bar style="position: fixed; top: 0; left: 0; right: 0;" mode="indeterminate" *ngIf="loading" color="primary"></mat-progress-bar>
   <mat-toolbar color="primary" class="rayda-toolbar rayda">
     <button *ngIf="showRoute && mobileQuery.matches" mat-icon-button (click)="snav.toggle()" class="rayda-icon"
       aria-label="منوی اصلی">
@@ -86,8 +86,8 @@
 
           <a mat-list-item *ngIf="item.viewMenu" class="mini-size" [routerLink]="item.path">
             <mat-icon class="rayda-icons" [innerHTML]="item.icon | safe"></mat-icon>
-
             {{item.name}}
+            <span *ngIf="item.chip" style="padding: 4px 15px; border-radius: 2rem; background-color: #f44336; color: #fff !important; margin-right: auto;">{{item.chip}}</span>
           </a>
         </span>
 
@@ -105,6 +105,7 @@
             <mat-icon class="rayda-icons" [innerHTML]="item.icon | safe"></mat-icon>
 
             {{item.name}}
+            <span *ngIf="item.chip" style="padding: 4px 15px; border-radius: 2rem; background-color: #f44336; color: #fff !important; margin-right: auto;">{{item.chip}}</span>
           </a>
         </span>
 

@@ -1,53 +1,70 @@
-<div  style="padding : 40px">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>مدیریت کاربران</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
- <mat-tab-group>
-   <mat-tab label="افزودن / ویرایش کاربران">
-      <button mat-raised-button style="float: left; margin: 10px;" color="primary" (click)="addUser()">افزودن</button>
-      <table mat-table [dataSource]="dataSource">
-    
-        <ng-container matColumnDef="delete">
-          <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
-          <td mat-cell *matCellDef="let element;" style="width: 30px;"><button mat-icon-button><mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z"/></svg></mat-icon></button></td>
-        </ng-container> 
+<mat-toolbar class="title">
+  <span>مدیریت کاربران</span>
+</mat-toolbar>
+<mat-tab-group backgroundColor="primary">
+  <mat-tab label="افزودن / ویرایش کاربران">
+    <div class="main-container">
+      <mat-card>
+        <button mat-raised-button style="float: left; margin: 10px;" color="primary" (click)="addUser()">افزودن</button>
+        <table mat-table [dataSource]="dataSource">
 
-        <ng-container matColumnDef="edit">
-          <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
-          <td mat-cell *matCellDef="let element;" style="width: 30px;"><button mat-icon-button (click)="updateUser(element)"><mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M6 34.5V42h7.5l22.13-22.13-7.5-7.5L6 34.5zm35.41-20.41c.78-.78.78-2.05 0-2.83l-4.67-4.67c-.78-.78-2.05-.78-2.83 0l-3.66 3.66 7.5 7.5 3.66-3.66z"/></svg></mat-icon></button></td>
-        </ng-container> 
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
+            <td mat-cell *matCellDef="let element;" style="width: 30px;"><button mat-icon-button>
+                <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                    <path d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
+                  </svg></mat-icon>
+              </button></td>
+          </ng-container>
 
-        <ng-container matColumnDef="info">
-          <th mat-header-cell *matHeaderCellDef style="width: 30px; padding-left: 20px;"></th>
-          <td mat-cell *matCellDef="let element;" style="width: 30px; padding-left: 20px;"><button mat-icon-button (click)="infoUser(element)"><mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M22 34h4V22h-4v12zm2-30C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm0 36c-8.82 0-16-7.18-16-16S15.18 8 24 8s16 7.18 16 16-7.18 16-16 16zm-2-22h4v-4h-4v4z"/></svg></mat-icon></button></td>
-        </ng-container> 
+          <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
+            <td mat-cell *matCellDef="let element;" style="width: 30px;"><button mat-icon-button
+                (click)="updateUser(element)">
+                <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                    <path
+                      d="M6 34.5V42h7.5l22.13-22.13-7.5-7.5L6 34.5zm35.41-20.41c.78-.78.78-2.05 0-2.83l-4.67-4.67c-.78-.78-2.05-.78-2.83 0l-3.66 3.66 7.5 7.5 3.66-3.66z" />
+                  </svg></mat-icon>
+              </button></td>
+          </ng-container>
 
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef> ردیف</th>
-          <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
-        </ng-container> 
+          <ng-container matColumnDef="info">
+            <th mat-header-cell *matHeaderCellDef style="width: 30px; padding-left: 20px;"></th>
+            <td mat-cell *matCellDef="let element;" style="width: 30px; padding-left: 20px;"><button mat-icon-button
+                (click)="infoUser(element)">
+                <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                    <path
+                      d="M22 34h4V22h-4v12zm2-30C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm0 36c-8.82 0-16-7.18-16-16S15.18 8 24 8s16 7.18 16 16-7.18 16-16 16zm-2-22h4v-4h-4v4z" />
+                  </svg></mat-icon>
+              </button></td>
+          </ng-container>
 
-        <ng-container matColumnDef="username">
-          <th mat-header-cell *matHeaderCellDef> نام کاربری </th>
-          <td mat-cell *matCellDef="let element"> {{element.username}} </td>
-        </ng-container>
-    
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-    <mat-paginator [pageSizeOptions]="[25]"></mat-paginator>
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> ردیف</th>
+            <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef> نام کاربری </th>
+            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[25]"></mat-paginator>
+      </mat-card>
+    </div>
   </mat-tab>
-   <mat-tab label="ویرایش پروفایل"></mat-tab>
-   <mat-tab label="مدیریت کارت ها">
-     <div style="padding : 10px">
-      <h3>واحد مدیریت کارت</h3>
-      <mat-tab-group>
-        <mat-tab label="ثبت کارت">
-          <div  style="padding : 9px">
-            <p>صفحه  ثبت کارت</p>
+  <mat-tab label="ویرایش پروفایل"></mat-tab>
+  <mat-tab label="مدیریت کارت ها">
 
+    <mat-tab-group>
+      <mat-tab label="ثبت کارت">
+        <div class="main-container">
+          <mat-card>
+            <p>صفحه ثبت کارت</p>
+  
             <p *ngIf="card.new">
               کارت شناسایی شد
             </p>
@@ -59,13 +76,15 @@
             </mat-form-field>
             <br>
             <button mat-raised-button color="primary">ثبت</button>
-          </div>
-        </mat-tab>
+          </mat-card>
+        </div>
+      </mat-tab>
 
-        <mat-tab label="تغییر وضعیت">
-          <div  style="padding : 9px">
-            <p>صفحه  وضعیت کارت</p>
-
+      <mat-tab label="تغییر وضعیت">
+        <div class="main-container">
+          <mat-card>
+            <p>صفحه وضعیت کارت</p>
+  
             <p *ngIf="card.new">
               کارت شناسایی شد
             </p>
@@ -76,17 +95,19 @@
               <input matInput placeholder="وضعیت را تایپ کنید" value="">
             </mat-form-field>
             <br>
-
-            <mat-slide-toggle >قفل کردن کارت</mat-slide-toggle>
+  
+            <mat-slide-toggle>قفل کردن کارت</mat-slide-toggle>
             <br><br>
-
-
-
+  
+  
+  
             <button mat-raised-button color="primary">ثبت</button>
-          </div>
-        </mat-tab>
-        <mat-tab label="جستجوی مالک">
-          <div style="padding : 10px">
+          </mat-card>
+        </div>
+      </mat-tab>
+      <mat-tab label="جستجوی مالک">
+        <div class="main-container">
+          <mat-card>
             <p>
               صفحه جستجوی کارت
             </p>
@@ -96,19 +117,11 @@
             <p *ngIf="!card.new">
               لطفا کارت را مقابل دستگاه قرار دهید
             </p>
+          </mat-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-tab>
+  <mat-tab label="گروه کاربری"></mat-tab>
 
-          </div>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-   </mat-tab>
-   <mat-tab label="گروه کاربری"></mat-tab>
-
- </mat-tab-group>
-    </mat-card-content>
-    <mat-card-actions>
-        <small style="font-size:9px;margin: 5px">سامانه نرم افزاری ابری رایدا </small>
-
-    </mat-card-actions>
-  </mat-card>
-</div>
+</mat-tab-group>

@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="title" style="min-height: 50px;">
+<mat-toolbar color="primary" class="title">
   <span [ngClass]="{'hide': searcher == true}">گزارشات</span>
   <div [ngClass]="{'hide': searcher == true}" style="flex: 1 1"></div>
   <div class="searcher" [ngClass]="{'show': searcher == true}">
@@ -21,7 +21,7 @@
   <mat-autocomplete #auto="matAutocomplete">
     <mat-option *ngFor="let item of list" [value]="item['listname'] +' - '+ calcCategory(item)"
       (click)="findTable(item)">
-      {{ item['listname'] }} - {{calcCategory(item)}}
+      {{calcCategory(item)}} - {{ item['listname'] }}
     </mat-option>
   </mat-autocomplete>
 </mat-toolbar>

@@ -37,13 +37,13 @@ export class ReportsComponent implements OnInit {
   public tabs = [{code : 'reserve', name : 'گزارشات رزرو'}, { code: 'users', name: 'لیست کاربران' }];
   private heads = [];
   public search: String = '';
-  public searcher:Boolean = false;
+  public searcher: Boolean = false;
   constructor(private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private socket: SocketService) {}
 
   ngOnInit() {
     this.socket.socket.on('data_gram', (data) => {
       if (data.mode === 'Newlistcategory') {
-        this.tabs = data.data;
+        this.list.push(data.data);
 
         localStorage.removeItem('listcategory');
         localStorage.listcategory = JSON.stringify(this.tabs);

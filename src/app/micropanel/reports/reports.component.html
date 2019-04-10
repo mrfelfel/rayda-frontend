@@ -1,33 +1,44 @@
-<div  style="padding : 5px">
-  <mat-card class="biG">
-    <mat-card-header>
-      <mat-card-title>صفحه گزارشات</mat-card-title>
-      <mat-card-subtitle>سیستم گزارشات بادام</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-form-field appearance="outline" style="min-width: 250px;">
-        <mat-label>جستجو جدول</mat-label>
-        <input matInput placeholder="نام جدول" [matAutocomplete]="auto" [(ngModel)]="search">
-      </mat-form-field>
-      <button mat-icon-button (click)="endSearch()" *ngIf="search.length != 0">
-        <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm10 27.17L31.17 34 24 26.83 16.83 34 14 31.17 21.17 24 14 16.83 16.83 14 24 21.17 31.17 14 34 16.83 26.83 24 34 31.17z"/></svg></mat-icon>
-      </button>
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let item of list" [value]="item['listname'] +' - '+ calcCategory(item)" (click)="findTable(item)">
-          {{ item['listname'] }} - {{calcCategory(item)}}
-        </mat-option>
-      </mat-autocomplete>
-      <mat-tab-group [(selectedIndex)]="tab" style="margin-top : 15px" backgroundColor="primary">
-        <mat-tab *ngFor="let tab of tabs" [label]="tab['name']"></mat-tab>
-      </mat-tab-group>
-
+<mat-toolbar color="primary" class="title" style="min-height: 50px;">
+  <span [ngClass]="{'hide': searcher == true}">گزارشات</span>
+  <div [ngClass]="{'hide': searcher == true}" style="flex: 1 1"></div>
+  <div class="searcher" [ngClass]="{'show': searcher == true}">
+    <input class="searcher" placeholder="جستجو جدول" [matAutocomplete]="auto" [(ngModel)]="search">
+    <button mat-icon-button (click)="endSearch()" *ngIf="search.length != 0 || searcher == true">
+      <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+          <path
+            d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm10 27.17L31.17 34 24 26.83 16.83 34 14 31.17 21.17 24 14 16.83 16.83 14 24 21.17 31.17 14 34 16.83 26.83 24 34 31.17z" />
+        </svg></mat-icon>
+    </button>
+  </div>
+  <button *ngIf="searcher == false" mat-icon-button class="searcher" (click)="searcher = !searcher">
+    <mat-icon>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+        <path
+          d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z" />
+        </svg>
+    </mat-icon>
+  </button>
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let item of list" [value]="item['listname'] +' - '+ calcCategory(item)"
+      (click)="findTable(item)">
+      {{ item['listname'] }} - {{calcCategory(item)}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-toolbar>
+<mat-tab-group [(selectedIndex)]="tab" backgroundColor="primary">
+  <mat-tab *ngFor="let tab of tabs" [label]="tab['name']"></mat-tab>
+</mat-tab-group>
+<div class="main-container">
       <div *ngFor="let item of list; let i = index">
         <div class="content" *ngIf="showContent(item)">
           <span>{{item['listname']}}</span>
           <button class="topleft" mat-icon-button (click)="setHidden(item)">
             <mat-icon>
-              <svg *ngIf="item['hidden'] == true || item['hidden'] == null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14 28l10-10 10 10z"/></svg>
-              <svg *ngIf="item['hidden'] == false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14 20l10 10 10-10z"/></svg>
+              <svg *ngIf="item['hidden'] == true || item['hidden'] == null" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 48 48">
+                <path d="M14 28l10-10 10 10z" /></svg>
+              <svg *ngIf="item['hidden'] == false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <path d="M14 20l10 10 10-10z" /></svg>
             </mat-icon>
           </button>
           <br>
@@ -46,23 +57,25 @@
               </tr>
             </tbody>
           </table>
-          <div class="pager">
-            <button mat-icon-button (click)="setPage(i,item['page']['current']-1)" [disabled]="item['page']['current']==1">
+          <div class="pager" *ngIf="item['hidden'] == true || item['hidden'] == null">
+            <button mat-icon-button (click)="setPage(i,item['page']['current']-1)"
+              [disabled]="item['page']['current']==1">
               <mat-icon>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M30.83 14.83L28 12 16 24l12 12 2.83-2.83L21.66 24z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                  <path d="M30.83 14.83L28 12 16 24l12 12 2.83-2.83L21.66 24z" /></svg>
               </mat-icon>
             </button>
-            <button mat-icon-button *ngFor="let value of startRange(item['page']['start'],item['page']['end'])" [color]="item['page']['current'] == value?'primary':''" (click)="setPage(i, value)">
+            <button mat-icon-button *ngFor="let value of startRange(item['page']['start'],item['page']['end'])"
+              [color]="item['page']['current'] == value?'primary':''" (click)="setPage(i, value)">
               {{value}}
             </button>
             <button mat-icon-button (click)="setPage(i,item['page']['current']+1)">
               <mat-icon>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M20 12l-2.83 2.83L26.34 24l-9.17 9.17L20 36l12-12z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                  <path d="M20 12l-2.83 2.83L26.34 24l-9.17 9.17L20 36l12-12z" /></svg>
               </mat-icon>
             </button>
           </div>
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
 </div>

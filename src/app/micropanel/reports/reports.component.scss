@@ -1,3 +1,47 @@
+input.searcher{
+    background-color: rgba($color: #000000, $alpha: .1);
+    border: 1px solid rgba($color: #000000, $alpha: .3);
+    padding: 5px 10px;
+    border-radius: .2rem;
+    margin-bottom: 6px;
+    color: #fff;
+}
+
+input.searcher::placeholder{
+    color: rgba(0, 0, 0, .5);
+}
+
+input.searcher + button{
+    position: absolute;
+}
+
+div.searcher input{
+    width: 100%;
+}
+
+@media only screen and (min-width: 601px) {
+    button.searcher{
+        display: none;
+    }
+    div.searcher{
+        position: relative;
+        width: 300px;
+        right: -60px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    div.searcher{
+        width: calc(100% - 60px);
+    }
+    div.searcher:not(.show){
+        display: none;
+    }
+    mat-toolbar .hide{
+        display: none;
+    }
+}
+
 div.content{
     position: relative;
     padding: 20px;

@@ -182,8 +182,11 @@ export class DeliverComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   ngOnInit() {
-
-
+    this.dialog.open(NewDeliver).afterClosed().toPromise().then(res=>{
+      if(res == true){
+        window.location.href = 'https://delivery.rayda.ir';
+      }
+    })
 
     this.wsocket.on('delivered', (data) => {
       if (data.delivered) {
@@ -548,4 +551,18 @@ export class NewDow {
 
 }
 
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'new-deliver',
+  template: `<h4>نسخه جدید</h4><p>از نسخه جدید تحویل غذا استفاده کنید.</p><div style="direction: ltr"><button mat-raised-button (click)="close(true)" color="primary">ورود</button><button mat-button (click)="close()">بستن</button></div>`
+})
+// tslint:disable-next-line:component-class-suffix
+export class NewDeliver {
 
+  constructor(
+    public dialogRef: MatDialogRef<NewDeliver>) { }
+
+  close(action=false): void {
+    this.dialogRef.close(action);
+  }
+}

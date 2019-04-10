@@ -6,7 +6,7 @@
 <mat-card style="margin: 10px 10px; padding: 10px">
   <mat-card-content style="padding: 10px 20px;">
     <mat-form-field style="min-width: 300px;">
-      <input matInput placeholder="جستوجو دانشجو" [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="search">
+      <input matInput placeholder="جستجو دانشجو" [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="search">
     </mat-form-field>
     <button mat-icon-button (click)="search = ''; user = null" *ngIf="search.length != 0">
       <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm10 27.17L31.17 34 24 26.83 16.83 34 14 31.17 21.17 24 14 16.83 16.83 14 24 21.17 31.17 14 34 16.83 26.83 24 34 31.17z"/></svg></mat-icon>

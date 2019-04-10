@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContenteditableModule } from '@ng-stack/contenteditable';
-import { DeliverComponent, BuyDialog, NewDow } from './deliver/deliver.component';
+import { DeliverComponent, BuyDialog, NewDow, NewDeliver } from './deliver/deliver.component';
 import * as material from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
@@ -16,7 +16,7 @@ import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
-  declarations: [DeliverComponent, FillPipe, BuyDialog, NewDow],
+  declarations: [DeliverComponent, FillPipe, BuyDialog, NewDow,NewDeliver],
   imports: [
     CommonModule,
     FormsModule, ReactiveFormsModule,
@@ -33,10 +33,11 @@ import { ChartsModule } from 'ng2-charts';
     material.MatTabsModule,
     material.MatSliderModule,
     material.MatTableModule,
+    material.MatSnackBarModule,
     RouterModule.forChild(routes),
   ],
   providers : [UniversityService],
-  entryComponents : [ BuyDialog, NewDow ],
+  entryComponents : [ BuyDialog, NewDow,NewDeliver ],
 
 })
 export class DeliverModule { }

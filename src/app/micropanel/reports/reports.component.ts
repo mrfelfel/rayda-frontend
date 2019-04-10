@@ -37,6 +37,7 @@ export class ReportsComponent implements OnInit {
   public tabs = [{code : 'reserve', name : 'گزارشات رزرو'}, { code: 'users', name: 'لیست کاربران' }];
   private heads = [];
   public search:String = '';
+  public searcher:Boolean = false;
 
   constructor(private activatedRoute:ActivatedRoute, private cdr: ChangeDetectorRef){}
 
@@ -105,6 +106,7 @@ export class ReportsComponent implements OnInit {
       this.list[i]['forceHide'] = false;
     }
     this.search = '';
+    this.searcher = false;
   }
 
   findTable(item){

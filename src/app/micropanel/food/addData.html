@@ -1,0 +1,30 @@
+<div mat-dialog-content style="min-width: 250px;">
+    <mat-form-field>
+        <input [(ngModel)]="search" matInput placeholder="جستوجو">
+    </mat-form-field>
+    <table class="custom">
+        <thead>
+            <tr>
+                <th style="width: 30px">
+                    <mat-checkbox [checked]="isSelectedAllOptions" (change)="selectAllDataOptions()"></mat-checkbox>
+                </th>
+                <th *ngFor="let col of data.allHeadOptionsSelected">{{col['name']}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr
+                *ngFor=" let i = index;  let item of allDataOptionsSelected| searchfilter: data.allHeadOptionsSelected: search">
+                <td style="width: 30px">
+                    <mat-checkbox (change)="selectOneDataOptions(i)"
+                        [checked]="selectedAllDataOptions.includes(i)?true:false"></mat-checkbox>
+                </td>
+                <td *ngFor="let key of data.allHeadOptionsSelected">{{item[key['code']]}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div mat-dialog-actions style="direction: ltr">
+    <button mat-raised-button color="primary" (click)="submit(true)">ثبت</button>
+    <button mat-button (click)="submit(false)">انصراف</button>
+</div>

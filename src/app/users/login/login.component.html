@@ -24,7 +24,7 @@
            </mat-checkbox>
            <button  mat-raised-button type="submit" color="primary" >
              <span *ngIf="loging">
-              <mat-spinner color="accent"></mat-spinner>
+              <mat-spinner [diameter]="30" color="warn" style="margin:2px auto"></mat-spinner>
 
              </span>
              <span *ngIf="!loging">ورود</span>

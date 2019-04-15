@@ -201,8 +201,8 @@ export class FoodComponent implements OnInit {
   selectAllDataOptions(){
     if(this.allDataOptionsChecked == false){
       this.selectedAllDataOptions = [];
-      this.selectedAllDataOptions = Array.from(Array(this.allDataOptionsSelected.length), (a,b)=> b);  
-      this.isSelectedAllOptions = true;  
+      this.selectedAllDataOptions = Array.from(Array(this.allDataOptionsSelected.length), (a,b)=> b);
+      this.isSelectedAllOptions = true;
     } else {
       this.selectedAllDataOptions = [];
       this.isSelectedAllOptions = false;
@@ -217,7 +217,7 @@ export class FoodComponent implements OnInit {
       this.selectedAllDataOptions.splice(i, 1);
     } else {
       this.selectedAllDataOptions.push(index);
-    }        
+    }
   }
   deleteAllSelectedData(){
     this.isSelectedAllOptions = false;
@@ -230,9 +230,9 @@ export class FoodComponent implements OnInit {
 
   addNewData(){
     this.dialog.open(AddNewData, { data: { allHeadOptionsSelected: this.allHeadOptionsSelected } }).afterClosed().toPromise().then(data=>{
-      if(data != null){        
-        this.allDataOptionsSelected = this.allDataOptionsSelected.concat(data);        
-        this.cdr.detectChanges();        
+      if(data != null){
+        this.allDataOptionsSelected = this.allDataOptionsSelected.concat(data);
+        this.cdr.detectChanges();
       }
     });
   }
@@ -246,10 +246,7 @@ export class FoodComponent implements OnInit {
   styleUrls: ['./food.component.scss']
 })
 export class AddNewData implements OnInit{
-  public allDataOptionsSelected = [{
-    firstname: 'نام',
-    lastname: 'نام خانوادگی'
-  }];
+  public allDataOptionsSelected = [];
   public selectedAllDataOptions = [];
   public isSelectedAllOptions = false;
   public allDataOptionsChecked = false;
@@ -262,8 +259,8 @@ export class AddNewData implements OnInit{
   selectAllDataOptions(){
     if(this.allDataOptionsChecked == false){
       this.selectedAllDataOptions = [];
-      this.selectedAllDataOptions = Array.from(Array(this.allDataOptionsSelected.length), (a,b)=> b);  
-      this.isSelectedAllOptions = true;  
+      this.selectedAllDataOptions = Array.from(Array(this.allDataOptionsSelected.length), (a,b)=> b);
+      this.isSelectedAllOptions = true;
     } else {
       this.selectedAllDataOptions = [];
       this.isSelectedAllOptions = false;
@@ -278,9 +275,9 @@ export class AddNewData implements OnInit{
       this.selectedAllDataOptions.splice(i, 1);
     } else {
       this.selectedAllDataOptions.push(index);
-    }        
+    }
   }
-  
+
   submit(action=false){
     if(action == true){
       let data = [];

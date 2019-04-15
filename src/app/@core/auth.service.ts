@@ -44,7 +44,7 @@ export class AuthService {
     const headers = new Headers();
     headers.append('Authorization', 'Bearer ' + localStorage.token);
     try {
-      const ok = await this.http.get('https://levelc.rayda.ir/' + 'level', {
+      const ok = await this.http.get('https://levelc.rayda.ir/' + `level?q=${Math.random()}`, {
         headers : headers
       })
       .toPromise();

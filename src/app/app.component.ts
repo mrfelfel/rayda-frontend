@@ -24,7 +24,7 @@ const VAPID_PUBLIC = 'BCnMCiUJ2fAFLZsR35QufdKeLCVsi1SGYqvm4tU0HaHG6kPpNZBRgGYAzF
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [UniversityService, WindowRefService, SocketService],
+  providers: [UniversityService, WindowRefService],
   changeDetection: ChangeDetectionStrategy.OnPush
 
 
@@ -130,11 +130,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         }, 1000);
         if ((this.showRoute === true) && (!this.Proutes) && (this.check === 0)) {
           this.check++;
-          try {
-            this.adminRoute = await this.Auth.checkLevel();
-          } catch (error) {
-            this.adminRoute = false;
-          }
           console.log('hi');
           this.socket = this.socketService.connect();
           this.socket.on('data_gram', (data) => {
@@ -171,6 +166,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
             this.update();
 
           });
+          try {
+            this.adminRoute = await this.Auth.checkLevel();
+          } catch (error) {
+            this.adminRoute = false;
+          }
           this._window.addEventListener('raychat_ready', function (ets) {
 
             const raychat = ets.currentTarget['Raychat'];

@@ -28,7 +28,7 @@
 <mat-tab-group [(selectedIndex)]="tab" backgroundColor="primary">
   <mat-tab *ngFor="let tab of tabs" [label]="tab['name']"></mat-tab>
 </mat-tab-group>
-<div class="main-container">
+<div class="main-container" *ngIf="list">
       <div *ngFor="let item of list; let i = index">
         <div class="content" *ngIf="showContent(item)">
           <span>{{item['listname']}}</span>

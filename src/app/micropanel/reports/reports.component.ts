@@ -1,56 +1,44 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SocketService } from '../../@core/socket.service';
+
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
 })
+
 export class ReportsComponent implements OnInit {
 
-  public list: Object[] = [{
-    listname : 'لیست کاربران ',
-    listcategory: 'reserve',
-    page: {
-      start: 1,
-      end: 5,
-      current: 1
-    },
-    cols : [{
-      view : 'نام',
-      code : 'firstname'
-    }, {
-      view : 'نام خانوادگی',
-      code : 'lastname'
-    }],
-    data : [{
-      lastname : 'یاحقی',
-      firstname : 'محمد جواد',
-    },
-    {
-      lastname : 'یاوری',
-      firstname : 'محمد جواد',
-    }]
-   }];
+  public list: Object[] = [];
 
   public tab: Number = 0;
-  public tabs = [{code : 'reserve', name : 'گزارشات رزرو'}, { code: 'users', name: 'لیست کاربران' }];
+  public tabs = [];
   private heads = [];
   public search: String = '';
   public searcher: Boolean = false;
   constructor(private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private socket: SocketService) {}
 
   ngOnInit() {
-    this.socket.socket.on('data_gram', (data) => {
-      if (data.mode === 'Newlistcategory') {
-        this.list.push(data.data);
+    if (localStorage.reportlist) {
 
+      this.list = JSON.parse(localStorage.reportlist);
+    }
+    if (localStorage.listcategory) {
+
+      this.tabs =  JSON.parse(localStorage.listcategory);
+    }
+    this.socket.socket.on('data_gram', (data) => {
+      console.log(data);
+      if (data.mode === 'Newlistcategory') {
+        this.tabs.push(data.data);
+        this.cdr.detectChanges();
         localStorage.removeItem('listcategory');
         localStorage.listcategory = JSON.stringify(this.tabs);
       }
       if (data.mode === 'Newlist') {
         this.list.push(data.data);
-
+        this.cdr.detectChanges();
         localStorage.removeItem('reportlist');
         localStorage.reportlist = JSON.stringify(this.list);
       }
@@ -96,12 +84,17 @@ export class ReportsComponent implements OnInit {
   }
 
   showContent(item) {
+    console.log(item);
+    if ((item) && (this.tabs.length > 0)) {
+
+
     if (item['forceHide'] === true) { return false; }
     if (item['listcategory'] === this.tabs[parseInt(this.tab.toString())]['code']) {
       return true;
     } else {
       return false;
     }
+  }
   }
 
   setTH(col, i) {

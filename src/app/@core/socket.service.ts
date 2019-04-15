@@ -6,14 +6,7 @@ import * as io from 'socket.io-client';
 export class SocketService {
   public socket: SocketIOClient.Socket;
   public connected = false;
-  public d = 0;
   constructor() {
-    this.d++;
-    console.log(this.d);
-     this.ConnectToserver();
-     this.socket.on('disconnect', () => {
-      this.connected = false;
-     });
   }
 
   public connect() {
@@ -27,7 +20,6 @@ export class SocketService {
   }
 
   private ConnectToserver() {
-    if (!this.connected) {
       this.socket = io.connect('https://message.rayda.ir/',
       {
       'query': 'token=' + localStorage.token
@@ -37,5 +29,4 @@ export class SocketService {
         this.connected = true;
       });
       }
-  }
 }

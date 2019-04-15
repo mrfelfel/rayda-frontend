@@ -23,7 +23,10 @@
                مرا به خاطر بسپار
            </mat-checkbox>
            <button  mat-raised-button type="submit" color="primary" >
-             <span *ngIf="loging">در حال صدور کلید ...</span>
+             <span *ngIf="loging">
+              <mat-spinner color="accent"></mat-spinner>
+
+             </span>
              <span *ngIf="!loging">ورود</span>
 
 

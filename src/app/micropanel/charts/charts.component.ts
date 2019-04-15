@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import * as _ from 'lodash';
 import { SocketService } from '../../@core/socket.service';
-
+import { MatDatepickerInputEvent } from '@angular/material';
+import * as moment from 'jalali-moment';
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
@@ -34,6 +35,10 @@ export class ChartsComponent implements OnInit {
     });
   }
 
+  SendQuery(event: MatDatepickerInputEvent<moment.Moment>) {
+    const x = moment(event.value).format('jYYYY/jMM/jDD');
+    this.socket.socket.emit('query_gram', x);
+  }
   onSelect(event) {
     let selected = null;
     selected = this.TabIndexSelector(event, selected);

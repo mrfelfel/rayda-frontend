@@ -62,6 +62,10 @@
             <mat-form-field class="rayful" style="margin-top:5px">
                 <input matInput [(ngModel)]="code_meli" name="code_meli" type="text" placeholder="کد ملی" aria-label="Number" >
               </mat-form-field>
+
+              <mat-form-field class="rayful" style="margin-top:5px">
+                <input matInput name="code_pass" type="text" placeholder="رمز تحویل" aria-label="Number" >
+              </mat-form-field>
             <button mat-raised-button *ngIf="foodDeliver" color="primary"   type="submit" >تحویل</button>
           </form>
 

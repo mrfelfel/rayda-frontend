@@ -6,7 +6,7 @@
 
       <div class="img-header">
 
-        <div style="width:300px">
+        <div style="width:300px; margin-bottom: 10px">
 
           <h2 class="example-h2"> رزرو غذا </h2>
 
@@ -83,8 +83,8 @@
                 <div *ngIf="!(nameSpace == 'fani.markazi.amirkabir' && item.meal.id == 2 && !checker)">
                   <mat-form-field class="full" *ngIf="!Placefinder(item)">
 
-                    <mat-select placeholder="محل تحویل غذا" name="place" value="1">
-                      <mat-option value="1">
+                    <mat-select placeholder="محل تحویل غذا" [(ngModel)]="item.place" name="item.place">
+                      <mat-option value="سلف مرکزی" selected>
                         سلف مرکزی
                       </mat-option>
                     </mat-select>

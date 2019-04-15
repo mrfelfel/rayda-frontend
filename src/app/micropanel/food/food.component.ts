@@ -44,7 +44,11 @@ export class FoodComponent implements OnInit {
     firstname: 'نام شخص',
     lastname: 'نام خوادگی شخص'
   }];
-  public allDataOptionsChecked = false;
+  public allDataOptionsChecked:Boolean = false;
+  public groupName = null;
+  public groupCode = null;
+  public groupEditMode:Boolean = false;
+  public groups = [];
   constructor(private cdr: ChangeDetectorRef, private dialog:MatDialog) {
   }
   current = {
@@ -236,6 +240,40 @@ export class FoodComponent implements OnInit {
       }
     });
   }
+
+  setEditGroup(data){
+    this.groupName = data['name'];
+    this.groupCode = data['code'];
+    this.allDataOptionsSelected = data['data'];
+    this.groupEditMode = true;
+    this.editMode = true;
+  }
+
+  saveGroup(){
+    this.groups.push({
+      code: this.groups.length, // <=
+      name: this.groupName,
+      data: this.allDataOptionsSelected
+    })
+    this.closeGroup();
+  }
+
+  editGroup(){
+    this.closeGroup();
+  }
+
+  closeGroup(){
+    this.groupName = null;
+    this.groupCode = null;
+    this.groupEditMode = false;
+    this.allDataOptionsChecked = false;
+    this.allDataOptionsSelected = [];
+    this.allHeadOptionsSelected = [];
+    this.allSearchOption = null;
+    this.isSelectedAllOptions = false;
+    this.selectedAllDataOptions = [];
+    this.editMode = false;
+  }
 }
 
 
@@ -250,6 +288,7 @@ export class AddNewData implements OnInit{
   public selectedAllDataOptions = [];
   public isSelectedAllOptions = false;
   public allDataOptionsChecked = false;
+  public search = null;
   constructor(public dialogRef: MatDialogRef<AddNewData>,
     @Inject(MAT_DIALOG_DATA) public data: any){}
 
@@ -282,6 +321,9 @@ export class AddNewData implements OnInit{
     if(action == true){
       let data = [];
       for(let i in this.selectedAllDataOptions){
+        let index = this.selectedAllDataOptions[i];
+        data.push(this.allDataOptionsSelected[index]);
+      }for(let i in this.selectedAllDataOptions){
         let index = this.selectedAllDataOptions[i];
         data.push(this.allDataOptionsSelected[index]);
       }

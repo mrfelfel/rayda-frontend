@@ -45,6 +45,7 @@ const routes: Routes = [
     material.MatSlideToggleModule,
     material.MatButtonToggleModule,
     material.MatDatepickerModule,
+    material.MatRippleModule,
     RouterModule.forChild(routes)
   ],
   providers: [

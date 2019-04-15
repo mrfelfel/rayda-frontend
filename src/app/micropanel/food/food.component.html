@@ -282,8 +282,101 @@
     </div>
   </mat-tab>
   <mat-tab label="گروه غذایی">
-    <div *ngIf="editMode == true"></div>
+    <div *ngIf="editMode == true">
+      <div class="main-container">
+        <mat-card style="margin-bottom: 20px;">
+          <mat-form-field>
+            <input matInput placeholder="نام گروه">
+          </mat-form-field>
+        </mat-card>
+        <mat-card style="display: flex; flex-wrap: nowrap; margin-bottom: 20px;">
+          <div *ngFor="let item of allHeadOptions">
+            <mat-checkbox style="margin-left: 20px;" (click)="setAllHeadOptions(item)">{{item['name']}}</mat-checkbox>
+          </div>
+        </mat-card>
+        <mat-card *ngIf="allHeadOptionsSelected.length != 0" style="margin-bottom: 20px;">
+          <mat-form-field>
+            <input [(ngModel)]="allSearchOption" matInput placeholder="جستوجو">
+          </mat-form-field>
+          <button mat-raised-button color="primary" style="float: left;" (click)="addNewData()">افزودن</button>
+          <button *ngIf="selectedAllDataOptions.length != 0" mat-button style="float: left;"
+            (click)="deleteAllSelectedData()">حذف</button>
+          <table class="custom">
+            <thead>
+              <tr>
+                <th style="width: 30px">
+                  <mat-checkbox [checked]="isSelectedAllOptions" (change)="selectAllDataOptions()"></mat-checkbox>
+                </th>
+                <th *ngFor="let col of allHeadOptionsSelected">{{col['name']}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor=" let i = index;  let data of allDataOptionsSelected| searchfilter: allHeadOptionsSelected: allSearchOption">
+                <td style="width: 30px">
+                  <mat-checkbox (change)="selectOneDataOptions(i)"
+                    [checked]="selectedAllDataOptions.includes(i)?true:false"></mat-checkbox>
+                </td>
+                <td *ngFor="let key of allHeadOptionsSelected">{{data[key['code']]}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card>
+      </div>
+    </div>
     <div *ngIf="editMode == false">
+      <div class="main-container">
+        <button mat-raised-button color="primary" style="float: left;" (click)="editMode = true">افزودن</button>
+        <div *ngFor="let item of list; let i = index">
+          <div class="content" *ngIf="showContent(item)">
+            <span>{{item['listname']}}</span>
+            <button class="topleft" mat-icon-button (click)="setHidden(item)">
+              <mat-icon>
+                <svg *ngIf="item['hidden'] == true || item['hidden'] == null" xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 48 48">
+                  <path d="M14 28l10-10 10 10z" /></svg>
+                <svg *ngIf="item['hidden'] == false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                  <path d="M14 20l10 10 10-10z" /></svg>
+              </mat-icon>
+            </button>
+            <br>
+            <mat-form-field *ngIf="item['hidden'] == true || item['hidden'] == null">
+              <input matInput placeholder="جستجو" [(ngModel)]="item['search']">
+            </mat-form-field>
+            <table *ngIf="item['hidden'] == true || item['hidden'] == null">
+              <thead>
+                <tr>
+                  <th *ngFor="let col of item['cols']">{{setTH(col, i)}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of item['data'] | searchfilter: heads[i]: item['search']">
+                  <td *ngFor="let key of heads[i]">{{data[key]}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="pager" *ngIf="item['hidden'] == true || item['hidden'] == null">
+              <button mat-icon-button (click)="setPage(i,item['page']['current']-1)"
+                [disabled]="item['page']['current']==1">
+                <mat-icon>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                    <path d="M30.83 14.83L28 12 16 24l12 12 2.83-2.83L21.66 24z" /></svg>
+                </mat-icon>
+              </button>
+              <button mat-icon-button *ngFor="let value of startRange(item['page']['start'],item['page']['end'])"
+                [color]="item['page']['current'] == value?'primary':''" (click)="setPage(i, value)">
+                {{value}}
+              </button>
+              <button mat-icon-button (click)="setPage(i,item['page']['current']+1)">
+                <mat-icon>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                    <path d="M20 12l-2.83 2.83L26.34 24l-9.17 9.17L20 36l12-12z" /></svg>
+                </mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </mat-tab>
   <mat-tab label="محل تحویل">

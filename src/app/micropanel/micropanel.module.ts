@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import * as userComponent from './user/user.component';
 import { Routes, RouterModule } from '@angular/router';
 import * as material from '@angular/material';
-import { FoodComponent } from './food/food.component';
+import { FoodComponent,AddNewData } from './food/food.component';
 import { ReportsComponent } from './reports/reports.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsComponent } from './charts/charts.component';
@@ -22,7 +22,7 @@ const routes: Routes = [
 // hi
 @NgModule({
   // tslint:disable-next-line:max-line-length
-  declarations: [userComponent.UserComponent, FoodComponent, ReportsComponent, ChartsComponent, userComponent.TheUserComponent, SearchFilterPipe, BoxComponent],
+  declarations: [userComponent.UserComponent,AddNewData, FoodComponent, ReportsComponent, ChartsComponent, userComponent.TheUserComponent, SearchFilterPipe, BoxComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -51,6 +51,6 @@ const routes: Routes = [
     { provide: material.DateAdapter, useClass: MaterialPersianDateAdapter, deps: [material.MAT_DATE_LOCALE] },
     { provide: material.MAT_DATE_FORMATS, useValue: PERSIAN_DATE_FORMATS }
   ],
-  entryComponents: [userComponent.TheUserComponent]
+  entryComponents: [userComponent.TheUserComponent,AddNewData]
 })
 export class MicropanelModule { }

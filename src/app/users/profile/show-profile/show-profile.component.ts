@@ -95,6 +95,9 @@ export class ShowProfileComponent implements OnInit {
   }
 
   selectImage() {
+
+    this.snak.snackBar.open('تغییر عکس نیاز به اجازه از واحد مربوطه دارد');
+    return null;
     const FILE = (<HTMLInputElement>document.getElementById('file'));
     FILE.click();
     FILE.onchange = () => {

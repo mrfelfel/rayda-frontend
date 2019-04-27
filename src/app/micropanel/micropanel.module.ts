@@ -46,6 +46,7 @@ const routes: Routes = [
     material.MatButtonToggleModule,
     material.MatDatepickerModule,
     material.MatRippleModule,
+    material.MatRadioModule,
     RouterModule.forChild(routes)
   ],
   providers: [

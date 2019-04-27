@@ -1,6 +1,5 @@
 
-<div (keyup)="drg($event)" class="rayda-container no-select" [class.rayda-is-mobile]="mobileQuery.matches"
-  [class.dark-theme]="isDarkTheme" *ngIf="showRoute">
+<div class="rayda-container no-select" [class.rayda-is-mobile]="mobileQuery.matches" *ngIf="showRoute">
   <mat-progress-bar style="position: fixed; top: 0; left: 0; right: 0;" mode="indeterminate" *ngIf="loading" color="primary"></mat-progress-bar>
   <mat-toolbar color="primary" class="rayda-toolbar rayda">
     <button *ngIf="showRoute && mobileQuery.matches" mat-icon-button (click)="snav.toggle()" class="rayda-icon"
@@ -75,7 +74,8 @@
         </mat-menu>
         <mat-progress-spinner *ngIf="proccess!=100" diameter="70" color="primary" mode="determinate" strokeWidth="4" [value]="proccess/1.25"></mat-progress-spinner>
         <div class="avatar">
-          <span>{{nameIcon()}}</span>
+
+          <span >{{nameIcon()}}</span>
         </div>
         <span class="proccess" *ngIf="proccess!=100">{{proccess}}%</span>
         <span class="name">{{userName}}</span>

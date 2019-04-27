@@ -68,13 +68,15 @@ export class FoodComponent implements OnInit {
   years = [];
   dates = [];
   items = [];
+  times = [];
   daysdata = [];
-
+  selectedAlg = '2';
   myControl = new FormControl();
   filteredOptions: Observable<object[]>;
 
 
   ngOnInit() {
+    this.AddTime();
     this.filteredPlaces = this.placeControl.valueChanges
       .pipe(
         startWith(''),
@@ -94,6 +96,17 @@ export class FoodComponent implements OnInit {
   }
 
 
+  AddTime() {
+    if (this.times.length >= 5) {
+
+      return;
+    }
+    this.times.push('00:00');
+  }
+  changeAlg() {
+    this.times = [];
+    this.AddTime();
+  }
   MakeWeeks() {
     this.dates = [];
     // this.current.week = 1;
@@ -283,7 +296,8 @@ export class FoodComponent implements OnInit {
   templateUrl: './addData.html',
   styleUrls: ['./food.component.scss']
 })
-export class AddNewData implements OnInit{
+// tslint:disable-next-line:component-class-suffix
+export class AddNewData implements OnInit {
   public allDataOptionsSelected = [];
   public selectedAllDataOptions = [];
   public isSelectedAllOptions = false;

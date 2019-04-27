@@ -19,8 +19,26 @@
           <mat-form-field style="width:100%">
 
             <mat-select placeholder="الگو" name="item">
-              <mat-option *ngFor="let item of items" [value]="item.value">
-                {{item.viewValue}}
+              <mat-option >
+                الگویی تعریف نشده است
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field style="width:100%">
+
+            <mat-select placeholder="سلف" name="item">
+              <mat-option >
+               همه
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field style="width:100%">
+
+            <mat-select placeholder="گروه غذایی" name="item">
+              <mat-option>
+               همه
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -88,7 +106,7 @@
     <div class="main-container">
       <mat-card>
         <div class="form" style="padding: 20px;" *ngIf="editMode == true">
-          <div style="text-align: center;">
+          <div >
             <mat-form-field style="min-width: 50%;">
               <input matInput placeholder="نام غذا" [(ngModel)]="foodData['name']">
             </mat-form-field><br>
@@ -177,9 +195,9 @@
     <div class="main-container">
       <mat-card>
         <div class="form" style="padding: 20px;" *ngIf="editMode == true">
-          <div style="text-align: center;">
+          <div >
             <mat-form-field style="min-width: 50%;">
-              <input matInput placeholder="نام غذا" [(ngModel)]="mealData['name']">
+              <input matInput placeholder="نام وعده" [(ngModel)]="mealData['name']">
             </mat-form-field><br>
             <mat-form-field style="min-width: 50%;">
               <input matInput placeholder="قیمت" type="number" [(ngModel)]="mealData['price']">
@@ -203,10 +221,23 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field><br>
+
+            <br>
             <mat-form-field style="min-width: 50%;">
               <textarea matInput rows="5" placeholder="توضیحات" [(ngModel)]="mealData['description']"></textarea>
             </mat-form-field><br>
+
+            <button mat-fab style="margin:5px" color="primary" (click)="AddTime()" *ngIf="selectedAlg == '1' ">جدید</button>
+            <mat-form-field *ngFor="let item of times" style="margin:2px">
+              <input matInput placeholder="زمان تحویل" [value]="item">
+            </mat-form-field>
           </div>
+          <label id="timing">الگوریتم زمان بندی : </label>
+
+          <mat-radio-group aria-label="الگوریتم زمان" class="timing" [(ngModel)]="selectedAlg" (change)="changeAlg()">
+            <mat-radio-button value="1">شرعی</mat-radio-button>
+            <mat-radio-button value="2">علمی (بامدادی)</mat-radio-button>
+          </mat-radio-group>
           <div class="buttons" style="direction: ltr;">
             <button mat-raised-button color="primary" (click)="newMeal()">ثبت</button>
             <button mat-button (click)="editMode = false">انصراف</button>

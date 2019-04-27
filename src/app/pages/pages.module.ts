@@ -16,6 +16,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     material.MatCardModule,
+    material.MatButtonModule,
     RouterModule.forChild(routes)
   ]
 })

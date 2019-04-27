@@ -178,10 +178,11 @@ export class FoodsListComponent implements OnInit, OnDestroy {
       // this.snaks.openSnackBar(data.message, 'بستن');
     });
     this.socket.on('reservedlist', (data) => {
-      this.reserved = data;
-      this.locked = false;
-      this.update();
-
+      if (data) {
+        this.reserved = data;
+        this.locked = false;
+        this.update();
+      }
      //  console.log(this.reserved);
     });
     this.socket.on('me', (data) => {
@@ -191,7 +192,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
     });
     this.socket.on('mode', (data) => {
       if (!data) {
-           this.error = true;
+           // this.error = true;
       }
     });
     this.socket.on('balancing', (data) => {
@@ -241,6 +242,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
       '//' + document.location.host + '/foods/' + this.date.format('jYYYY-jMM-jDD'));
   }
   ngOnDestroy() {
+    this.reserved = null;
     this.socket.close();
   }
   Dowsearch() {
@@ -256,6 +258,10 @@ export class FoodsListComponent implements OnInit, OnDestroy {
     }
   }
   Reservedsearch(dow, meal, food, year, week) {
+    if (!this.reserved) {
+      return false;
+
+    }
     this.searched = this.reserved.find((item) => {
          if ((item.dow === dow) && (item.meal === meal ) && (item.food === food ) && (item.year === year ) && (item.week === week )) {
            return item;
@@ -406,6 +412,10 @@ getDateOfISOWeek(w, y) {
     this.socket.emit('unreserve', item);
   }
   checking(item) {
+    if (!this.reserved) {
+      return false;
+
+    }
     const index = _.find(this.reserved, { food : item.food.id, meal : item.meal.id, dow: item.dow, week : this.date.jWeek(),
        year : this.clone.jYear()});
     if (index ) {

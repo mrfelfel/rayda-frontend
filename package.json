@@ -1,6 +1,7 @@
 {
   "name": "rayweb",
   "version": "0.0.0",
+  "main": "main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -100,6 +101,8 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^11.10.5",
     "codelyzer": "~4.5.0",
+    "electron": "^4.1.4",
+    "electron-builder": "^20.39.0",
     "jasmine-core": "~3.3.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^4.0.1",
@@ -114,5 +117,33 @@
     "tsickle": "0.34.3",
     "tslib": "^1.9.3",
     "tslint": "~5.13.1"
+  },
+  "build": {
+    "appId": "raydaDesktop",
+    "category": "rayda.badoom.university.automation",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "build/icon.ico"
+    }
   }
 }

@@ -5,7 +5,7 @@
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",
-  "start_url": "https://web.rayda.ir/users/login",
+  "start_url": "https://web.rayda.ir/foods/",
   "icons": [
     {
       "src": "assets/windows10/Square71x71Logo.scale-400.png",

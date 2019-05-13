@@ -57,10 +57,7 @@
     [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav class="woped no-select" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="mobileQuery.matches" [opened]="!mobileQuery.matches && showRoute == true" fixedTopGap="56">
-      <div *ngIf="Me" class="profile">
-        <img class="profile-avatar" src="https://api.rayda.ir/image?id={{Me.user.email}} " alt="عکس پروفایل">
-      </div>
-      <div class="header">
+      <div class="header" >
         <button *ngIf="showRoute" mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -72,14 +69,21 @@
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="exit(); snav.close()">خروج از حساب</button>
         </mat-menu>
-        <mat-progress-spinner *ngIf="proccess!=100" diameter="70" color="primary" mode="determinate" strokeWidth="4" [value]="proccess/1.25"></mat-progress-spinner>
-        <div class="avatar">
+          <mat-progress-spinner *ngIf="proccess!=100" diameter="70" color="primary" mode="determinate" strokeWidth="4" [value]="proccess/1.25"></mat-progress-spinner>
+          <div class="avatar">
 
-          <span >{{nameIcon()}}</span>
-        </div>
-        <span class="proccess" *ngIf="proccess!=100">{{proccess}}%</span>
-        <span class="name">{{userName}}</span>
-        <span class="access">حق دسترسی:‌ کاربر</span>
+            <span >{{nameIcon()}}</span>
+          </div>
+          <span class="proccess" *ngIf="proccess!=100">{{proccess}}%</span>
+          <span class="name" *ngIf="connected">{{userName}}</span>
+          <span class="name" *ngIf="!connected">...</span>
+
+          <span class="access" *ngIf="adminRoute">حق دسترسی:‌ کارتابل اداری</span>
+          <span class="access" *ngIf="!adminRoute && connected">حق دسترسی:‌  کارتابل دانشجویی</span>
+
+          <span class="access" *ngIf="!adminRoute && !connected">{{connectMessage}}</span>
+
+
       </div>
       <mat-nav-list (click)="snav.toggle()" *ngIf="mobileQuery.matches">
         <span *ngFor="let item of Proutes">
@@ -120,13 +124,15 @@
       </p>
     </mat-sidenav>
 
-    <mat-sidenav-content id="my-content" *ngIf="showRoute">
+    <mat-sidenav-content id="my-content" *ngIf="showRoute ">
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
 
-<div  class="rayda-container no-select centerContent"
-[class.dark-theme]="isDarkTheme" *ngIf="!showRoute">
-  <router-outlet></router-outlet>
+
+
+
+<div  class="rayda-container no-select centerContent" [class.rayda-is-mobile]="mobileQuery.matches" *ngIf="!showRoute && visibleLoginOutlet ">
+  <router-outlet *ngIf="!showRoute && visibleLoginOutlet "></router-outlet>
 </div>

@@ -53,4 +53,6 @@ export class ForgotPasswordComponent implements OnInit {
     // Run change detection only for this component when update() method is called.
     this.cdr.detectChanges();
   }
+  get spinnerStyle() { return {color: '#fff'}; }
+
 }

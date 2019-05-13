@@ -9,8 +9,7 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {id: 1, description: 'تراکنش خالی', amount: '0.1', issuer: 'درگاه پرداخت',  type : true},
-  {id: 2, description: 'تراکنش خالی', amount: '2000000', issuer: 'درگاه پرداخت',   type : false},
+  {id: 1, description: 'تراکنش خالی', amount: '0', issuer: 'درگاه پرداخت',  type : true},
 
 ];
 @Component({

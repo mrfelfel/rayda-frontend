@@ -120,7 +120,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   clone = this.date.clone();
 
   uid: String = '';
-  viewId = this.uid;
+  viewId = localStorage.viewName ? localStorage.viewName : null;
 
   ngOnInit() {
     const getDate = this.activatedRoute.snapshot.params['id'];
@@ -153,8 +153,6 @@ export class FoodsListComponent implements OnInit, OnDestroy {
 
 
     this.socket.on('reserved', (data) => {
-
-
       if (data.type === 'unreserve') {
         _.remove(this.reserved, {
           dow: data.data.dow,
@@ -192,7 +190,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
     });
     this.socket.on('mode', (data) => {
       if (!data) {
-           // this.error = true;
+          this.error = true;
       }
     });
     this.socket.on('balancing', (data) => {
@@ -202,14 +200,6 @@ export class FoodsListComponent implements OnInit, OnDestroy {
         this.cost += Number(data.cost * -1);
       }
       this.update();
-
-    });
-    this.socket.on('viewName', (data) => {
-     if (data) {
-        localStorage.viewName = data;
-        this.viewId = data;
-     }
-     this.update();
 
     });
     this.socket.on('planned', (data) => {
@@ -388,8 +378,15 @@ getDateOfISOWeek(w, y) {
     });
   }
   reserve(item, button) {
+    if (!this.viewId) {
+      this.snaks.openSnackBar('به دلیل نقص در اطلاعات امکان رزرو وجود ندارد', 'بستن');
+      return;
+    }
 
-    console.log(this.error);
+    if (item.lock) {
+      this.snaks.openSnackBar('رزرو این وعده غیر فعال است', 'بستن');
+         return;
+    }
     if (this.error) {
       this.snaks.openSnackBar('رزرو این هفته غیر فعال است ', 'بستن');
          return;
@@ -403,6 +400,14 @@ getDateOfISOWeek(w, y) {
         this.socket.emit('reserve', item);
   }
   unreserve(item) {
+    if (!this.viewId) {
+      this.snaks.openSnackBar('به دلیل نقص در اطلاعات امکان رزرو وجود ندارد', 'بستن');
+      return;
+    }
+    if (item.lock) {
+      this.snaks.openSnackBar('لغو رزرو این وعده غیر فعال است', 'بستن');
+         return;
+    }
     if (this.error) {
       this.snaks.openSnackBar('لغو این هفته غیر فعال است ', 'بستن');
          return;

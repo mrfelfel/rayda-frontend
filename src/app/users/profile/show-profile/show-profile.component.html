@@ -49,5 +49,47 @@
       </mat-card>
     </div>
   </mat-tab>
+  <mat-tab label="تنظیمات دریافت">
+      <div class="main-container">
+        <mat-card>
+
+          <mat-card-content>
+              <mat-checkbox disabled> دریافت با کد ملی</mat-checkbox>
+
+          </mat-card-content>
+
+        </mat-card>
+       </div>
+  </mat-tab>
+
+  <mat-tab label="دوستان">
+      <div class="main-container">
+        <mat-card>
+
+          <mat-card-content>
+
+              <mat-form-field >
+                  <input matInput placeholder="کد ملی" value="" disabled>
+              </mat-form-field>
+              <button  mat-raised-button style="margin-right: 5px" color="primary" disabled>افزودن</button>
+
+
+              <mat-selection-list #friends>
+                <mat-list-option *ngFor="let item of lfriends"></mat-list-option>
+              </mat-selection-list>
+
+          </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button *ngIf="friends.selectedOptions.selected.length" color="warn" style="float: left">حذف موارد انتخابی</button>
+
+        </mat-card-actions>
+
+        </mat-card>
+       </div>
+  </mat-tab>
+
+  <mat-tab label="نشست های فعال">
+  </mat-tab>
+
 </mat-tab-group>
 <input type="file" style="display: none; opacity: 0;" id="file" accept="image/*">

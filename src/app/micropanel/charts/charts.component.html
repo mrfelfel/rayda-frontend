@@ -11,7 +11,7 @@
   <mat-form-field appearance="outline">
       <mat-label>تاریخ مبدا</mat-label>
 
-      <input matInput [matDatepicker]="picker6" placeholder="تاریخ مبدا" (dateChange)="SendQuery($event)">
+      <input [(ngModel)]="Date" matInput [matDatepicker]="picker6" placeholder="تاریخ مبدا" (dateChange)="SendQuery($event)">
       <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
       <mat-datepicker touchUi #picker6></mat-datepicker>
   </mat-form-field>

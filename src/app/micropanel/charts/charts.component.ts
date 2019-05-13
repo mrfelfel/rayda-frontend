@@ -16,14 +16,21 @@ export class ChartsComponent implements OnInit {
   public InBackgroundData = [];
   public chart: Object = {};
   public selected = 'day';
+  public Date = new Date();
   constructor(private socket: SocketService) { }
 
   ngOnInit() {
 
-    if (localStorage.charts) {
-      this.response = JSON.parse(localStorage.charts);
-      this.loadChart();
-    }
+    this.socket.socket.emit('query_gram', {
+      scope : 'reports',
+      address : 'stats',
+      info : {
+        method : 'SET',
+        data : {
+          date : moment(this.Date).unix()
+        }
+      }
+    });
     this.socket.socket.on('data_gram', (data) => {
       if (data.mode === 'newChart') {
         this.response = data.data;
@@ -36,8 +43,17 @@ export class ChartsComponent implements OnInit {
   }
 
   SendQuery(event: MatDatepickerInputEvent<moment.Moment>) {
-    const x = moment(event.value).format('jYYYY/jMM/jDD');
-    this.socket.socket.emit('query_gram', x);
+    const x = moment(event.value);
+    this.socket.socket.emit('query_gram', {
+      scope : 'reports',
+      address : 'stats',
+      info : {
+        method : 'SET',
+        data : {
+          date : x.unix(),
+        }
+      }
+    });
   }
   onSelect(event) {
     let selected = null;
@@ -93,7 +109,8 @@ export class ChartsComponent implements OnInit {
     const div = document.createElement('div');
     div.style.margin = '4px 4px';
 
-    div.style.height = '700px !important';
+    div.style.height = '800px !important';
+
     const canvas = document.createElement('canvas');
     this.CanvasSize(canvas);
     canvas.setAttribute('name', this.response[index]['name']);
@@ -113,7 +130,9 @@ export class ChartsComponent implements OnInit {
             ticks: {
               beginAtZero: true
             }
-          }]
+          }],
+          xAxes: [{
+        }]
         },
         title: {
           display: true,
@@ -136,7 +155,7 @@ export class ChartsComponent implements OnInit {
     } else if (screen.width <= 600) {
       canvas.width = screen.width - 50;
     } else {
-      canvas.width = 650;
+      canvas.width = 750;
     }
   }
 

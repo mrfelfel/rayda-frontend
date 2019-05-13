@@ -424,6 +424,10 @@ mat-toolbar.title span{
     color: #fff;
 }
 
+.mat-progress-spinner circle {
+  stroke: currentColor;
+}
+
 .mat-tab-group.mat-background-primary .mat-tab-header, .mat-tab-group.mat-background-primary .matmat-tab-group[backgroundColor]{
   background-color: #1976d2 !important;
 }

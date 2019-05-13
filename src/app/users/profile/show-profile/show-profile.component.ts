@@ -18,6 +18,7 @@ export class ShowProfileComponent implements OnInit {
     repeat_password : ''
 
   };
+  lfriends = [];
   transkey = [{
     name: 'نام خانوادگی',
     code: 'family'
@@ -32,18 +33,18 @@ export class ShowProfileComponent implements OnInit {
 
       async newPass() {
         if (!this.d.password) {
-          this.snak.snackBar.open('گذرواژه فعلی را خالی رها نکنید');
+          this.snak.openSnackBar('گذرواژه فعلی را خالی رها نکنید', 'بستن');
           return;
         }
         if (!this.d.new_password) {
-          this.snak.snackBar.open('گذرواژه جدید را خالی رها نکنید');
+          this.snak.openSnackBar('گذرواژه جدید را خالی رها نکنید', 'بستن');
           return;
         }
         if (this.d.new_password !== this.d.repeat_password) {
-          this.snak.snackBar.open('کلمه عبور و تکرار آن باید مطابق باشد');
+          this.snak.openSnackBar('کلمه عبور و تکرار آن باید مطابق باشد', 'بستن');
           return;
         }
-        this.snak.snackBar.open('در حال تبادل با سرور');
+        this.snak.snackBar.open('در حال رمزگذاری اطلاعات و ارسال به سرور');
         const finter = setInterval(() => {
             this.timer++;
         }, 1000);
@@ -52,10 +53,10 @@ export class ShowProfileComponent implements OnInit {
         this.login = 2;
         const io = await this.auth.newpass(this.d);
         if (io) {
-           this.snak.snackBar.open('تغییر موفقیت امیز');
+          this.snak.openSnackBar('تغییر موفقیت امیز', 'بستن');
         }
       } catch (error) {
-        this.snak.snackBar.open('خطا کلمه عبور شما اشتباه است');
+        this.snak.openSnackBar('خطا کلمه عبور شما اشتباه است', 'بستن');
 
       }
       clearInterval(finter);
@@ -95,8 +96,7 @@ export class ShowProfileComponent implements OnInit {
   }
 
   selectImage() {
-
-    this.snak.snackBar.open('تغییر عکس نیاز به اجازه از واحد مربوطه دارد');
+    this.snak.openSnackBar('تغییر عکس نیاز به اجازه از واحد مربوطه دارد', 'بستن');
     return null;
     const FILE = (<HTMLInputElement>document.getElementById('file'));
     FILE.click();

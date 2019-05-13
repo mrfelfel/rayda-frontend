@@ -19,6 +19,9 @@ export class SocketService {
     this.socket.close();
   }
 
+  private tryReconnect() {
+
+  }
   private ConnectToserver() {
       this.socket = io.connect('https://message.rayda.ir/',
       {
@@ -28,5 +31,8 @@ export class SocketService {
       this.socket.on('connect', () => {
         this.connected = true;
       });
+
+
+
       }
 }

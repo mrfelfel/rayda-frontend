@@ -75,22 +75,12 @@
                     </svg>
                 </i>
                 <mat-card-title>{{item.food.name}}</mat-card-title>
-                <mat-card-subtitle>تاریخ :{{item.stringDate}} | وعده : {{item.meal.name}}</mat-card-subtitle>
+                <mat-card-subtitle>تاریخ : {{ date.clone().add(tab, 'd').format('jYYYY/jMM/jDD') }} | وعده : {{item.meal.name}}</mat-card-subtitle>
 
 
               </mat-card-header>
               <mat-card-content class="width100">
-                <div *ngIf="!(nameSpace == 'fani.markazi.amirkabir' && item.meal.id == 2 && !checker)">
-                  <mat-form-field class="full" *ngIf="!Placefinder(item)">
-
-                    <mat-select placeholder="محل تحویل غذا" [(ngModel)]="item.place" name="item.place">
-                      <mat-option value="سلف مرکزی" selected>
-                        سلف مرکزی
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div [hidden]="!(nameSpace == 'fani.markazi.amirkabir' && item.meal.id == 2)" [@enterAnimation]>
+                <div [hidden]="!(nameSpace == 'fani.markazi.amirkabir' && item.meal.id != 1)" [@enterAnimation]>
                   <mat-form-field class="full" *ngIf="!Placefinder(item)">
 
                     <mat-select placeholder="محل تحویل غذا" [(ngModel)]="item.place" name="item.place">

@@ -116,6 +116,8 @@ export class ChartsComponent implements OnInit {
     canvas.setAttribute('name', this.response[index]['name']);
     div.appendChild(canvas);
     document.getElementById('content').appendChild(div);
+    document.getElementById('title').innerText =     this.response[index]['name'];
+    document.getElementById('title').className =     this.response[index]['name'];
     const ctx = canvas.getContext('2d');
     const chart = new Chart(ctx, {
       type: 'bar',
@@ -125,6 +127,9 @@ export class ChartsComponent implements OnInit {
       },
       options: {
         responsive: true,
+        legend: {
+          display: false,
+        },
         scales: {
           yAxes: [{
             ticks: {
@@ -132,10 +137,12 @@ export class ChartsComponent implements OnInit {
             }
           }],
           xAxes: [{
+            barThickness: 10,
+            categoryPercentage: 8.0,
         }]
         },
         title: {
-          display: true,
+          display: false,
           text: this.response[index]['name']
         },
         onResize : (d) => {
@@ -145,18 +152,16 @@ export class ChartsComponent implements OnInit {
       }
     });
     Chart.defaults.global.defaultFontFamily = 'SDF';
+
+
+
     this.data.push(chart);
   }
 
   private CanvasSize(canvas: HTMLCanvasElement) {
     canvas.height = 300;
-    if (screen.width <= 321) {
-      canvas.width = screen.width;
-    } else if (screen.width <= 600) {
-      canvas.width = screen.width - 50;
-    } else {
-      canvas.width = 750;
-    }
+    canvas.width = 1200;
+
   }
 
   async loadA(data = [], index= 0) {

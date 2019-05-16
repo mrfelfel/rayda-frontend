@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { SocketService } from '../../@core/socket.service';
+import * as moment from 'jalali-moment';
 
 export interface PeriodicElement {
   id: number;
@@ -8,6 +9,7 @@ export interface PeriodicElement {
   type: boolean;
   issuer: string;
   balance:number;
+  date:string;
 }
 
 let ELEMENT_DATA: PeriodicElement[] = [
@@ -19,7 +21,7 @@ let ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./finslist.component.scss']
 })
 export class FinslistComponent implements OnInit {
-  displayedColumns: string[] = [ 'description', 'amount', 'issuer', 'type', 'balance'];
+  displayedColumns: string[] = [ 'description', 'amount', 'issuer', 'type', 'balance', 'date'];
   dataSource = ELEMENT_DATA;
   constructor(private socket: SocketService, private cdr: ChangeDetectorRef) { }
   showLabels = true;
@@ -64,7 +66,20 @@ export class FinslistComponent implements OnInit {
 
             }
             const resultBlc = blc
-            let transaction =  {id: element._id, description: element.description, amount: element.amount, issuer: element.issuer,  type : element.type=="UP"?true:false, balance : resultBlc}
+
+
+            
+            let date = moment(element.date, 'YYYY-MM-DDTHH:mm:ssZ .')
+            if(!(moment(element.date).jYear() >= 1348)){
+              date =  moment(element.date, 'jYYYY-jMM-jDDTHH:mm:ssZ .')
+            }
+
+            let rdate = date.format('HH:mm:ss |  jYYYY/jMM/jDD ')
+            if(date.jYear() == 1348){
+ 
+              rdate= "در دسترس نیست"
+            }
+            let transaction =  {id: element._id, description: element.description, amount: element.amount, issuer: element.issuer,  type : element.type=="UP"?true:false, balance : resultBlc, date : rdate}
 
             this.dataSource.push(transaction)
           });

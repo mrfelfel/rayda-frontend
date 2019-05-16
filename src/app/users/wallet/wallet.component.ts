@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { SocketService } from '../../@core/socket.service';
+import * as moment from 'jalali-moment';
 
 @Component({
   selector: 'app-wallet',
@@ -21,6 +22,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   constructor(private socket : SocketService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
+
 
     this.socket.socket.emit('query_gram', {
       scope : 'financial',

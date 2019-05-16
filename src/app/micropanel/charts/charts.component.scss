@@ -3,3 +3,16 @@
     flex-wrap: wrap;
     overflow-x: scroll;
 }
+.chartWrapper {
+  text-align: right;
+  position: relative;
+}
+
+.chartWrapper h5 {
+  padding-right: 10px;
+}
+.chartAreaWrapper {
+  direction: ltr;
+  width: 800px;
+  overflow-x: scroll;
+}

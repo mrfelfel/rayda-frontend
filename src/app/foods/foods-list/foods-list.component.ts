@@ -346,7 +346,7 @@ getDateOfISOWeek(w, y) {
           duration : 60000,
         });
       // tslint:disable-next-line:max-line-length
-      this.Server.get(`https://payment.rayda.ir/pay/${this.uid}/${result.bcost}`)      .toPromise()
+      this.Server.get(`https://payment.rayda.ir/pay/${this.uid}/${result.bcost}?q=${Math.random()}`)      .toPromise()
       .then((d) => {
         window.location.href = d.json()['message'];
       })

@@ -1,58 +1,71 @@
 
-<div style="padding : 10px">
-    <mat-card>
+<div style="padding : 10px; overflow: hidden;">
+    <mat-card style="width:100%;">
         <mat-card-header>
           <mat-card-title>مالی</mat-card-title>
           <mat-card-subtitle>تراکنش های پرداخت بانکی</mat-card-subtitle>
         </mat-card-header>
       </mat-card>
-      <table *ngIf="showTable" mat-table [dataSource]="dataSource" class=" rayput">
-  
-          <!--- Note that these columns can be defined in any order.
-                The actual rendered columns are set as a property on the row definition" -->
-  
-          <!-- Position Column -->
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> کد </th>
-            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-          </ng-container>
-  
-          <!-- Name Column -->
-          <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef> توضیحات </th>
-            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-          </ng-container>
-  
-          <!-- Weight Column -->
-          <ng-container matColumnDef="amount">
-            <th mat-header-cell *matHeaderCellDef> مبلغ </th>
-            <td mat-cell *matCellDef="let element"> {{element.amount / 10 }} تومان </td>
-          </ng-container>
-  
-          <!-- Symbol Column -->
-          <ng-container matColumnDef="issuer">
-            <th mat-header-cell *matHeaderCellDef> صادر کننده </th>
-            <td mat-cell *matCellDef="let element"> بادام </td>
-          </ng-container>
-  
-          <ng-container matColumnDef="type">
-              <th mat-header-cell *matHeaderCellDef>  وضعیت </th>
-              <td mat-cell *matCellDef="let element"> {{element.type?'واریز' : 'برداشت'}} </td>
-            </ng-container>
-            <ng-container matColumnDef="balance">
-                <th mat-header-cell *matHeaderCellDef>  موجودی </th>
-                <td mat-cell *matCellDef="let element"> {{element.balance / 10 }} تومان </td>
-              </ng-container>
 
-              <ng-container matColumnDef="date">
-                  <th mat-header-cell *matHeaderCellDef>  تاریخ </th>
-                  <td mat-cell *matCellDef="let element"> {{element.date  }}  </td>
+      <div class="table-container">
+          <table *ngIf="showTable" mat-table [dataSource]="dataSource" class=" rayput">
+  
+              <!--- Note that these columns can be defined in any order.
+                    The actual rendered columns are set as a property on the row definition" -->
+      
+              <!-- Position Column -->
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> کد </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+              </ng-container>
+      
+              <!-- Name Column -->
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef> توضیحات </th>
+                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+              </ng-container>
+      
+              <!-- Weight Column -->
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef> مبلغ </th>
+                <td mat-cell *matCellDef="let element"> 
+
+                      {{element.amount / 10 }} تومان
+                  </td>
+
+              </ng-container>
+      
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="issuer">
+                <th mat-header-cell *matHeaderCellDef> صادر کننده </th>
+                <td mat-cell *matCellDef="let element"> بادام </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="type">
+                  <th mat-header-cell *matHeaderCellDef>  وضعیت </th>
+                  <td mat-cell *matCellDef="let element"> {{element.type?'واریز' : 'برداشت'}} </td>
                 </ng-container>
-  
-  
-  
-  
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+                <ng-container matColumnDef="balance">
+                    <th mat-header-cell *matHeaderCellDef>  موجودی </th>
+                    <td mat-cell *matCellDef="let element">
+                        <h4  class="red" *ngIf="element.balance < 0">                      {{element.balance / 10 }} تومان
+                          </h4>
+                          <h4  class="green" *ngIf="element.balance > 0">                      {{element.balance / 10 }} تومان
+                            </h4>
+                        </td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="date">
+                      <th mat-header-cell *matHeaderCellDef>  تاریخ </th>
+                      <td mat-cell *matCellDef="let element"> {{element.date  }}  </td>
+                    </ng-container>
+      
+      
+      
+      
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+      </div>
+     
 </div>

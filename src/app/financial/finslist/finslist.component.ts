@@ -83,7 +83,7 @@ export class FinslistComponent implements OnInit {
             }
             let transaction =  {id: element._id, description: element.description, amount: element.amount, issuer: element.issuer,  type : element.type=="UP"?true:false, balance : resultBlc, date : rdate}
 
-            this.dataSource.push(transaction)
+            this.dataSource.unshift(transaction)
           });
          
           console.log(this.dataSource)

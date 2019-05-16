@@ -155,7 +155,7 @@ export class ChartsComponent implements OnInit {
     } else if (screen.width <= 600) {
       canvas.width = screen.width - 50;
     } else {
-      canvas.width = 750;
+      canvas.width = 1100;
     }
   }
 

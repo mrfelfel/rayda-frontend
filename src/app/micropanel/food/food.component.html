@@ -56,8 +56,20 @@
 
             <mat-select placeholder=" هفته" name="item" [(ngModel)]="current.week">
               <mat-option *ngFor="let item of dates; let weekdex = index" [value]="weekdex">
-                از تاریخ {{dates[weekdex]}} تا تاریخ {{dates[weekdex+1]?dates[weekdex+1]:'هفته پایانی سال'}} || هفته
-                {{weekdex!==0?wordify.wordifyfa(weekdex) + 'ام' : 'میانی ' }} سال
+                <ng-container *ngIf="weekdex < 1; else elseTemplate">
+                  ورود به سال قبلی
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <ng-container *ngIf="weekdex < 54; else elseTemplate">
+                        از تاریخ {{dates[weekdex]}} تا تاریخ {{dates[weekdex+1]}} ||  {{ wordify.wordifyfa(weekdex) }}  سال
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                      ورود به سال جدید
+                    </ng-template>
+                </ng-template>
+                
+             
+                 
               </mat-option>
             </mat-select>
           </mat-form-field>

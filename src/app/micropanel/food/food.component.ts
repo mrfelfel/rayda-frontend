@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import * as moment from 'jalali-moment';
 import * as wordify from './index.js';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
@@ -111,14 +111,25 @@ export class FoodComponent implements OnInit {
     this.dates = [];
     // this.current.week = 1;
     const m = moment().locale('fa');
-    for (let index = 1; index <= 52; index++) {
-      const weekDate = m.year(Number(this.current.year)).week(index);
+    for (let index = 0; index <= 53; index++) {
+      let weekDate = m.year(Number(this.current.year)).week(index);
 
+      
       const result = weekDate.clone().startOf('week').format('YYYY/MM/DD');
 
       this.dates.push(result);
 
+      if(index == 53){
+        let newYear = Number(this.current.year)
+        newYear++
+        this.current.year = newYear.toString()
+        weekDate = m.year(Number(this.current.year)).week(2);
 
+        const result = weekDate.clone().startOf('week').format('YYYY/MM/DD');
+
+        this.dates.push(result);
+
+      }
 
     }
 
@@ -345,5 +356,8 @@ export class AddNewData implements OnInit {
     } else {
       this.dialogRef.close(null);
     }
+  }
+  greaterThan(sub, num) {
+    return sub < num;
   }
 }

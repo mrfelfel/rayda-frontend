@@ -43,6 +43,8 @@ export class FinslistComponent implements OnInit {
     }
   ];
   ngOnInit() {
+    this.showTable = false;
+    this.dataSource = []
     this.socket.socket.emit('query_gram', {
       scope : 'financial',
       address : 'user/wallet/transactions',

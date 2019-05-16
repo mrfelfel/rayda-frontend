@@ -32,12 +32,15 @@ export class ChartsComponent implements OnInit {
       }
     });
     this.socket.socket.on('data_gram', (data) => {
-      if (data.mode === 'newChart') {
-        this.response = data.data;
-        this.loadChart();
-
-        localStorage.removeItem('charts');
-        localStorage.charts = JSON.stringify(this.response);
+      console.log(data)
+      if((data.scope === "stats") && (data.address === 'charts') && (data.type === 'charts')){
+        if (data.data.mode === 'newChart') {
+          this.response = data.data.data;
+          this.loadChart();
+  
+          localStorage.removeItem('charts');
+          localStorage.charts = JSON.stringify(this.response);
+        }
       }
     });
   }

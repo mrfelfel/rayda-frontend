@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { SocketService } from '../../@core/socket.service';
 
 export interface PeriodicElement {
   id: number;
@@ -6,10 +7,10 @@ export interface PeriodicElement {
   amount: string;
   type: boolean;
   issuer: string;
+  balance:number;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {id: 1, description: 'تراکنش خالی', amount: '0', issuer: 'درگاه پرداخت',  type : true},
+let ELEMENT_DATA: PeriodicElement[] = [
 
 ];
 @Component({
@@ -18,10 +19,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./finslist.component.scss']
 })
 export class FinslistComponent implements OnInit {
-  displayedColumns: string[] = [ 'description', 'amount', 'issuer', 'type'];
+  displayedColumns: string[] = [ 'description', 'amount', 'issuer', 'type', 'balance'];
   dataSource = ELEMENT_DATA;
-  constructor() { }
+  constructor(private socket: SocketService, private cdr: ChangeDetectorRef) { }
   showLabels = true;
+  showTable = false;
   view: any[] = [300, 300];
   explodeSlices = false;
   doughnut = true;
@@ -39,8 +41,51 @@ export class FinslistComponent implements OnInit {
     }
   ];
   ngOnInit() {
+    this.socket.socket.emit('query_gram', {
+      scope : 'financial',
+      address : 'user/wallet/transactions',
+      info : {
+        method : 'GET',
+        data : {}
+      }
+    });
+    this.socket.socket.on('data_gram', (data) => {
+      if((data.scope === "wallet") && (data.address === 'wallet/transactions') && (data.type === 'object')){
+        if (data.data.mode === 'init') {
+          let blc = 0;
+
+          data.data.data.transactions.forEach(element => {
+
+            if(element.type == "UP"){
+
+              blc+= element.amount
+            }else {
+              blc-= element.amount
+
+            }
+            const resultBlc = blc
+            let transaction =  {id: element._id, description: element.description, amount: element.amount, issuer: element.issuer,  type : element.type=="UP"?true:false, balance : resultBlc}
+
+            this.dataSource.push(transaction)
+          });
+         
+          console.log(this.dataSource)
+          this.showTable = true
+             this.update()
+
+        }
+      }
+
+    });
   }
 
+  update() {
+    // Run change detection only for this component when update() method is called.
+    if (!this.cdr['destroyed']) {
+      this.cdr.detectChanges();
+    }
+  
+  }
 }
 
 

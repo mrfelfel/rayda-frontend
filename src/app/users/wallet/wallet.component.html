@@ -4,18 +4,18 @@
   <mat-card *ngFor="let card of cards" routerLink="/financial/transactions">
     <div class="main-money">
       <span>موجودی</span>
-      <span>0 ریال</span>
+      <span>{{card.data.value?card.data.value:'در حال دریافت'}} ریال</span>
     </div>
-    <div class="data">
-      <div class="money">
+    <div class="data" >
+      <div class="money" >
         <span>ورودی</span>
         <span>0</span>
       </div>
-      <div class="money">
+      <div class="money" >
         <span>در حال خروج</span>
         <span>0</span>
       </div>
-      <div class="money">
+      <div class="money" >
         <span>خروجی</span>
         <span>0</span>
       </div>

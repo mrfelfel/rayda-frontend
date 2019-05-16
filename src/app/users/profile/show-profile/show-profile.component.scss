@@ -9,6 +9,11 @@ mat-card-content.flex img{
     border-radius: 50%;
 }
 
+mat-card-content p {
+
+  padding: 0;
+}
+
 div.image{
     display: flex;
     flex-direction: column;

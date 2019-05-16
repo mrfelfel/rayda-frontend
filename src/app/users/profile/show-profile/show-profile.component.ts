@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {AuthService} from '../../../@core/auth.service';
 import {SnaksService} from '../../../snaks.service';
+import { SocketService } from '../../../@core/socket.service';
 @Component({
   selector: 'app-show-profile',
   templateUrl: './show-profile.component.html',
@@ -8,7 +9,7 @@ import {SnaksService} from '../../../snaks.service';
 })
 export class ShowProfileComponent implements OnInit {
 
-  constructor(private auth: AuthService, private snak: SnaksService, private cdr: ChangeDetectorRef) { }
+  constructor(private socket: SocketService, private auth: AuthService, private snak: SnaksService, private cdr: ChangeDetectorRef) { }
   d = {
     picture: null,
     fullname: window.localStorage.getItem('viewName') || 'بدون نام',

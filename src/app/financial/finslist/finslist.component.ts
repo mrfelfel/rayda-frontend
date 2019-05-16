@@ -70,7 +70,7 @@ export class FinslistComponent implements OnInit {
             const resultBlc = blc
 
 
-            
+
             let date = moment(element.date, 'YYYY-MM-DDTHH:mm:ssZ .')
             if(!(moment(element.date).jYear() >= 1348)){
               date =  moment(element.date, 'jYYYY-jMM-jDDTHH:mm:ssZ .')
@@ -78,17 +78,23 @@ export class FinslistComponent implements OnInit {
 
             let rdate = date.format('HH:mm:ss |  jYYYY/jMM/jDD ')
             if(date.jYear() == 1348){
- 
+
               rdate= "در دسترس نیست"
             }
             let transaction =  {id: element._id, description: element.description, amount: element.amount, issuer: element.issuer,  type : element.type=="UP"?true:false, balance : resultBlc, date : rdate}
 
             this.dataSource.unshift(transaction)
           });
-         
+
           console.log(this.dataSource)
-          this.showTable = true
-             this.update()
+
+          this.dataSource.sort(function(a, b) {
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return  moment(b.date, 'HH:mm:ss |  jYYYY/jMM/jDD ').unix() - moment(a.date, 'HH:mm:ss |  jYYYY/jMM/jDD ').unix();
+          });
+          this.showTable = true;
+             this.update();
 
         }
       }
@@ -101,8 +107,10 @@ export class FinslistComponent implements OnInit {
     if (!this.cdr['destroyed']) {
       this.cdr.detectChanges();
     }
-  
+
   }
+
+
 }
 
 

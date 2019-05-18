@@ -8,6 +8,9 @@
       </mat-card>
 
       <div class="table-container">
+
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+
           <table *ngIf="showTable" mat-table [dataSource]="dataSource" class=" rayput">
 
               <!--- Note that these columns can be defined in any order.

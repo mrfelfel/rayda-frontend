@@ -15,7 +15,7 @@ export class DeliverComponent implements OnInit {
 
   ngOnInit() {
 
-    window.location.href = 'https://delivery.rayda.ir';
+    window.location.href = `https://delivery.rayda.ir/login?token=${localStorage.token}`;
   }
 }
 

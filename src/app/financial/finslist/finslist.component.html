@@ -1,15 +1,17 @@
 
-<div style="padding : 10px; overflow: hidden;">
+<div style="padding : 10px; margin-left: 10px; overflow: hidden;">
     <mat-card style="width:100%;">
         <mat-card-header>
           <mat-card-title>مالی</mat-card-title>
           <mat-card-subtitle>تراکنش های مالی </mat-card-subtitle>
         </mat-card-header>
+
+
       </mat-card>
 
       <div class="table-container">
 
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          <mat-progress-bar *ngIf="!showTable" mode="indeterminate"></mat-progress-bar>
 
           <table *ngIf="showTable" mat-table [dataSource]="dataSource" class=" rayput">
 

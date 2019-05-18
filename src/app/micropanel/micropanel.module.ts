@@ -47,6 +47,7 @@ const routes: Routes = [
     material.MatDatepickerModule,
     material.MatRippleModule,
     material.MatRadioModule,
+    material.MatProgressSpinnerModule,
     RouterModule.forChild(routes)
   ],
   providers: [

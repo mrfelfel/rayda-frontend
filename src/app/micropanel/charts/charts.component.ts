@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Chart } from 'chart.js';
 import * as _ from 'lodash';
 import { SocketService } from '../../@core/socket.service';
@@ -17,7 +17,8 @@ export class ChartsComponent implements OnInit {
   public chart: Object = {};
   public selected = 'day';
   public Date = new Date();
-  constructor(private socket: SocketService) { }
+  public loading = true;
+  constructor(private socket: SocketService, private cdr : ChangeDetectorRef) { }
 
   ngOnInit() {
 
@@ -35,6 +36,8 @@ export class ChartsComponent implements OnInit {
       console.log(data)
       if((data.scope === "stats") && (data.address === 'charts') && (data.type === 'charts')){
         if (data.data.mode === 'newChart') {
+          this.loading = false;
+          this.cdr.markForCheck()
           this.response = data.data.data;
           this.loadChart();
   
@@ -47,6 +50,9 @@ export class ChartsComponent implements OnInit {
 
   SendQuery(event: MatDatepickerInputEvent<moment.Moment>) {
     const x = moment(event.value);
+    this.loading = true;
+    this.cdr.markForCheck()
+
     this.socket.socket.emit('query_gram', {
       scope : 'reports',
       address : 'stats',

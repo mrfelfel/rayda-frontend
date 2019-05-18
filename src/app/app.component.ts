@@ -1,5 +1,4 @@
 import { SwUpdate, SwPush } from '@angular/service-worker';
-import * as io from 'socket.io-client';
 import { Component, ChangeDetectorRef, OnInit, OnDestroy, Inject, ChangeDetectionStrategy, AfterViewInit, NgZone } from '@angular/core';
 import { Router, Event as RouterEvent,
   NavigationStart,
@@ -9,14 +8,11 @@ import { Router, Event as RouterEvent,
 import { MediaMatcher } from '@angular/cdk/layout';
 import { WindowRefService, ICustomWindow } from './window-ref.service';
 import { SnaksService } from './snaks.service';
-import { JwtService } from './@core/jwt.service';
 import { AuthService } from './@core/auth.service';
-import { UniversityService } from './@core/university.service';
 import { SocketService } from './@core/socket.service';
 
 import { Http } from '@angular/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { async } from 'q';
 const VAPID_PUBLIC = 'BCnMCiUJ2fAFLZsR35QufdKeLCVsi1SGYqvm4tU0HaHG6kPpNZBRgGYAzFH4tMzRMc-qmrjuIHuyS8ty6wxsRtI';
 
 
@@ -24,14 +20,14 @@ const VAPID_PUBLIC = 'BCnMCiUJ2fAFLZsR35QufdKeLCVsi1SGYqvm4tU0HaHG6kPpNZBRgGYAzF
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [UniversityService, WindowRefService],
+  providers: [ WindowRefService],
   changeDetection: ChangeDetectionStrategy.OnPush
 
 
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   // tslint:disable-next-line:max-line-length
-  constructor(private cdr: ChangeDetectorRef, private http: Http, private swUpdate: SwUpdate, private swPush: SwPush, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router, public snaks: SnaksService, private jwt: JwtService, private Auth: AuthService, private socketService: SocketService, private university: UniversityService, windowRef: WindowRefService, private dialog: MatDialog,
+  constructor(private cdr: ChangeDetectorRef, private http: Http, private swUpdate: SwUpdate, private swPush: SwPush, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router, public snaks: SnaksService, private Auth: AuthService, private socketService: SocketService, windowRef: WindowRefService, private dialog: MatDialog,
     private ngZone: NgZone) {
     this.mobileQuery = media.matchMedia('(max-width: 800px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -238,40 +234,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: '300px',
-      data: { bcost: this.bcost }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      // console.log('The dialog was closed');
-      if (!result) {
-        this.snaks.openSnackBar('انصراف از پرداخت', 'بستن');
-      }
-      if (!result.bcost) {
-        this.snaks.openSnackBar('انصراف از پرداخت', 'بستن');
-      }
-
-      if (result.bcost) {
-        if (Number(result.bcost) < 1000) {
-          this.snaks.openSnackBar('خطا مبلغ ورودی حداقل باید 1000 ریال باشد', 'بستن');
-          return;
-        }
-        this.snaks.snackBar.open('در حال اتصال به بانک ...', 'بستن', {
-          duration: 60000,
-        });
-        // tslint:disable-next-line:max-line-length
-        const uid = window.localStorage.getItem('uid');
-        this.http.get(`https://payment.rayda.ir/pay/${uid}/${result.bcost}`).toPromise()
-          .then((d) => {
-            window.location.href = d.json()['message'];
-          })
-          .catch((e) => {
-            this.snaks.openSnackBar(e.json()['message'], 'بستن');
-          });
-      }
-    });
-  }
+  
 
 
   ngOnDestroy(): void {
@@ -342,7 +305,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   UniSaver() {
     localStorage.setItem('Uni', this.selectedUni);
-    this.university.sendMessage('unichanged');
   }
 
   drg(ev) {
@@ -388,20 +350,4 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 }
 
 
-@Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'dialog-overview-example-dialog',
-  templateUrl: 'dialog.html',
-})
-// tslint:disable-next-line:component-class-suffix
-export class DialogOverviewExampleDialog {
 
-  constructor(
-    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-}

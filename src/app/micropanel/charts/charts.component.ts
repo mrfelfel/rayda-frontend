@@ -2,8 +2,12 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Chart } from 'chart.js';
 import * as _ from 'lodash';
 import { SocketService } from '../../@core/socket.service';
+
+import { XlsxService } from '../../@core/xlsx.service';
+
 import { MatDatepickerInputEvent } from '@angular/material';
 import * as moment from 'jalali-moment';
+import { on } from 'cluster';
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
@@ -18,8 +22,7 @@ export class ChartsComponent implements OnInit {
   public selected = 'day';
   public Date = new Date();
   public loading = true;
-  constructor(private socket: SocketService, private cdr : ChangeDetectorRef) { }
-
+  constructor(private socket: SocketService, private cdr: ChangeDetectorRef, private xlsx: XlsxService) { }
   ngOnInit() {
 
     this.socket.socket.emit('query_gram', {
@@ -33,26 +36,24 @@ export class ChartsComponent implements OnInit {
       }
     });
     this.socket.socket.on('data_gram', (data) => {
-      console.log(data)
-      if((data.scope === "stats") && (data.address === 'charts') && (data.type === 'charts')){
-        if (data.data.mode === 'newChart') {
-          this.loading = false;
-          this.cdr.markForCheck()
-          this.response = data.data.data;
-          this.loadChart();
-  
-          localStorage.removeItem('charts');
-          localStorage.charts = JSON.stringify(this.response);
-        }
+      console.log(data);
+      if (data.data.mode === 'newChart') {
+        this.response = data.data.data;
+        this.loadChart();
+
+        localStorage.removeItem('charts');
+        localStorage.charts = JSON.stringify(this.response);
+
+        this.loading = false;
+
+        this.cdr.markForCheck();
+
       }
     });
   }
 
   SendQuery(event: MatDatepickerInputEvent<moment.Moment>) {
     const x = moment(event.value);
-    this.loading = true;
-    this.cdr.markForCheck()
-
     this.socket.socket.emit('query_gram', {
       scope : 'reports',
       address : 'stats',
@@ -63,6 +64,9 @@ export class ChartsComponent implements OnInit {
         }
       }
     });
+    this.loading = true;
+
+    this.cdr.markForCheck();
   }
   onSelect(event) {
     let selected = null;
@@ -118,13 +122,20 @@ export class ChartsComponent implements OnInit {
     const div = document.createElement('div');
     div.style.margin = '4px 4px';
 
-    div.style.height = '800px !important';
-
+    div.style.height = '1000px !important';
     const canvas = document.createElement('canvas');
+    const button = document.createElement('button');
+    const  self = this;
+    button.textContent = 'خروجی';
+    button.onclick = function() {
+      self.export(self.response[index]['bars']);
+    };
     this.CanvasSize(canvas);
     canvas.setAttribute('name', this.response[index]['name']);
     div.appendChild(canvas);
     document.getElementById('content').appendChild(div);
+    document.getElementById('content').appendChild(button);
+
     document.getElementById('title').innerText =     this.response[index]['name'];
     document.getElementById('title').className =     this.response[index]['name'];
     const ctx = canvas.getContext('2d');
@@ -197,6 +208,14 @@ export class ChartsComponent implements OnInit {
     }
   }
 
+  export(data) {
+
+
+    console.log(data);
+
+    this.xlsx.exportAsExcelFile(data, 'آمار');
+
+  }
   doUpdate(data= [], name) {
     let index = 0;
     for (let lindex = 0; lindex < this.data.length; lindex++) {

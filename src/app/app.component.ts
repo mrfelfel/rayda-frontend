@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   private _window: ICustomWindow;
 
-  clientVersion = '0.1.8 beta';
+  clientVersion = '0.1.9 beta';
   selectedUni = '';
   mobileQuery: MediaQueryList;
 
@@ -234,7 +234,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  
+
 
 
   ngOnDestroy(): void {

@@ -14,12 +14,9 @@ import {SocketService} from '../../@core/socket.service';
 
 import * as moment from 'jalali-moment';
 import * as _ from 'lodash';
-import * as io from 'socket.io-client';
 import { FormControl } from '@angular/forms';
 import { ClipboardService } from 'ngx-clipboard';
-import { switchMap } from 'rxjs/operators';
 import { MdcTabActivatedEvent } from '@angular-mdc/web';
-import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
 
 interface FoodData {
   dow:  Number;
@@ -78,10 +75,6 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   weekNum = 0;
   yearNum = moment().jYear();
   usocket = this.socketService.socket;
-  socket = io.connect('https://realtime.rayda.ir',
-  {
-    'query': 'token=' + localStorage.token
-  });
   days = [
     'شنبه',
     'یکشنبه',
@@ -139,20 +132,15 @@ export class FoodsListComponent implements OnInit, OnDestroy {
    } else {
     this.weekNum++;
    }
-    this.socket.on('connect', function (socket) {
-      this.locked = false;
-    });
-    this.socket.on('error', function (socket) {
-      this.error = true;
-    });
-    this.socket.on('news', (d) => {
-      this.snaks.openSnackBar(d.message, 'بستن');
-      this.update();
-
-    });
 
 
-    this.socket.on('reserved', (data) => {
+
+    this.DataGram({
+      scope : 'reserveSystem',
+      address : 'Foodlist/Reserved',
+      type : 'object',
+    }, (data) => {
+      console.log(data)
       if (data.type === 'unreserve') {
         _.remove(this.reserved, {
           dow: data.data.dow,
@@ -175,34 +163,31 @@ export class FoodsListComponent implements OnInit, OnDestroy {
 
       // this.snaks.openSnackBar(data.message, 'بستن');
     });
-    this.socket.on('reservedlist', (data) => {
-      if (data) {
-        this.reserved = data;
-        this.locked = false;
-        this.update();
-      }
-     //  console.log(this.reserved);
-    });
-    this.socket.on('me', (data) => {
-      this.cost = data.cost;
-      this.uid = data.uid;
-      this.nameSpace = data.nameSpace;
-    });
-    this.socket.on('mode', (data) => {
-      if (!data) {
-          this.error = true;
-      }
-    });
-    this.socket.on('balancing', (data) => {
-      if (data.add) {
-        this.cost += Number(data.cost);
-      } else {
-        this.cost += Number(data.cost * -1);
-      }
+    this.DataGram({
+      scope : 'reserveSystem',
+      address : 'Foodlist/user',
+      type : 'object',
+    }, (data)=>{
+      this.cost = data.data.cost;
+      this.uid = data.data.uid;
+      this.nameSpace = data.data.nameSpace;
       this.update();
 
-    });
-    this.socket.on('planned', (data) => {
+    })
+
+    this.DataGram({
+      scope : 'reserveSystem',
+      address : 'Foodlist/balancing',
+      type : 'object',
+    }, (data)=>{
+      if (data.data.add) {
+        this.cost += Number(data.data.cost);
+      } else {
+        this.cost += Number(data.data.cost * -1);
+      }
+      this.update();
+    })
+    /* this.socket.on('planned', (data) => {
 
 
       console.log(data);
@@ -220,7 +205,29 @@ export class FoodsListComponent implements OnInit, OnDestroy {
 
       this.update();
     });
+    */
+    this.DataGram({
+      scope : 'reserveSystem',
+      address : 'Foodlist/plan',
+      type : 'object',
+    }, (data)=>{
 
+      const d = data.data
+      if(d.plan){
+        this.planned = d.plan;
+        this.reserved = d.reserved;
+
+        this.error = !d.mode;
+        this.Dowsearch();
+
+        this.update();
+      }else {
+        this.planned = null;
+        this.message = 'برای این هفته این برنامه ای وجود ندارد';
+        this.update();
+
+      }
+    })
     this.usocket.on('news', (data) => {
       console.log(data);
     });
@@ -235,16 +242,11 @@ export class FoodsListComponent implements OnInit, OnDestroy {
         }
       }
     });
-    this.socket.emit('getplan', {
-      year : this.clone.jYear(),
-      week : this.date.jWeek()
-    });
     window.history.replaceState( {} , null ,  document.location.protocol +
       '//' + document.location.host + '/foods/' + this.date.format('jYYYY-jMM-jDD'));
   }
   ngOnDestroy() {
     this.reserved = null;
-    this.socket.close();
   }
   Dowsearch() {
      this.searched = this.planned.filter((item) => {
@@ -280,7 +282,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
 
    this.planned = null;
    this.error = false;
-   this.message = 'در حال اتصال';
+   this.message = 'دریافت اطلاعات'
    if (p === 'next') {
     this.date = this.date.add(7, 'd');
           this.weekNum++;
@@ -296,11 +298,6 @@ export class FoodsListComponent implements OnInit, OnDestroy {
 
 
    this.clone = this.date.clone().add(7, 'd');
-   this.socket.emit('getplan', {
-    year : this.clone.jYear(),
-    week : this.date.jWeek()
-  });
-
   this.usocket.emit('query_gram', {
     scope : 'reserveSystem',
     address : 'reserveSystem/actions/Plan',
@@ -394,7 +391,16 @@ getDateOfISOWeek(w, y) {
          return;
       }
       if (result.cost <= this.cost) {
-        this.socket.emit('transfer', result);
+        // this.socket.emit('transfer', result);
+
+        this.usocket.emit('query_gram', {
+          scope : 'financial',
+          address : 'user/wallet/transfer',
+          info : {
+            method : 'DO',
+            data : result
+          }
+        });
       } else {
         this.snaks.openSnackBar('عدم موجودی کافی', 'بستن');
       }
@@ -414,13 +420,27 @@ getDateOfISOWeek(w, y) {
       this.snaks.openSnackBar('رزرو این هفته غیر فعال است ', 'بستن');
          return;
     }
+
+    console.log(this.cost)
     if (this.cost === 0) {
       this.snaks.openSnackBar('موجودی کافی نیست', 'بستن');
          return;
     }
         item.week = this.date.jWeek();
         item.year = this.clone.jYear();
-        this.socket.emit('reserve', item);
+        item.type = 'reserve'
+          this.usocket.emit('query_gram', {
+            scope : 'reserveSystem',
+            address : 'reserveSystem/actions/reserveFood',
+            info : {
+              method : 'DO',
+              data : item
+            }
+          });
+
+
+
+
   }
   unreserve(item) {
     if (!this.viewId) {
@@ -437,7 +457,16 @@ getDateOfISOWeek(w, y) {
     }
     item.week = this.date.jWeek();
     item.year = this.clone.jYear();
-    this.socket.emit('unreserve', item);
+    item.type = 'unreserve'
+
+    this.usocket.emit('query_gram', {
+      scope : 'reserveSystem',
+      address : 'reserveSystem/actions/reserveFood',
+      info : {
+        method : 'DO',
+        data : item
+      }
+    });
   }
   checking(item) {
     if (!this.reserved) {
@@ -500,7 +529,7 @@ getDateOfISOWeek(w, y) {
   }
   update() {
     // Run change detection only for this component when update() method is called.
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
   private timeChecker(start: number, delay: any) {
     // tslint:disable-next-line:no-unused-expression
@@ -512,6 +541,13 @@ getDateOfISOWeek(w, y) {
     this.tab = event.index;
 
     this.update();
+  }
+  private DataGram(input,callback){
+    this.usocket.on('data_gram', (data) => {
+      if((data.scope === input.scope) && (data.address === input.address) && (data.type === input.type)){
+        callback(data.data)
+      }
+    });
   }
 }
 

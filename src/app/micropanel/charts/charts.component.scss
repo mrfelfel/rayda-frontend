@@ -13,10 +13,16 @@
 }
 .chartAreaWrapper {
   direction: ltr;
-  width: 1000px;
+  width: 100%;
+  max-width: 1400px;
   overflow-x: scroll;
 }
 
 .hidden {
   visibility: hidden;
+}
+
+.btn-x {
+
+  margin: 0 auto;
 }

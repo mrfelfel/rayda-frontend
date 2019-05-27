@@ -7,7 +7,6 @@ import { XlsxService } from '../../@core/xlsx.service';
 
 import { MatDatepickerInputEvent } from '@angular/material';
 import * as moment from 'jalali-moment';
-import { on } from 'cluster';
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
@@ -122,11 +121,12 @@ export class ChartsComponent implements OnInit {
     const div = document.createElement('div');
     div.style.margin = '4px 4px';
 
-    div.style.height = '1000px !important';
+    div.style.height = '800px !important';
     const canvas = document.createElement('canvas');
     const button = document.createElement('button');
     const  self = this;
     button.textContent = 'خروجی';
+    button.className = 'btn-x';
     button.onclick = function() {
       self.export(self.response[index]['bars']);
     };

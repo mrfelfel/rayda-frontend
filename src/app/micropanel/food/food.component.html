@@ -2,6 +2,8 @@
   <span>مدیریت تغذیه</span>
 </mat-toolbar>
 <mat-tab-group backgroundColor="primary" (selectedIndexChange)="editMode = false">
+  <mat-tab label="سلف ها"></mat-tab>
+  <mat-tab label="تنظیمات تحویل غذا"></mat-tab>
   <mat-tab label="برنامه ریزی غذایی">
     <div class="main-container">
       <mat-card>
@@ -67,9 +69,9 @@
                       ورود به سال جدید
                     </ng-template>
                 </ng-template>
-                
-             
-                 
+
+
+
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -416,5 +418,8 @@
       </mat-card>
     </div>
   </mat-tab>
+
+  <mat-tab label="صندوق"></mat-tab>
+  <mat-tab label="تنظیمات بانکی سلف ها"></mat-tab>
 
 </mat-tab-group>

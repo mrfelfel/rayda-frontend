@@ -224,6 +224,17 @@ export class FoodsListComponent implements OnInit, OnDestroy {
     this.usocket.on('news', (data) => {
       console.log(data);
     });
+    this.usocket.emit('query_gram', {
+      scope : 'reserveSystem',
+      address : 'reserveSystem/actions/Plan',
+      info : {
+        method : 'GET',
+        data : {
+          year : this.clone.jYear(),
+          week : this.date.jWeek()
+        }
+      }
+    });
     this.socket.emit('getplan', {
       year : this.clone.jYear(),
       week : this.date.jWeek()
@@ -288,6 +299,18 @@ export class FoodsListComponent implements OnInit, OnDestroy {
    this.socket.emit('getplan', {
     year : this.clone.jYear(),
     week : this.date.jWeek()
+  });
+
+  this.usocket.emit('query_gram', {
+    scope : 'reserveSystem',
+    address : 'reserveSystem/actions/Plan',
+    info : {
+      method : 'GET',
+      data : {
+        year : this.clone.jYear(),
+        week : this.date.jWeek()
+      }
+    }
   });
   window.history.replaceState( {} , null ,  document.location.protocol +
     '//' + document.location.host + '/foods/' + this.date.format('jYYYY-jMM-jDD'));

@@ -114,10 +114,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   async ngOnInit() {
     this.ngZone.runOutsideAngular(() => {
-      if ((!localStorage.pushify) && (localStorage.token)) {
-        localStorage.setItem('pushify', 'true');
-        this.RequestPushNotify(this.swPush);
-      }
       if (this.swUpdate.isEnabled) {
         this.swUpdate.available.subscribe((evt) => {
           setTimeout(() => {
@@ -141,6 +137,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         if ((this.showRoute === true) && (!this.Proutes) && (this.check === 0)) {
           this.check++;
           this.socket = this.socketService.connect();
+          this.RequestPushNotify(this.swPush);
           this.socket.on('data_gram', (data) => {
             if (data.type === 'balance') {
               this.balance = data.balance;
@@ -200,6 +197,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
             { name: 'بازار غذا', icon: '<svg  viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></svg>', viewMenu: true, path: 'foods/bazzar', primary: true },
             // tslint:disable-next-line:max-line-length
             { name: 'پروفایل من', icon: '<svg  viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>', viewMenu: true, path: 'users/profile', primary: true },
+                      // tslint:disable-next-line:max-line-length
             { name: 'کیف پول', icon: '<svg  viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>', viewMenu: true, path: 'users/wallet', primary: true },
 
           ];
@@ -274,10 +272,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       { name: 'گزارشات ', icon: '<svg  viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/><path d="M0 0h24v24H0z" fill="none"/></svg>', viewMenu: this.adminRoute, path: 'panel/reports', primary: true },
       // tslint:disable-next-line:max-line-length
       { name: 'آمار ', icon: '<svg  viewBox="0 0 48 48"><path d="M38 6H10c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V10c0-2.21-1.79-4-4-4zM18 34h-4V20h4v14zm8 0h-4V14h4v20zm8 0h-4v-8h4v8z"/></svg>', viewMenu: this.adminRoute, path: 'panel/charts', primary: true },
-
-      // {name : 'مافیا (بازی)', icon : 'gamepad', viewMenu : this.adminRoute, path: 'mafia', primary : true},
-
-
+            // tslint:disable-next-line:max-line-length
+      { name: 'فضا نام ها', icon: '<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48"><path d="M0 0h48v48H0z" fill="none"/><path d="M24 14V6H4v36h40V14H24zM12 38H8v-4h4v4zm0-8H8v-4h4v4zm0-8H8v-4h4v4zm0-8H8v-4h4v4zm8 24h-4v-4h4v4zm0-8h-4v-4h4v4zm0-8h-4v-4h4v4zm0-8h-4v-4h4v4zm20 24H24v-4h4v-4h-4v-4h4v-4h-4v-4h16v20zm-4-16h-4v4h4v-4zm0 8h-4v4h4v-4z"/></svg>', viewMenu: this.adminRoute, path: 'panel/namespaces', primary: true }
     ];
   }
   async exit() {

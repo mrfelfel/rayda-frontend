@@ -69,6 +69,8 @@ $mdc-typography-font-family: "SDF";
    width: 100%;
    height: 100%;
    overflow-x: hidden !important;
+   -webkit-touch-callout: none;
+
  }
  * {
    font-family: SDF;

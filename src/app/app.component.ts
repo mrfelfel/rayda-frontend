@@ -121,8 +121,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
           }, 100);
         });
 
-        this.swUpdate.checkForUpdate().then(() => {
+        this.swUpdate.checkForUpdate().then((e) => {
           // noop
+
+          console.log(e)
         }).catch((err) => {
           this.snaks.openSnackBar('مشکل در اپدیت رایدا', 'بستن');
         });

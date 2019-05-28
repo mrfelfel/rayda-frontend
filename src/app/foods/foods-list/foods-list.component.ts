@@ -98,7 +98,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   unliked = null;
 
   tab = 0;
-  locked = true;
+  locked = false;
   error = false;
   message = 'در حال اتصال ...';
   nameSpace = '';
@@ -107,6 +107,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   transferNational = '';
   tcost = 0;
   cost = 0;
+  reserveSum = 0;
   bcost: Number = 0;
   date = moment().add(8, 'd').startOf('weeks').subtract(1, 'd');
 
@@ -140,7 +141,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
       address : 'Foodlist/Reserved',
       type : 'object',
     }, (data) => {
-      console.log(data)
+      this.locked = false
       if (data.type === 'unreserve') {
         _.remove(this.reserved, {
           dow: data.data.dow,
@@ -227,9 +228,10 @@ export class FoodsListComponent implements OnInit, OnDestroy {
         this.update();
 
       }
+
     })
     this.usocket.on('news', (data) => {
-      console.log(data);
+         this.locked = false
     });
     this.usocket.emit('query_gram', {
       scope : 'reserveSystem',
@@ -366,7 +368,7 @@ getDateOfISOWeek(w, y) {
           duration : 60000,
         });
       // tslint:disable-next-line:max-line-length
-      this.Server.get(`https://payment.rayda.ir/pay/${this.uid}/${result.bcost}?q=${Math.random()}`)      .toPromise()
+      this.Server.get(`https://payment.rayda.ir/pay/${localStorage.uid}/${result.bcost}?q=${Math.random()}`)      .toPromise()
       .then((d) => {
         window.location.href = d.json()['message'];
       })
@@ -406,7 +408,13 @@ getDateOfISOWeek(w, y) {
       }
     });
   }
-  reserve(item, button) {
+   reserve(item, button) {
+
+    if(this.locked){
+
+
+      return
+    }
     if (!this.viewId) {
       this.snaks.openSnackBar('به دلیل نقص در اطلاعات امکان رزرو وجود ندارد', 'بستن');
       return;
@@ -421,14 +429,16 @@ getDateOfISOWeek(w, y) {
          return;
     }
 
-    console.log(this.cost)
-    if (this.cost === 0) {
+    if (this.cost < item.price) {
       this.snaks.openSnackBar('موجودی کافی نیست', 'بستن');
          return;
     }
+
+
         item.week = this.date.jWeek();
         item.year = this.clone.jYear();
         item.type = 'reserve'
+
           this.usocket.emit('query_gram', {
             scope : 'reserveSystem',
             address : 'reserveSystem/actions/reserveFood',
@@ -437,6 +447,10 @@ getDateOfISOWeek(w, y) {
               data : item
             }
           });
+
+          this.locked = true;
+
+
 
 
 
@@ -513,13 +527,6 @@ getDateOfISOWeek(w, y) {
     }
      return null;
   }
-   sleep(delay) {
-    const start = new Date().getTime();
-    while (this.timeChecker(start, delay)) {
-
-    }
-
-  }
   urlButton() {
    this._clipboardService.copyFromContent(document.location.protocol +
     '//' + document.location.host + '/foods/' + this.date.format('jYYYY-jMM-jDD'));
@@ -549,6 +556,10 @@ getDateOfISOWeek(w, y) {
       }
     });
   }
+  private sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
 }
 
 

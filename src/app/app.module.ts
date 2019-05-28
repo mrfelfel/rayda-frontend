@@ -3,7 +3,18 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import * as material from '@angular/material';
+import {
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+}  from '@angular/material';
 import {SnaksService} from './snaks.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -28,16 +39,16 @@ import { OutletCoreComponent } from './outlet-core/outlet-core.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    material.MatToolbarModule,
-    material.MatSidenavModule,
-    material.MatListModule,
-    material.MatSnackBarModule,
-    material.MatButtonModule,
-    material.MatMenuModule,
-    material.MatIconModule,
-    material.MatDialogModule,
-    material.MatProgressSpinnerModule,
-    material.MatProgressBarModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
     // tslint:disable-next-line:whitespace
     FormsModule,
     HttpModule,

@@ -1,7 +1,6 @@
-
-<div class="rayda-container no-select" [class.rayda-is-mobile]="mobileQuery.matches" *ngIf="showRoute">
+<div class="rayda-container no-select" [class.rayda-is-mobile]="mobileQuery.matches" *ngIf="showRoute" (keyup.control.m)="ctrlf()">
   <mat-progress-bar style="position: fixed; top: 0; left: 0; right: 0;" mode="indeterminate" *ngIf="loading" color="primary"></mat-progress-bar>
-  <mat-toolbar color="primary" class="rayda-toolbar rayda">
+  <mat-toolbar color="primary" class="rayda-toolbar rayda" >
     <button *ngIf="showRoute && mobileQuery.matches" mat-icon-button (click)="snav.toggle()" class="rayda-icon"
       aria-label="منوی اصلی">
       <mat-icon>
@@ -39,7 +38,7 @@
   </mat-toolbar>
 
   <mat-sidenav-container id="sidecontainer" [hasBackdrop]="mobileQuery.matches" class="rayda-sidenav-container "
-    [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0" >
     <mat-sidenav class="woped no-select" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="mobileQuery.matches" [opened]="!mobileQuery.matches && showRoute == true" fixedTopGap="56">
       <div class="header" >
@@ -109,8 +108,8 @@
       </p>
     </mat-sidenav>
 
-    <mat-sidenav-content id="my-content" *ngIf="showRoute ">
-      <router-outlet></router-outlet>
+    <mat-sidenav-content id="my-content" *ngIf="showRoute " >
+      <router-outlet ></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

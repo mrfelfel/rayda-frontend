@@ -35,6 +35,14 @@ export class ChatComponent implements OnInit {
     if(!this.message){
       return
     }
+
+    if(this.user === localStorage.uid){
+      this.user = ''
+      this.message = ''
+
+      this.cdr.markForCheck()
+      return
+    }
     this.Add(localStorage.uid + ' : ' +  this.message)
     this.socket.socket.emit('chat', {
       uid : this.user,

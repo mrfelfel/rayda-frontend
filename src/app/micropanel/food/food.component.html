@@ -79,9 +79,9 @@
 
 
           <mat-tab-group>
-            <mat-tab *ngFor="let item of days; let indexi = index" [label]="item">
+            <mat-tab *ngFor="let item of days; let indexi = index" [label]="item"  >
 
-              <div style="padding-top:15px">
+              <div style="padding-top:15px;">
 
                 <button mat-raised-button color="primary" (click)="AddBox(indexi)">
                   <mat-icon>
@@ -96,9 +96,9 @@
               </div>
 
 
-              <div class="row">
+              <div class="row" >
 
-                <div *ngFor="let mitem of daysdata[indexi]; let mindex = index">
+                <div  *ngFor="let mitem of daysdata[indexi]; let mindex = index">
                   <app-box (onChange)="onBoxChange($event)" (onDelete)="Delete($event)"
                     [datas]="daysdata[indexi][mindex]" [foods]="foodsData" [meals]="mealsData" [day]="indexi"
                     [meal]="mindex"></app-box>

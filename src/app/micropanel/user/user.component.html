@@ -10,7 +10,8 @@
 
           <ng-container matColumnDef="delete">
             <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
-            <td mat-cell *matCellDef="let element;" style="width: 30px;"><button mat-icon-button>
+            <td mat-cell *matCellDef="let element;" style="width: 30px;"><button mat-icon-button
+              (click)="deleteUser(element)">
                 <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                     <path d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
                   </svg></mat-icon>
@@ -44,16 +45,21 @@
             <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="username">
+          <ng-container matColumnDef="uid">
             <th mat-header-cell *matHeaderCellDef> نام کاربری </th>
-            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.uid}} </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[25]"></mat-paginator>
+        <mat-paginator [length]="len"
+        [pageSize]="psize"
+        [pageSizeOptions]="[5, 10, 25, 100]">
+</mat-paginator>
       </mat-card>
+
+
     </div>
   </mat-tab>
   <mat-tab label="ویرایش پروفایل"></mat-tab>
@@ -64,7 +70,7 @@
         <div class="main-container">
           <mat-card>
             <p>صفحه ثبت کارت</p>
-  
+
             <p *ngIf="card.new">
               کارت شناسایی شد
             </p>
@@ -84,7 +90,7 @@
         <div class="main-container">
           <mat-card>
             <p>صفحه وضعیت کارت</p>
-  
+
             <p *ngIf="card.new">
               کارت شناسایی شد
             </p>
@@ -95,12 +101,12 @@
               <input matInput placeholder="وضعیت را تایپ کنید" value="">
             </mat-form-field>
             <br>
-  
+
             <mat-slide-toggle>قفل کردن کارت</mat-slide-toggle>
             <br><br>
-  
-  
-  
+
+
+
             <button mat-raised-button color="primary">ثبت</button>
           </mat-card>
         </div>

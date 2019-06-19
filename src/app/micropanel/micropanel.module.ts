@@ -8,7 +8,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsComponent } from './charts/charts.component';
 import { SearchFilterPipe } from './reports/search.pipe';
-
+import { MatPaginatorIntlCro } from './matClass';
 import { MaterialPersianDateAdapter, PERSIAN_DATE_FORMATS } from '../@core/material.persian-date.adapter';
 import { BoxComponent } from './box/box.component';
 
@@ -51,6 +51,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   providers: [
+    { provide: material.MatPaginatorIntl, useClass: MatPaginatorIntlCro},
     { provide: material.DateAdapter, useClass: MaterialPersianDateAdapter, deps: [material.MAT_DATE_LOCALE] },
     { provide: material.MAT_DATE_FORMATS, useValue: PERSIAN_DATE_FORMATS }
   ],

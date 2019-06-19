@@ -32,6 +32,8 @@ export class FinslistComponent implements OnInit {
   colorScheme = {
     domain: ['#3f51b5', '#f44336']
   };
+  page = 0;
+  len = 0;
   public single = [
     {
       'name': 'موفق',
@@ -45,18 +47,12 @@ export class FinslistComponent implements OnInit {
   ngOnInit() {
     this.showTable = false;
     this.dataSource = []
-    this.socket.socket.emit('query_gram', {
-      scope : 'financial',
-      address : 'user/wallet/transactions',
-      info : {
-        method : 'GET',
-        data : {}
-      }
-    });
+    this.GetDataQuery()
     this.socket.socket.on('data_gram', (data) => {
       if((data.scope === "wallet") && (data.address === 'wallet/transactions') && (data.type === 'object')){
         if (data.data.mode === 'init') {
           let blc = 0;
+          this.len = 0
 
           data.data.data.transactions.forEach(element => {
 
@@ -69,21 +65,18 @@ export class FinslistComponent implements OnInit {
             }
             const resultBlc = blc
 
+            console.log(element.description)
 
 
-            let date = moment(element.date, 'YYYY-MM-DDTHH:mm:ssZ .')
-            if(!(moment(element.date).jYear() >= 1348)){
-              date =  moment(element.date, 'jYYYY-jMM-jDDTHH:mm:ssZ .')
-            }
+
+              const date =  moment(element.date, 'jYYYY-jMM-jDDTHH:mm:ssZ .')
+
 
             let rdate = date.format('HH:mm:ss |  jYYYY/jMM/jDD ')
-            if(date.jYear() == 1348){
-
-              rdate= "در دسترس نیست"
-            }
             let transaction =  {id: element._id, description: element.description, amount: element.amount, issuer: element.issuer,  type : element.type=="UP"?true:false, balance : resultBlc, date : rdate}
 
             this.dataSource.unshift(transaction)
+            this.len++;
           });
 
           console.log(this.dataSource)
@@ -93,6 +86,9 @@ export class FinslistComponent implements OnInit {
             // to get a value that is either negative, positive, or zero.
             return  moment(b.date, 'HH:mm:ss |  jYYYY/jMM/jDD ').unix() - moment(a.date, 'HH:mm:ss |  jYYYY/jMM/jDD ').unix();
           });
+          this.showTable = false;
+          this.update();
+
           this.showTable = true;
              this.update();
 
@@ -110,6 +106,25 @@ export class FinslistComponent implements OnInit {
 
   }
 
+
+  GetDataQuery(){
+    this.socket.socket.emit('query_gram', {
+      scope : 'financial',
+      address : 'user/wallet/transactions',
+      info : {
+        method : 'GET',
+        data : {
+          page : this.page
+        }
+      }
+    });
+  }
+
+  NextPage(){
+
+    this.page++;
+    this.GetDataQuery()
+  }
 
 }
 

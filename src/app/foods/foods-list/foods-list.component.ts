@@ -106,7 +106,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   ft = {y : 0, w : 0};
   transferNational = '';
   tcost = 0;
-  cost = 0;
+  cost = null;
   reserveSum = 0;
   bcost: Number = 0;
   date = moment().add(8, 'd').startOf('weeks').subtract(1, 'd');

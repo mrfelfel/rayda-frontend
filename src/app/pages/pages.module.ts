@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
-  { path: 'chat', component: ChatComponent},
+  { path: 'chat/:id', component: ChatComponent},
 
 
 ];
@@ -18,6 +18,8 @@ const routes: Routes = [
     CommonModule,
     material.MatCardModule,
     material.MatButtonModule,
+    material.MatFormFieldModule,
+    material.MatInputModule,
     FormsModule,
     RouterModule.forChild(routes)
   ]

@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef,Inject } from '@angular/core';
 import * as _ from 'lodash';
 import * as moment from 'jalali-moment';
 import * as wordify from './index.js';
+import { SocketService } from '../../@core/socket.service';
 import { FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -49,7 +50,7 @@ export class FoodComponent implements OnInit {
   public groupCode = null;
   public groupEditMode:Boolean = false;
   public groups = [];
-  constructor(private cdr: ChangeDetectorRef, private dialog:MatDialog) {
+  constructor(private cdr: ChangeDetectorRef,private socket:SocketService, private dialog:MatDialog) {
   }
   current = {
     year: moment().locale('fa').year().toString(),
@@ -114,7 +115,7 @@ export class FoodComponent implements OnInit {
     for (let index = 0; index <= 53; index++) {
       let weekDate = m.year(Number(this.current.year)).week(index);
 
-      
+
       const result = weekDate.clone().startOf('week').format('YYYY/MM/DD');
 
       this.dates.push(result);
@@ -186,6 +187,17 @@ export class FoodComponent implements OnInit {
     if (this.updateMode === false) {
       this.foodsData.push(this.foodData);
     }
+    this.socket.socket.emit('query_gram', {
+      scope : 'foodSystem',
+      address : 'food/manage/add',
+      info : {
+        method : 'DO',
+        data : {
+          data : this.foodData,
+          updateMode : this.updateMode
+        }
+      }
+    });
     this.foodData = { name: '', price: 0, type: '', descriptions: '' };
     this.editMode = false;
   }
@@ -194,6 +206,21 @@ export class FoodComponent implements OnInit {
     if (this.updateMode === false) {
       this.mealsData.push(this.mealData);
     }
+
+    this.socket.SyncQueryGram({
+      scope : 'planningSystem',
+      address : 'meal/manage/add',
+      info : {
+        method : 'DO',
+        data : {
+          data : this.mealData,
+          updateMode : this.updateMode
+        }
+      }
+    })
+    .then((d)=>{
+      console.log(d)
+    })
     this.mealData = { name: '', price: '', places: [], description: '' };
     this.editMode = false;
   }
@@ -204,14 +231,28 @@ export class FoodComponent implements OnInit {
 
   startScheduling() {
 
-    console.log(this.daysdata);
   }
 
   addNewPlace() {
     if (this.placeData['name'].length == 0) return;
     this.placesData.push(this.placeData);
     this.placeData = { name: '' }
-    this.cdr.detectChanges();
+
+    this.socket.SyncQueryGram({
+      scope : 'planningSystem',
+      address : 'place/manage/add',
+      info : {
+        method : 'DO',
+        data : {
+          data : this.placesData,
+          updateMode : false
+        }
+      }
+    })
+    .then((d)=>{
+      console.log(d)
+    })
+    this.cdr.markForCheck();
   }
 
   deletePlace(index) {

@@ -1,9 +1,10 @@
 #!/bin/sh
 
-ng build --prod  --output-path=dist --common-chunk
-cp ./liara_nginx.conf ./dist
-cp ./liara.json ./dist
-cp -r .well-known ./dist
-cd dist
-touch robots.txt
-liara deploy
+ng build --prod  --output-path=server/dist --common-chunk
+cp ./liara.json ./server
+
+cd server
+#npm i
+touch dist/robots.txt
+npm run compress
+npm run deploy

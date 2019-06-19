@@ -6,9 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "compress": "node compress.js",
-
     "deploy": "liara deploy"
-
   },
   "keywords": [],
   "author": "",

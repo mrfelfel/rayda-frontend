@@ -62,4 +62,6 @@ export class AuthService {
 IsLoggedIn() {
   return localStorage.token ? true : false;
 }
+
+
 }

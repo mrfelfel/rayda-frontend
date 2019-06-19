@@ -14,7 +14,7 @@
           <p>{{viewId}} خوش آمدید</p>
 
 
-          <p >موجودی شما : {{cost }} ریال</p>
+          <p *ngIf="cost != null">موجودی شما : {{cost }} ریال</p>
 
 
 
@@ -24,11 +24,15 @@
               class="gb gb_remove gb_s24"></i></button>
 
 
+
+
         </div>
 
       </div>
 
       <br><br> <br><br>
+      <br>
+
       <br>
 
 

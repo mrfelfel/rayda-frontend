@@ -4,6 +4,7 @@
         <mat-card-header>
           <mat-card-title>مالی</mat-card-title>
           <mat-card-subtitle>تراکنش های مالی </mat-card-subtitle>
+
         </mat-card-header>
 
 
@@ -57,6 +58,9 @@
                           </h4>
                           <h4  class="green" *ngIf="element.balance > 0">                      {{element.balance  }} ریال
                             </h4>
+
+                            <h4  class="red" *ngIf="element.balance == 0">                      {{element.balance  }} ریال
+                            </h4>
                         </td>
                   </ng-container>
 
@@ -71,6 +75,8 @@
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+
+            <button *ngIf="showTable && false" mat-raised-button style="width: 100%" (click)="NextPage()">بیشتر</button>
       </div>
 
 </div>

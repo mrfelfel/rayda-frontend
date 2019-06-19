@@ -1,6 +1,6 @@
 <div mat-dialog-content *ngIf="data['info'] == false">
     <mat-form-field>
-        <input matInput placeholder="نام کاربری" autocomplete="off" name="username" [(ngModel)]="data['username']">
+        <input matInput placeholder="نام کاربری" autocomplete="off" name="username" [(ngModel)]="data['uid']">
     </mat-form-field><br>
     <mat-form-field>
         <input type="password" matInput placeholder="رمز عبور" name="password" [(ngModel)]="data['password']">
@@ -10,7 +10,7 @@
     </mat-form-field>
 </div>
 <div mat-dialog-content *ngIf="data['info'] == true">
-    <p>نام کاربری :‌‌ {{data['username']}}</p>
+    <p>نام کاربری :‌‌ {{data['uid']}}</p>
 </div>
 <div mat-dialog-actions style="direction: ltr" *ngIf="data['info'] == false">
     <button mat-button [mat-dialog-close]="data" cdkFocusInitial>ثبت</button>

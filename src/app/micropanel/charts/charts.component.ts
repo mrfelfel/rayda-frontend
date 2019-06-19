@@ -123,21 +123,13 @@ export class ChartsComponent implements OnInit {
 
     div.style.height = '800px !important';
     const canvas = document.createElement('canvas');
-    const button = document.createElement('button');
     const  self = this;
-    button.textContent = 'خروجی';
-    button.className = 'btn-x';
-    button.onclick = function() {
-      self.export(self.response[index]['bars']);
-    };
+
     this.CanvasSize(canvas);
     canvas.setAttribute('name', this.response[index]['name']);
     div.appendChild(canvas);
     document.getElementById('content').appendChild(div);
-    document.getElementById('content').appendChild(button);
 
-    document.getElementById('title').innerText =     this.response[index]['name'];
-    document.getElementById('title').className =     this.response[index]['name'];
     const ctx = canvas.getContext('2d');
     const chart = new Chart(ctx, {
       type: 'bar',
@@ -162,7 +154,7 @@ export class ChartsComponent implements OnInit {
         }]
         },
         title: {
-          display: false,
+          display: true,
           text: this.response[index]['name']
         },
         onResize : (d) => {

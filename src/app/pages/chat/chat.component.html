@@ -6,24 +6,29 @@
   <mat-card-content>
 
     <p>
-      پیام های این قسمت ذخیره نمیگردد و موقتی است - این جا برای تست ارسال موفق پیام بین دو کاربر
+      سیستم پیام رسانی بین دو کاربر
 
-      برای اطمینان از عملکرد هایی مانند ارسال الگوی غذایی در برنامه اینده رایدا است
+      پیام های این صفحه ذخیره میگردد و بعد از ورود مجدد قابل دسترسی است
+      این سیستم ازمایشی است
     </p>
 
-    <p>قابلیت ارسال فایل و پرونده داخلی رایدا به زودی اضافه میگردد</p>
-    <textarea name="" id="" cols="30" rows="10" id="chts"
-     disabled [(ngModel)]="chats">
 
 
-    </textarea>
 
 
+     <mat-form-field>
+        <textarea matInput name="" id="" cols="30" rows="10" id="chts"
+      [(ngModel)]="chats" placeholder="پیام ها" readonly >
+         </textarea>
+     </mat-form-field>
 
     <br>
-      <input type="text" placeholder="نام کاربری مقصد" [(ngModel)]="user" >
-      <input type="text" (keyup.enter)="send()" placeholder="بنویس" style="width:100%" [(ngModel)]="message">
 
+
+     <mat-form-field>
+       <input matInput type="text" (keyup.enter)="send()" placeholder="بنویس" style="width:100%" [(ngModel)]="message">
+
+     </mat-form-field>
       <br>
 
 

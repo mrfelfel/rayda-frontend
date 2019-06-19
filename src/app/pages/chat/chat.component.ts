@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {SocketService} from '../../@core/socket.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -8,27 +9,48 @@ import {SocketService} from '../../@core/socket.service';
 })
 export class ChatComponent implements OnInit {
 
-  constructor(private socket: SocketService, private cdr: ChangeDetectorRef) { }
+  constructor(private activatedRoute:ActivatedRoute,private socket: SocketService, private cdr: ChangeDetectorRef) { }
 
 
   chats = ``;
   message = '';
   user = ''
+  sct = 0;
   ngOnInit() {
 
+    this.user = this.activatedRoute.snapshot.params['id'];
 
-    this.socket.socket.on('chat', (data)=>{
-      this.Add(data.uid + ' : ' +  data.message)
+
+    this.socket.socket.on('chat', (datas)=>{
+
+      console.log(datas)
+      datas.forEach(data => {
+        if((data.from == localStorage.uid) || (data.from == this.user) || (data.to == localStorage.uid) || (data.to == this.user)){
+          this.Add(data.from + ' : ' +  data.message)
+        }
+      });
+
+      const $scroll = document.getElementById('chts')
+
+      $scroll.scrollTop = this.sct
+
     })
+
+    this.socket.socket.emit('getAllchats', {
+      uid : this.user,
+    })
+
   }
 
   Add(textData){
-    this.chats += `${textData} \n`
-
-
+    this.chats += `${textData} \n \n`
     const $scroll = document.getElementById('chts')
-    $scroll.scrollTop = $scroll.scrollHeight
+
+    this.sct += $scroll.scrollHeight + 10
+    $scroll.scrollTop = this.sct
     this.cdr.markForCheck()
+
+
   }
 
   send(){

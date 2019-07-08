@@ -7,6 +7,8 @@ import { FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {SnaksService} from '../../snaks.service';
+
 
 @Component({
   selector: 'app-food',
@@ -17,40 +19,40 @@ export class FoodComponent implements OnInit {
 
   public foodsColumns: String[] = ['delete', 'edit', 'name', 'price', 'type', 'descriptions'];
   public foodsData: Object[] = [];
-  public foodTypes: Object[] = [{ code: '', name: 'پرهزینه' }, { code: '', name: 'متوسط هزینه' }, { code: '', name: 'کم هزینه' }];
-  public foodData: any = { name: '', price: 0, type: [], descriptions: '' };
+  public foodTypes: Object[] = [{ id: '', name: 'پرهزینه' }, { id: '', name: 'متوسط هزینه' }, { id: '', name: 'کم هزینه' }];
+  public foodData: any = { id: 'def', name: '', price: 0, type: [], descriptions: '', Foodstuffs : [] };
   public mealsColumns: String[] = ['delete', 'edit', 'name', 'price', 'places', 'description'];
   public mealsData: Object[] = [];
-  public mealData = { name: '', price: '', places: [], description: '' };
-  public places: Object[] = [{ code: 1, name: 'امیر المومنین' }, { code: 2, name: 'اصلی ' }, { code: 3, name: 'ماشین سازی ' }];
+  public mealData: any = { id: 'def', name: '', price: '', places: [], description: '' };
   public placeControl = new FormControl();
   public filteredPlaces: Observable<object[]>;
   public placeColumns: String[] = ['delete', 'name'];
-  public placeData: Object = { name: '' };
-  public placesData: Object[] = [{ name: 'مرکز اصلی' }];
+  public placeData: Object = { name: '', id :  '' };
+  public selfData: Object = { name: '', id :  '' };
+  public placeEdit = true
+  public placesData: Object[] = [];
+  public selfsData: [] = [];
+
   public editMode: Boolean = false;
   public updateMode: Boolean = false;
   public allHeadOptions = [{
     name: 'نام',
-    code: 'firstname'
+    id: 'firstname'
   }, {
     name: 'نام خانوادگی',
-    code: 'lastname'
+    id: 'lastname'
   }];
   public isSelectedAllOptions = false;
   public allHeadOptionsSelected = [];
   public allSearchOption = "";
   public selectedAllDataOptions = [];
-  public allDataOptionsSelected = [{
-    firstname: 'نام شخص',
-    lastname: 'نام خوادگی شخص'
-  }];
+  public allDataOptionsSelected = [];
   public allDataOptionsChecked:Boolean = false;
   public groupName = null;
   public groupCode = null;
   public groupEditMode:Boolean = false;
   public groups = [];
-  constructor(private cdr: ChangeDetectorRef,private socket:SocketService, private dialog:MatDialog) {
+  constructor(private cdr: ChangeDetectorRef,private socket:SocketService, private dialog:MatDialog, private snaks:SnaksService) {
   }
   current = {
     year: moment().locale('fa').year().toString(),
@@ -82,8 +84,7 @@ export class FoodComponent implements OnInit {
       .pipe(
         startWith(''),
         map(value => {
-          value = value.toLowerCase();
-          return this.places.filter(plcae => plcae['name'].toLowerCase().includes(value));
+          return this.placesData.filter(plcae => plcae['name'].includes(value));
         })
       );
 
@@ -94,6 +95,8 @@ export class FoodComponent implements OnInit {
     }
 
     this.MakeWeeks();
+
+    this.findAllPlace()
   }
 
 
@@ -141,11 +144,11 @@ export class FoodComponent implements OnInit {
 
   AddBox(item) {
     if (this.daysdata[item] == null) {
-      this.daysdata[item] = [{ meal: 0, food: '' }];
+      this.daysdata[item] = [{ meal: null, food: null }];
     } else {
       this.daysdata[item].push({
-        meal: 0,
-        food: ''
+        meal: null,
+        food: null
       });
     }
     this.cdr.detectChanges();
@@ -160,9 +163,9 @@ export class FoodComponent implements OnInit {
   }
 
   getPlace(index) {
-    for (const i in this.places) {
-      if (this.places[i]['code'] === index) {
-        return this.places[i]['name'];
+    for (const i in this.placesData) {
+      if (this.placesData[i]['id'] === index) {
+        return this.placesData[i]['name'];
         break;
       }
     }
@@ -184,17 +187,19 @@ export class FoodComponent implements OnInit {
   }
 
   newFood() {
+    let address = 'planning/manage/food/update'
     if (this.updateMode === false) {
+      address = 'planning/manage/food/add'
       this.foodsData.push(this.foodData);
     }
-    this.socket.socket.emit('query_gram', {
-      scope : 'foodSystem',
-      address : 'food/manage/add',
+    this.socket.SyncQueryGram( {
+      scope : 'reserveSystem',
+      address : address,
+      timeout : 2000,
       info : {
         method : 'DO',
         data : {
-          data : this.foodData,
-          updateMode : this.updateMode
+          data : this.foodData
         }
       }
     });
@@ -203,25 +208,27 @@ export class FoodComponent implements OnInit {
   }
 
   newMeal() {
+    let address = 'planning/manage/meal/update'
     if (this.updateMode === false) {
+      address = 'planning/manage/meal/add'
       this.mealsData.push(this.mealData);
     }
 
     this.socket.SyncQueryGram({
-      scope : 'planningSystem',
-      address : 'meal/manage/add',
+      scope : 'reserveSystem',
+      address : address,
+      timeout : 2000,
       info : {
         method : 'DO',
         data : {
-          data : this.mealData,
-          updateMode : this.updateMode
+          data : this.mealData
         }
       }
     })
     .then((d)=>{
       console.log(d)
     })
-    this.mealData = { name: '', price: '', places: [], description: '' };
+    this.mealData = { id : '', name: '', price: '', places: [], description: '' };
     this.editMode = false;
   }
 
@@ -231,16 +238,101 @@ export class FoodComponent implements OnInit {
 
   startScheduling() {
 
+
+
+    for (let index = 0; index < this.daysdata.length; index++) {
+      const element = this.daysdata[index];
+      element.forEach(delement => {
+        if(!delement.food) {
+          this.snaks.openSnackBar('غذا را انتخاب کنید' , 'بستن')
+        }
+
+        if(!delement.meal) {
+          this.snaks.openSnackBar('وعده را انتخاب کنید' + index , 'بستن')
+        }
+      });
+    }
+
+
   }
 
   addNewPlace() {
     if (this.placeData['name'].length == 0) return;
-    this.placesData.push(this.placeData);
+
+
+    let placesData = [...this.placesData]
+    placesData.push(this.placeData);
     this.placeData = { name: '' }
 
     this.socket.SyncQueryGram({
-      scope : 'planningSystem',
-      address : 'place/manage/add',
+      scope : 'reserveSystem',
+      address : 'planning/manage/place/add',
+      timeout : 3000,
+      info : {
+        method : 'DO',
+        data : {
+          data : placesData,
+          updateMode : false
+        }
+      }
+    })
+    .then((data)=>{
+
+
+
+      this.placesData = data['data'].data.list;
+
+      this.cdr.markForCheck();
+
+    })
+    .catch((e)=>{
+
+      this.snaks.openSnackBar('سرویس رزرو و برنامه ریزی غذایی در دسترس نیست', 'بستن')
+
+      this.cdr.markForCheck();
+
+
+    })
+  }
+  findAllPlace() {
+    this.socket.SyncQueryGram({
+      scope : 'reserveSystem',
+      address : 'planning/manage/place/get',
+      timeout : 5000,
+      info : {
+        method : 'DO',
+        data : {
+          data : this.placesData,
+          updateMode : false
+        }
+      }
+    })
+    .then((data)=>{
+
+      this.placesData = data['data'].data.list;
+
+      this.cdr.markForCheck();
+
+    })
+    .catch((e)=>{
+
+
+      console.log(e)
+
+      this.snaks.openSnackBar('سرویس رزرو و برنامه ریزی غذایی در دسترس نیست', 'بستن')
+
+      this.cdr.markForCheck();
+
+
+    })
+  }
+
+  deletePlace(index) {
+    this.placesData.splice(index, 1);
+    this.socket.SyncQueryGram({
+      scope : 'reserveSystem',
+      address : 'planning/manage/place/add',
+      timeout : 10000,
       info : {
         method : 'DO',
         data : {
@@ -250,13 +342,16 @@ export class FoodComponent implements OnInit {
       }
     })
     .then((d)=>{
-      console.log(d)
+      this.cdr.markForCheck();
     })
-    this.cdr.markForCheck();
-  }
+    .catch((e)=>{
 
-  deletePlace(index) {
-    this.placesData.splice(index, 1);
+      this.placeEdit = false
+      this.snaks.openSnackBar('سرویس رزرو و برنامه ریزی غذایی در دسترس نیست', 'بستن')
+      this.cdr.markForCheck();
+
+
+    })
   }
 
   setAllHeadOptions(item){
@@ -316,7 +411,7 @@ export class FoodComponent implements OnInit {
 
   saveGroup(){
     this.groups.push({
-      code: this.groups.length, // <=
+      id: this.groups.length, // <=
       name: this.groupName,
       data: this.allDataOptionsSelected
     })
@@ -339,6 +434,8 @@ export class FoodComponent implements OnInit {
     this.selectedAllDataOptions = [];
     this.editMode = false;
   }
+
+
 }
 
 

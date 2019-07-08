@@ -48,6 +48,7 @@ const routes: Routes = [
     material.MatRippleModule,
     material.MatRadioModule,
     material.MatProgressSpinnerModule,
+    material.MatListModule,
     RouterModule.forChild(routes)
   ],
   providers: [

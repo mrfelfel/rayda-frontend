@@ -1,3 +1,27 @@
 mat-card {
-  margin: 5px;
+  box-shadow: none !important;
+  border:2px solid rgba(0, 0, 0, .1); border-radius: 5px;
+
+}
+
+.example-form  {
+  margin-top:5px;
+}
+
+mat-form-field {
+  margin: .5px;
+}
+
+
+button {
+  margin: 1px !important;
+  padding: 0 !important;
+
+}
+
+
+@media only screen and (max-width: 800px) {
+  .cll {
+    width: 100% !important;
+  }
 }

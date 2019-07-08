@@ -20,6 +20,7 @@
     "@angular-mdc/web": "^0.44.0",
     "@angular-persian/material-date-picker": "^1.0.3",
     "@angular/animations": "^7.2.7",
+    "@angular/bazel": "7.2.15",
     "@angular/cdk": "^7.3.3",
     "@angular/common": "^7.2.7",
     "@angular/compiler": "^7.2.7",
@@ -113,7 +114,7 @@
     "persianjs": "^0.4.0",
     "protractor": "^5.4.1",
     "ts-node": "~8.0.2",
-    "tsickle": "0.34.3",
+    "tsickle": "^0.35.0",
     "tslib": "^1.9.3",
     "tslint": "~5.13.1",
     "webpack": "^4.31.0"

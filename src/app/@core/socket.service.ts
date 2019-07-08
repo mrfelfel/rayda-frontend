@@ -38,20 +38,28 @@ export class SocketService {
     info : {
       method : '',
       data : {}
-    }
+    },
+    timeout : 0
   }){
-    this.socket.emit('query_gram', data);
 
+    const timeout = data.timeout
+    console.log(timeout)
+
+    delete data.timeout
+    this.socket.emit('query_gram', data);
     return new Promise((resolve,reject)=>{
+      const settime = setTimeout(() => {
+        reject('error server is not respond')
+      }, timeout);
       this.socket.on('data_gram', (bdata)=>{
         if((bdata.scope == data.scope) && (bdata.address == data.address)){
+          clearTimeout(settime)
           resolve(bdata);
+
         }
       })
 
-      setTimeout(() => {
-        reject('error server is not respond')
-      }, 8000);
+
     })
 
   }
@@ -60,7 +68,7 @@ export class SocketService {
 
   }
   private ConnectToserver() {
-      this.socket = io.connect('https://message.rayda.ir/',
+      this.socket = io.connect('https://message.rayda.ir/public',
       {
       'query': 'token=' + localStorage.token
       });

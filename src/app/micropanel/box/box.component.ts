@@ -11,12 +11,13 @@ export class BoxComponent implements OnInit {
   @Input() foods: Object[];
   @Input() meals: Object[];
   @Input() day:Number;
-  @Input() meal:Number;
-  @Input() datas = { meal: 0, food: '' };
+  @Input() meal:string;
+  @Input() datas = { meal: '', food: '' };
   @Output() onChange = new EventEmitter();
   @Output() onDelete = new EventEmitter();
   myControl = new FormControl();
-  public data = { meal: 0, food: '' }
+  public data = { meal: '', food: '' }
+  Stringfood = ''
   constructor() { }
 
   ngOnInit() {
@@ -24,10 +25,10 @@ export class BoxComponent implements OnInit {
   }
 
   foodFilter(){
-    let data = this.data['food']      
+    let data = this.Stringfood
     return this.foods.filter(food=>food['name'].toLowerCase().includes(data));
   }
-  
+
   newEmit(){
     this.onChange.emit({
       day: this.day,
@@ -36,6 +37,7 @@ export class BoxComponent implements OnInit {
     });
   }
   Delete(){
+
     this.onDelete.emit({
       day: this.day,
       meal: this.meal,

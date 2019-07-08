@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FinslistComponent } from './finslist/finslist.component';
 import { Routes, RouterModule } from '@angular/router';
 import * as material from '@angular/material';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MoneyComponent } from './money/money.component';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 
@@ -15,7 +14,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [FinslistComponent, MoneyComponent],
   imports: [
-    NgxChartsModule,
     material.MatCardModule,
     material.MatTableModule,
     material.MatTabsModule,

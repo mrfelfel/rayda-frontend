@@ -11,7 +11,6 @@
   padding-right: 20px;
 
 }
-
 mat-card {
   overflow: hidden;
 }
@@ -60,4 +59,24 @@ table.custom td p{
 }
 
 
+.buttons button {
+  margin: 5px;
+}
 
+mat-form-field {
+  margin-left: 20px !important;
+
+  width: calc(50% - 20px);
+
+}
+.m-container {
+  padding-left: 10vw; padding-right: 10vw;
+}
+@media only screen and (max-width: 600px) {
+  mat-form-field {
+    width: 100%;
+  }
+  .m-container {
+    padding-left: 0vw; padding-right: 0vw;
+  }
+}

@@ -1,155 +1,178 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
+
 <head>
 
-  <style>
-    .sk-folding-cube {
-  margin: 100px auto;
-  width: 40px;
-  height: 40px;
-  position: relative;
-  -webkit-transform: rotateZ(45deg);
-          transform: rotateZ(45deg);
-  }
+    <style>
+        div#mainLoading{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .sk-folding-cube {
+            margin: 50px auto;
+            width: 60px;
+            height: 60px;
+            position: relative;
+            -webkit-transform: rotateZ(45deg);
+            transform: rotateZ(45deg);
+        }
 
-  .sk-folding-cube .sk-cube {
-  float: left;
-  width: 50%;
-  height: 50%;
-  position: relative;
-  -webkit-transform: scale(1.1);
-      -ms-transform: scale(1.1);
-          transform: scale(1.1);
-  }
-  .sk-folding-cube .sk-cube:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #FFA000;
-  -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
-          animation: sk-foldCubeAngle 2.4s infinite linear both;
-  -webkit-transform-origin: 100% 100%;
-      -ms-transform-origin: 100% 100%;
-          transform-origin: 100% 100%;
-  }
-  .sk-folding-cube .sk-cube2 {
-  -webkit-transform: scale(1.1) rotateZ(90deg);
-          transform: scale(1.1) rotateZ(90deg);
-  }
-  .sk-folding-cube .sk-cube3 {
-  -webkit-transform: scale(1.1) rotateZ(180deg);
-          transform: scale(1.1) rotateZ(180deg);
-  }
-  .sk-folding-cube .sk-cube4 {
-  -webkit-transform: scale(1.1) rotateZ(270deg);
-          transform: scale(1.1) rotateZ(270deg);
-  }
-  .sk-folding-cube .sk-cube2:before {
-  -webkit-animation-delay: 0.3s;
-          animation-delay: 0.3s;
-  }
-  .sk-folding-cube .sk-cube3:before {
-  -webkit-animation-delay: 0.6s;
-          animation-delay: 0.6s;
-  }
-  .sk-folding-cube .sk-cube4:before {
-  -webkit-animation-delay: 0.9s;
-          animation-delay: 0.9s;
-  }
-  @-webkit-keyframes sk-foldCubeAngle {
-  0%, 10% {
-    -webkit-transform: perspective(140px) rotateX(-180deg);
-            transform: perspective(140px) rotateX(-180deg);
-    opacity: 0;
-  } 25%, 75% {
-    -webkit-transform: perspective(140px) rotateX(0deg);
-            transform: perspective(140px) rotateX(0deg);
-    opacity: 1;
-  } 90%, 100% {
-    -webkit-transform: perspective(140px) rotateY(180deg);
-            transform: perspective(140px) rotateY(180deg);
-    opacity: 0;
-  }
-  }
+        .sk-folding-cube .sk-cube {
+            float: left;
+            width: 50%;
+            height: 50%;
+            position: relative;
+            -webkit-transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            transform: scale(1.1);
+        }
 
-  @keyframes sk-foldCubeAngle {
-  0%, 10% {
-    -webkit-transform: perspective(140px) rotateX(-180deg);
-            transform: perspective(140px) rotateX(-180deg);
-    opacity: 0;
-  } 25%, 75% {
-    -webkit-transform: perspective(140px) rotateX(0deg);
-            transform: perspective(140px) rotateX(0deg);
-    opacity: 1;
-  } 90%, 100% {
-    -webkit-transform: perspective(140px) rotateY(180deg);
-            transform: perspective(140px) rotateY(180deg);
-    opacity: 0;
-  }
-  }
-    .app-name {
-      text-align: center;
-      color: #FFA000;
-    }
+        .sk-folding-cube .sk-cube:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1565c0;
+            -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
+            animation: sk-foldCubeAngle 2.4s infinite linear both;
+            -webkit-transform-origin: 100% 100%;
+            -ms-transform-origin: 100% 100%;
+            transform-origin: 100% 100%;
+        }
 
+        .sk-folding-cube .sk-cube2 {
+            -webkit-transform: scale(1.1) rotateZ(90deg);
+            transform: scale(1.1) rotateZ(90deg);
+        }
+
+        .sk-folding-cube .sk-cube3 {
+            -webkit-transform: scale(1.1) rotateZ(180deg);
+            transform: scale(1.1) rotateZ(180deg);
+        }
+
+        .sk-folding-cube .sk-cube4 {
+            -webkit-transform: scale(1.1) rotateZ(270deg);
+            transform: scale(1.1) rotateZ(270deg);
+        }
+
+        .sk-folding-cube .sk-cube2:before {
+            -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s;
+        }
+
+        .sk-folding-cube .sk-cube3:before {
+            -webkit-animation-delay: 0.6s;
+            animation-delay: 0.6s;
+        }
+
+        .sk-folding-cube .sk-cube4:before {
+            -webkit-animation-delay: 0.9s;
+            animation-delay: 0.9s;
+        }
+
+        @-webkit-keyframes sk-foldCubeAngle {
+
+            0%,
+            10% {
+                -webkit-transform: perspective(140px) rotateX(-180deg);
+                transform: perspective(140px) rotateX(-180deg);
+                opacity: 0;
+            }
+
+            25%,
+            75% {
+                -webkit-transform: perspective(140px) rotateX(0deg);
+                transform: perspective(140px) rotateX(0deg);
+                opacity: 1;
+            }
+
+            90%,
+            100% {
+                -webkit-transform: perspective(140px) rotateY(180deg);
+                transform: perspective(140px) rotateY(180deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sk-foldCubeAngle {
+
+            0%,
+            10% {
+                -webkit-transform: perspective(140px) rotateX(-180deg);
+                transform: perspective(140px) rotateX(-180deg);
+                opacity: 0;
+            }
+
+            25%,
+            75% {
+                -webkit-transform: perspective(140px) rotateX(0deg);
+                transform: perspective(140px) rotateX(0deg);
+                opacity: 1;
+            }
+
+            90%,
+            100% {
+                -webkit-transform: perspective(140px) rotateY(180deg);
+                transform: perspective(140px) rotateY(180deg);
+                opacity: 0;
+            }
+        }
+
+        .app-name {
+            text-align: center;
+            color: #1565c0;
+        }
     </style>
 
-  <meta charset="utf-8">
-  <title>سیستم اتوماسیون تغذیه بادام</title>
-  <meta name="Description" content="سیستم اتوماسیون تغذیه بادام - رایدا">
-  <base href="/">
+    <meta charset="utf-8">
+    <title>سیستم اتوماسیون تغذیه بادام</title>
+    <meta name="Description" content="سیستم اتوماسیون تغذیه بادام - رایدا">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="بادام">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/ios/ios-appicon-152-152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/ios/ios-appicon-180-180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="assets/ios/ios-appicon-167-167.png">
+    <base href="/">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1976d2">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1565c0">
 </head>
+
 <body>
-    <div class="sk-folding-cube">
-        <div class="sk-cube1 sk-cube"></div>
-        <div class="sk-cube2 sk-cube"></div>
-        <div class="sk-cube4 sk-cube"></div>
-        <div class="sk-cube3 sk-cube"></div>
+    <div id="mainLoading">
+        <div class="sk-folding-cube">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
 
-      </div>
+        </div>
 
-      <h1 class="app-name">سیستم مدیریت تغذیه بادام</h1>
+        <h1 class="app-name">سیستم مدیریت تغذیه بادام</h1>
+        <h6 class="app-name" style="margin-top: -10px;">سامانه هوشمند دانشگاهی رایدا</h6>
+    </div>
+
+    <app-root id="mainContent" style="opacity: 0"></app-root>
+    <noscript>
+        <h5 style="text-align:center">رایدا برای کار کردن به جاوا اسکریپت نیاز دارد - لطفا جاوا اسکریپت خود را
+            فعال نموده و مرورگر خود را به روزرسانی کنید</h5>
+
+    </noscript>
 
 
-      <h6 class="app-name">سامانه هوشمند دانشگاهی رایدا</h6>
-
-  <app-root>
-
-  </app-root>
-  <noscript>
-      <h5 style="text-align:center">رایدا برای کار کردن به جاوا اسکریپت نیاز دارد - لطفا جاوا اسکریپت خود را فعال نموده و مرورگر خود را به روزرسانی کنید</h5>
-
-  </noscript>
-
-  <script type="text/javascript">
-    let siteName= 'رایدا';
-    let siteCode= '956687745678963584135478';
-     </script>
-<script type="text/javascript" src="https://mrfelfel.github.io/feedback/script.js" async></script>
 
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-    <script type="text/javascript" async>
-    !function() {
-    function t() {
-        var t = document.createElement("script");
-        t.type = "text/javascript", t.async = !0, localStorage.getItem("rayToken") ? t.src = "https://app.raychat.io/scripts/js/" + o + "?rid=" + localStorage.getItem("rayToken") + "&href=" + window.location.href : t.src = "https://app.raychat.io/scripts/js/" + o;
-        var e = document.getElementsByTagName("script")[0];
-        e.parentNode.insertBefore(t, e)
-    }
-    var e = document,
-        a = window,
-        o = "dbe4dbc4-08e5-4463-bb91-91d26603f579";
-    "complete" == e.readyState ? t() : a.attachEvent ? a.attachEvent("onload", t) : a.addEventListener("load", t, !1)
-    }();
-</script>
+
 </body>
+
 </html>

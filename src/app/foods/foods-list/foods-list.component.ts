@@ -1,22 +1,23 @@
 import { Component, OnInit, ViewChild, Inject, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 
 import {style, state, animate, transition, trigger} from '@angular/animations';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {BookingService} from '../../@core/self/booking.service';
 import {JwtService} from '../../@core/jwt.service';
 import {TimeService} from '../../time.service';
 import {SnaksService} from '../../snaks.service';
 import {ServerService} from '../../@core/server.service';
 import {UniversityService} from '../../@core/university.service';
+import {SocketService} from '../../@core/socket.service';
 
 import * as moment from 'jalali-moment';
 import * as _ from 'lodash';
-import * as io from 'socket.io-client';
 import { FormControl } from '@angular/forms';
 import { ClipboardService } from 'ngx-clipboard';
-import { switchMap } from 'rxjs/operators';
+import { MdcTabActivatedEvent } from '@angular-mdc/web';
+
 interface FoodData {
   dow:  Number;
   ID:   string;
@@ -67,17 +68,13 @@ export class FoodsListComponent implements OnInit, OnDestroy {
      private university: UniversityService,
      private activatedRoute: ActivatedRoute,
      private _clipboardService: ClipboardService,
-     private cdr: ChangeDetectorRef
+     private cdr: ChangeDetectorRef,
+     private socketService: SocketService,
      ) {}
-  @ViewChild('tabGroup') tabGroup;
-  Gweeknum = moment().isoWeek();
-  TestWeek = moment('1398/1/1', 'jYYYY/jM/jD').jWeek();
+  @ViewChild('tabGroup', { static: false }) tabGroup;
   weekNum = 0;
   yearNum = moment().jYear();
-  socket = io.connect('https://realtime.rayda.ir',
-  {
-    'query': 'token=' + localStorage.token
-  });
+  usocket = this.socketService.socket;
   days = [
     'شنبه',
     'یکشنبه',
@@ -100,21 +97,24 @@ export class FoodsListComponent implements OnInit, OnDestroy {
   weekurl = null;
   unliked = null;
 
-  locked = true;
+  tab = 0;
+  locked = false;
+  error = false;
   message = 'در حال اتصال ...';
   nameSpace = '';
 
   ft = {y : 0, w : 0};
   transferNational = '';
   tcost = 0;
-  cost = 0;
+  cost = null;
+  reserveSum = 0;
   bcost: Number = 0;
   date = moment().add(8, 'd').startOf('weeks').subtract(1, 'd');
 
   clone = this.date.clone();
 
   uid: String = '';
-  viewId = this.uid;
+  viewId = localStorage.viewName ? localStorage.viewName : null;
 
   ngOnInit() {
     const getDate = this.activatedRoute.snapshot.params['id'];
@@ -133,17 +133,15 @@ export class FoodsListComponent implements OnInit, OnDestroy {
    } else {
     this.weekNum++;
    }
-    this.socket.on('connect', function (socket) {
-      this.locked = false;
-    });
-    this.socket.on('news', (d) => {
-      this.snaks.openSnackBar(d.message, 'بستن');
-      this.update();
-
-    });
-    this.socket.on('reserved', (data) => {
 
 
+
+    this.DataGram({
+      scope : 'reserveSystem',
+      address : 'Foodlist/Reserved',
+      type : 'object',
+    }, (data) => {
+      this.locked = false
       if (data.type === 'unreserve') {
         _.remove(this.reserved, {
           dow: data.data.dow,
@@ -166,34 +164,31 @@ export class FoodsListComponent implements OnInit, OnDestroy {
 
       // this.snaks.openSnackBar(data.message, 'بستن');
     });
-    this.socket.on('reservedlist', (data) => {
-      this.reserved = data;
-      this.locked = false;
-     //  console.log(this.reserved);
-    });
-    this.socket.on('me', (data) => {
-      this.cost = data.cost;
-      this.uid = data.uid;
-      this.nameSpace = data.nameSpace;
-    });
-    this.socket.on('balancing', (data) => {
-      if (data.add) {
-        this.cost += Number(data.cost);
-      } else {
-        this.cost += Number(data.cost * -1);
-      }
+    this.DataGram({
+      scope : 'reserveSystem',
+      address : 'Foodlist/user',
+      type : 'object',
+    }, (data)=>{
+      this.cost = data.data.cost;
+      this.uid = data.data.uid;
+      this.nameSpace = data.data.nameSpace;
       this.update();
 
-    });
-    this.socket.on('viewName', (data) => {
-     if (data) {
-        localStorage.viewName = data;
-        this.viewId = data;
-     }
-     this.update();
+    })
 
-    });
-    this.socket.on('planned', (data) => {
+    this.DataGram({
+      scope : 'reserveSystem',
+      address : 'Foodlist/balancing',
+      type : 'object',
+    }, (data)=>{
+      if (data.data.add) {
+        this.cost += Number(data.data.cost);
+      } else {
+        this.cost += Number(data.data.cost * -1);
+      }
+      this.update();
+    })
+    /* this.socket.on('planned', (data) => {
 
 
       console.log(data);
@@ -211,19 +206,53 @@ export class FoodsListComponent implements OnInit, OnDestroy {
 
       this.update();
     });
-    this.socket.emit('getplan', {
-      year : this.clone.jYear(),
-      week : this.date.jWeek()
+    */
+    this.DataGram({
+      scope : 'reserveSystem',
+      address : 'Foodlist/plan',
+      type : 'object',
+    }, (data)=>{
+
+      const d = data.data
+      if(d.plan){
+        this.planned = d.plan;
+        this.reserved = d.reserved;
+
+        this.error = !d.mode;
+        this.Dowsearch();
+
+        this.update();
+      }else {
+        this.planned = null;
+        this.message = 'برای این هفته این برنامه ای وجود ندارد';
+        this.update();
+
+      }
+
+    })
+    this.usocket.on('news', (data) => {
+         this.locked = false
+    });
+    this.usocket.emit('query_gram', {
+      scope : 'reserveSystem',
+      address : 'reserveSystem/actions/Plan',
+      info : {
+        method : 'GET',
+        data : {
+          year : this.clone.jYear(),
+          week : this.date.jWeek()
+        }
+      }
     });
     window.history.replaceState( {} , null ,  document.location.protocol +
       '//' + document.location.host + '/foods/' + this.date.format('jYYYY-jMM-jDD'));
   }
   ngOnDestroy() {
-    this.socket.close();
+    this.reserved = null;
   }
   Dowsearch() {
      this.searched = this.planned.filter((item) => {
-          if (item.dow === this.selected.value) {
+          if (item.dow === this.tab) {
             return item;
           }
     });
@@ -234,6 +263,10 @@ export class FoodsListComponent implements OnInit, OnDestroy {
     }
   }
   Reservedsearch(dow, meal, food, year, week) {
+    if (!this.reserved) {
+      return false;
+
+    }
     this.searched = this.reserved.find((item) => {
          if ((item.dow === dow) && (item.meal === meal ) && (item.food === food ) && (item.year === year ) && (item.week === week )) {
            return item;
@@ -250,7 +283,8 @@ export class FoodsListComponent implements OnInit, OnDestroy {
  SetWeek(p): void {
 
    this.planned = null;
-   this.message = 'در حال اتصال';
+   this.error = false;
+   this.message = 'دریافت اطلاعات'
    if (p === 'next') {
     this.date = this.date.add(7, 'd');
           this.weekNum++;
@@ -266,9 +300,16 @@ export class FoodsListComponent implements OnInit, OnDestroy {
 
 
    this.clone = this.date.clone().add(7, 'd');
-   this.socket.emit('getplan', {
-    year : this.clone.jYear(),
-    week : this.date.jWeek()
+  this.usocket.emit('query_gram', {
+    scope : 'reserveSystem',
+    address : 'reserveSystem/actions/Plan',
+    info : {
+      method : 'GET',
+      data : {
+        year : this.clone.jYear(),
+        week : this.date.jWeek()
+      }
+    }
   });
   window.history.replaceState( {} , null ,  document.location.protocol +
     '//' + document.location.host + '/foods/' + this.date.format('jYYYY-jMM-jDD'));
@@ -327,9 +368,9 @@ getDateOfISOWeek(w, y) {
           duration : 60000,
         });
       // tslint:disable-next-line:max-line-length
-      this.Server.get(`https://payment.rayda.ir/pay/${this.uid}/${result.bcost}`)      .toPromise()
+      this.Server.get(`https://payment.rayda.ir/pay/${localStorage.uid}/${result.bcost}?q=${Math.random()}`)      .toPromise()
       .then((d) => {
-        window.location.href = d.json()['message'];
+        window.location.href = d['message'];
       })
       .catch((e) => {
         this.snaks.openSnackBar(e.json()['message'], 'بستن');
@@ -352,29 +393,100 @@ getDateOfISOWeek(w, y) {
          return;
       }
       if (result.cost <= this.cost) {
-        this.socket.emit('transfer', result);
+        // this.socket.emit('transfer', result);
+
+        this.usocket.emit('query_gram', {
+          scope : 'financial',
+          address : 'user/wallet/transfer',
+          info : {
+            method : 'DO',
+            data : result
+          }
+        });
       } else {
         this.snaks.openSnackBar('عدم موجودی کافی', 'بستن');
       }
     });
   }
-  reserve(item, button) {
+   reserve(item, button) {
+
+    if(this.locked){
 
 
-    if (this.cost === 0) {
+      return
+    }
+    if (!this.viewId) {
+      this.snaks.openSnackBar('به دلیل نقص در اطلاعات امکان رزرو وجود ندارد', 'بستن');
+      return;
+    }
+
+    if (item.lock) {
+      this.snaks.openSnackBar('رزرو این وعده غیر فعال است', 'بستن');
+         return;
+    }
+    if (this.error) {
+      this.snaks.openSnackBar('رزرو این هفته غیر فعال است ', 'بستن');
+         return;
+    }
+
+    if (this.cost < item.price) {
       this.snaks.openSnackBar('موجودی کافی نیست', 'بستن');
          return;
     }
+
+
         item.week = this.date.jWeek();
         item.year = this.clone.jYear();
-        this.socket.emit('reserve', item);
+        item.type = 'reserve'
+
+          this.usocket.emit('query_gram', {
+            scope : 'reserveSystem',
+            address : 'reserveSystem/actions/reserveFood',
+            info : {
+              method : 'DO',
+              data : item
+            }
+          });
+
+          this.locked = true;
+
+
+
+
+
+
   }
   unreserve(item) {
+    if (!this.viewId) {
+      this.snaks.openSnackBar('به دلیل نقص در اطلاعات امکان رزرو وجود ندارد', 'بستن');
+      return;
+    }
+    if (item.lock) {
+      this.snaks.openSnackBar('لغو رزرو این وعده غیر فعال است', 'بستن');
+         return;
+    }
+    if (this.error) {
+      this.snaks.openSnackBar('لغو این هفته غیر فعال است ', 'بستن');
+         return;
+    }
     item.week = this.date.jWeek();
     item.year = this.clone.jYear();
-    this.socket.emit('unreserve', item);
+    item.type = 'unreserve'
+
+    this.usocket.emit('query_gram', {
+      scope : 'reserveSystem',
+      address : 'reserveSystem/actions/reserveFood',
+      info : {
+        method : 'DO',
+        data : item
+      }
+    });
   }
   checking(item) {
+    if (!this.reserved) {
+      return false;
+
+    }
     const index = _.find(this.reserved, { food : item.food.id, meal : item.meal.id, dow: item.dow, week : this.date.jWeek(),
        year : this.clone.jYear()});
     if (index ) {
@@ -415,13 +527,6 @@ getDateOfISOWeek(w, y) {
     }
      return null;
   }
-   sleep(delay) {
-    const start = new Date().getTime();
-    while (this.timeChecker(start, delay)) {
-
-    }
-
-  }
   urlButton() {
    this._clipboardService.copyFromContent(document.location.protocol +
     '//' + document.location.host + '/foods/' + this.date.format('jYYYY-jMM-jDD'));
@@ -431,11 +536,28 @@ getDateOfISOWeek(w, y) {
   }
   update() {
     // Run change detection only for this component when update() method is called.
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
   private timeChecker(start: number, delay: any) {
     // tslint:disable-next-line:no-unused-expression
     return new Date().getTime() < start + delay;
+  }
+
+  private logTab(event: MdcTabActivatedEvent): void {
+    console.log(event.index);
+    this.tab = event.index;
+
+    this.update();
+  }
+  private DataGram(input,callback){
+    this.usocket.on('data_gram', (data) => {
+      if((data.scope === input.scope) && (data.address === input.address) && (data.type === input.type)){
+        callback(data.data)
+      }
+    });
+  }
+  private sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }

@@ -1,35 +1,100 @@
+<mat-toolbar color="primary" class="title">
+  <span>ویرایش پروفایل</span>
+</mat-toolbar>
+<mat-tab-group backgroundColor="primary">
+  <mat-tab label="تصاویر و مدارک">
+    <div class="main-container">
+      <mat-card class="userInfo">
+        <mat-card-content class="flex">
+          <div class="image">
+            <img class="avatar" [src]="d.picture || '/assets/user.png'" alt="تصویر پیش فرض"><br>
+            <button mat-button (click)="selectImage()">تغییر تصویر</button>
+          </div>
+          <div class="info">
+            <p>
+              <span>نام و نام خانوادگی</span>: <span>{{d.fullname}}</span>
+            </p>
+            <p>
+              <span>نام کاربری</span>: <span>{{d.username}}</span>
+            </p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="تغییر رمز عبور">
+    <div class="main-container">
+      <mat-card>
+        <mat-card-content>
+          <form action="#">
+            <app-input type="input" [value]="d.username" (valueChange)="setValue('username', $event)"
+              placeholder="نام کاربری" disabled="true"></app-input>
+            <app-input type="password" [value]="d.password" (valueChange)="setValue('password', $event)"
+              placeholder="گذرواژه فعلی"></app-input>
+            <app-input type="password" [value]="d.new_password" (valueChange)="setValue('new_password', $event)"
+              placeholder="گذرواژه جدید"></app-input>
+            <app-input type="password" [value]="d.repeat_password" (valueChange)="setValue('repeat_password', $event)"
+              placeholder="تکرار گذرواژه جدید"></app-input>
 
-<div style="padding : 10px">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>کاربری</mat-card-title>
-        <mat-card-subtitle>پروفایل {{d.username}}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-         <form action="#">
-              <p style="padding:0; margin:0">کلمه عبور</p>
+            <p *ngIf="d.new_password !== d.repeat_password">
+              کلمه عبور و تکرار آن باید برابر باشند
+            </p> <br>
+            <button mat-raised-button color="primary" style="float:left" *ngIf="login == 1" (click)="newPass()">به
+              روزرسانی</button>
+            <button mat-raised-button color="primary" style="float:left" *ngIf="login == 2"> بررسی صحت اطلاعات ...
+              {{timer}}</button>
+
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="تنظیمات دریافت">
+      <div class="main-container">
+        <mat-card>
+
+          <mat-card-content>
+            <p>
+              دریافت غذا در سلف برای هر وعده غذایی مستلزم فعال سازی گزینه زیر است
+            </p>
+            <br>
+              <mat-checkbox > دریافت با کد ملی</mat-checkbox>
+
+          </mat-card-content>
+          <button mat-raised-button color="primary" style="float:left">ذخیره تغییرات</button>
+
+        </mat-card>
+       </div>
+  </mat-tab>
+
+  <mat-tab label="دوستان">
+      <div class="main-container">
+        <mat-card>
+
+          <mat-card-content>
+
               <mat-form-field >
-                  <input  [(ngModel)]="d.password" name="d.password" type="password" matInput placeholder="گذرواژه فعلی" autocomplete="current-password">
-                </mat-form-field>
-                <br>
-                <mat-form-field >
-                    <input  [(ngModel)]="d.new_password" name="d.new_password" type="password" matInput placeholder="گذرواژه جدید" autocomplete="new-password">
-
-                  </mat-form-field>
-                  <br>
-                  <mat-form-field >
-                    <input  [(ngModel)]="d.repeat_password" name="d.repeat_password" type="password" matInput placeholder="تکرار گذرواژه جدید" autocomplete="new-password">
-
-                  </mat-form-field>
+                  <input matInput placeholder="کد ملی" value="" disabled>
+              </mat-form-field>
+              <button  mat-raised-button style="margin-right: 5px" color="primary" disabled>افزودن</button>
 
 
-<p *ngIf="d.new_password !== d.repeat_password">
-  کلمه عبور و تکرار آن باید برابر باشند
-</p>                  <br>
-                  <button mat-raised-button color="primary" style="float:left" *ngIf="login == 1"  (click)="newPass()">به روزرسانی</button>
-                  <button mat-raised-button color="primary" style="float:left" *ngIf="login == 2"  >  بررسی صحت اطلاعات  ... {{timer}}</button>
+              <mat-selection-list #friends>
+                <mat-list-option *ngFor="let item of lfriends"></mat-list-option>
+              </mat-selection-list>
 
-         </form>
-      </mat-card-content>
-    </mat-card>
-  </div>
+          </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button *ngIf="friends.selectedOptions.selected.length" color="warn" style="float: left">حذف موارد انتخابی</button>
+
+        </mat-card-actions>
+
+        </mat-card>
+       </div>
+  </mat-tab>
+
+  <mat-tab label="نشست های فعال">
+  </mat-tab>
+
+</mat-tab-group>
+<input type="file" style="display: none; opacity: 0;" id="file" accept="image/*">

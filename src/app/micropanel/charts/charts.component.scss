@@ -1,0 +1,28 @@
+#content{
+    display: flex;
+    flex-wrap: wrap;
+    overflow-x: scroll;
+}
+.chartWrapper {
+  text-align: right;
+  position: relative;
+}
+
+.chartWrapper h5 {
+  padding-right: 10px;
+}
+.chartAreaWrapper {
+  direction: ltr;
+  width: 100%;
+  max-width: 1400px;
+  overflow-x: scroll;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.btn-x {
+
+  margin: 0 auto;
+}

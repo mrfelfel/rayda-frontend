@@ -1,0 +1,88 @@
+input.searcher{
+    background-color: rgba($color: #fff, $alpha: .1);
+    border: 1px solid rgba($color: #fff, $alpha: .3);
+    padding: 5px 10px;
+    border-radius: .2rem;
+    color: #fff;
+    outline: #fff;
+}
+
+input.searcher::placeholder{
+    color: rgba(255, 255, 255, .5);
+}
+
+input.searcher + button{
+    position: absolute;
+}
+
+div.searcher input{
+    width: 100%;
+}
+
+@media only screen and (min-width: 601px) {
+    button.searcher{
+        display: none;
+    }
+    div.searcher{
+        position: relative;
+        width: 300px;
+        right: -60px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    div.searcher{
+        width: calc(100% - 60px);
+    }
+    div.searcher:not(.show){
+        display: none;
+    }
+    mat-toolbar .hide{
+        display: none;
+    }
+}
+
+div.content{
+    position: relative;
+    padding: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background-color: #fff;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    border-radius: .4rem;
+}
+
+div.content button[mat-icon-button].topleft{
+    position: absolute;
+    left: 10px;
+    margin-top: -10px;
+}
+
+table{
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    overflow-x: auto;
+    border-collapse: collapse;
+    border: 1px solid rgba($color: #000000, $alpha: .1);
+}
+
+tr{
+    border-bottom: 1px solid rgba($color: #000000, $alpha: .1);
+}
+  
+td, th {
+    padding: 15px 10px;
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+}
+
+div.pager{
+    display: flex;
+    flex-wrap: nowrap;
+    direction: ltr;
+    margin-top: 15px;
+    width: 100%;
+    overflow-x: auto;
+}

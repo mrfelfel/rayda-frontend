@@ -1,0 +1,42 @@
+<mat-card style="margin : 10px">
+  <mat-card-header>
+    <mat-card-title>سخن پراکنی</mat-card-title>
+    <mat-card-subtitle>بخش مخفی</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+
+    <p>
+      سیستم پیام رسانی بین دو کاربر
+
+      پیام های این صفحه ذخیره میگردد و بعد از ورود مجدد قابل دسترسی است
+      این سیستم ازمایشی است
+    </p>
+
+
+
+
+
+     <mat-form-field>
+        <textarea matInput name="" id="" cols="30" rows="10" id="chts"
+      [(ngModel)]="chats" placeholder="پیام ها" readonly >
+         </textarea>
+     </mat-form-field>
+
+    <br>
+
+
+     <mat-form-field>
+       <input matInput type="text" (keyup.enter)="send()" placeholder="بنویس" style="width:100%" [(ngModel)]="message">
+
+     </mat-form-field>
+      <br>
+
+
+  </mat-card-content>
+<mat-card-actions>
+  <button mat-button (click)="send()">بفرست</button>
+
+</mat-card-actions>
+
+
+</mat-card>

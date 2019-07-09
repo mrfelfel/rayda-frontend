@@ -1,89 +1,122 @@
-
-<div  (keyup) = "drg($event)" class="rayda-container no-select" [class.rayda-is-mobile]="mobileQuery.matches" [class.dark-theme]="isDarkTheme" >
-
-    <mat-toolbar color="primary" class="rayda-toolbar rayda ">
-      <button *ngIf="showRoute" mat-icon-button (click)="snav.toggle()" class="rayda-icon" aria-label="منوی اصلی">
-<mat-icon>
-
-<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-</mat-icon>
-  </button>
-  <span style="margin : 3px" >اتوماسیون تغذیه بادام</span>
-  <span class="rayda-spacer"></span>
-
-  <a *ngIf="!showRoute" mat-icon-button routerLink="/users/login" aria-label="ورود به سیستم">
-    <mat-icon>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
-    </mat-icon>
-
-  </a>
-  <a *ngIf="showRoute" mat-icon-button (click)="exit(); snav.close()" aria-label="خروج از برنامه">
+<div class="rayda-container no-select" [class.rayda-is-mobile]="mobileQuery.matches" *ngIf="showRoute" (keyup.control.m)="ctrlf()">
+  <mat-progress-bar style="position: fixed; top: 0; left: 0; right: 0;" mode="indeterminate" *ngIf="loading" color="primary"></mat-progress-bar>
+  <mat-toolbar color="primary" class="rayda-toolbar rayda" >
+    <button *ngIf="showRoute && mobileQuery.matches" mat-icon-button (click)="snav.toggle()" class="rayda-icon"
+      aria-label="منوی اصلی">
       <mat-icon>
 
-<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" /></svg>
+      </mat-icon>
+    </button>
+    <span style="margin : 3px">اتوماسیون تغذیه بادام</span>
+    <span class="rayda-spacer"></span>
+
+    <a *ngIf="!showRoute" mat-icon-button routerLink="/users/login" aria-label="ورود به سیستم">
+      <mat-icon>
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+          <path d="M0 0h24v24H0z" fill="none" /></svg>
       </mat-icon>
 
-  </a>
-  <button *ngIf="showRoute" mat-icon-button aria-label="اتصال به اینترنت">
+    </a>
+
+    <button *ngIf="showRoute" mat-icon-button disableRipple aria-label="اتصال به اینترنت" style="cursor: default;">
       <mat-icon *ngIf="!connected"   matTooltip="برنامه در مود افلاین کار میکند">
-
-
-<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-1.48 0-2.85.43-4.01 1.17l1.46 1.46C10.21 6.23 11.08 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3 0 1.13-.64 2.11-1.56 2.62l1.45 1.45C23.16 18.16 24 16.68 24 15c0-2.64-2.05-4.78-4.65-4.96zM3 5.27l2.75 2.74C2.56 8.15 0 10.77 0 14c0 3.31 2.69 6 6 6h11.73l2 2L21 20.73 4.27 4 3 5.27zM7.73 10l8 8H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h1.73z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-1.48 0-2.85.43-4.01 1.17l1.46 1.46C10.21 6.23 11.08 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3 0 1.13-.64 2.11-1.56 2.62l1.45 1.45C23.16 18.16 24 16.68 24 15c0-2.64-2.05-4.78-4.65-4.96zM3 5.27l2.75 2.74C2.56 8.15 0 10.77 0 14c0 3.31 2.69 6 6 6h11.73l2 2L21 20.73 4.27 4 3 5.27zM7.73 10l8 8H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h1.73z"/></svg>
       </mat-icon>
-      <mat-icon *ngIf="connected"   matTooltip="ارتباط با شبکه ابری رایدا بر قرار است">
-
-<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+      <mat-icon *ngIf="connected" (click)="RequestPushNotify(swPush)"  matTooltip="ارتباط با شبکه ابری رایدا بر قرار است">
+      <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
       </mat-icon>
   </button>
 
-    </mat-toolbar>
-
-    <mat-sidenav-container    id = "sidecontainer"[hasBackdrop]="mobileQuery.matches" class="rayda-sidenav-container "
-                           [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-      <mat-sidenav    class="woped no-select" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
-                   <div  *ngIf="Me" class="profile">
-                       <img  class="profile-avatar" src="https://api.rayda.ir/image?id={{Me.user.email}} " alt="عکس پروفایل">
-                   </div>
-                   <mat-nav-list (click)="snav.toggle()" *ngIf="mobileQuery.matches">
-                     <span  *ngFor="let item of Proutes">
-
-                     <a mat-list-item  *ngIf="item.viewMenu" class="mini-size"  [routerLink]="item.path">
-                        <mat-icon class="rayda-icons" [innerHTML]="item.icon | safe"></mat-icon>
-
-                        {{item.name}}</a>
-                   </span>
 
 
+  </mat-toolbar>
+
+  <mat-sidenav-container id="sidecontainer" [hasBackdrop]="mobileQuery.matches" class="rayda-sidenav-container "
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0" >
+    <mat-sidenav class="woped no-select" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches" [opened]="!mobileQuery.matches && showRoute == true" fixedTopGap="56">
+      <div class="header" >
+        <button *ngIf="showRoute" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+              <path
+                d="M24 16c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 4c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 12c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z" />
+              </svg>
+          </mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="exit(); snav.close()">خروج از حساب</button>
+        </mat-menu>
+          <mat-progress-spinner *ngIf="proccess!=100" diameter="70" color="primary" mode="determinate" strokeWidth="4" [value]="proccess/1.25"></mat-progress-spinner>
+          <div class="avatar">
+
+            <span >{{nameIcon()}}</span>
+          </div>
+          <span class="proccess" *ngIf="proccess!=100">{{proccess}}%</span>
+          <span class="name" *ngIf="connected">{{userName}}</span>
+          <span class="name" *ngIf="!connected">...</span>
+
+          <span class="access" *ngIf="adminRoute">حق دسترسی:‌ کارتابل اداری</span>
+          <span class="access" *ngIf="!adminRoute && connected">حق دسترسی:‌  کارتابل دانشجویی</span>
+
+          <span class="access" *ngIf="!adminRoute && !connected">{{connectMessage}}</span>
 
 
-                    </mat-nav-list>
-                    <mat-nav-list *ngIf="!mobileQuery.matches">
-                        <span  *ngFor="let item of Proutes">
+      </div>
+      <mat-nav-list (click)="snav.toggle()" *ngIf="mobileQuery.matches">
+        <span *ngFor="let item of Proutes">
 
-                        <a mat-list-item  *ngIf="item.viewMenu" class="mini-size"  [routerLink]="item.path">
-                           <mat-icon class="rayda-icons" [innerHTML]="item.icon | safe"></mat-icon>
-
-                           {{item.name}}</a>
-                      </span>
-
-
-
-
-                       </mat-nav-list>
-                    <p class="footer-text">
-                      badoom web {{clientVersion}}
-                      <br>
-                      کاری از عصر ارتباطات دهکده
-                    </p>
-                  </mat-sidenav>
-
-      <mat-sidenav-content  id = "my-content" >
-          <router-outlet ></router-outlet>
+          <a mat-list-item *ngIf="item.viewMenu" class="mini-size" [routerLink]="item.path">
+            <mat-icon class="rayda-icons" [innerHTML]="item.icon | safe"></mat-icon>
+            {{item.name}}
+            <span *ngIf="item.chip" style="padding: 4px 15px; border-radius: 2rem; background-color: #f44336; color: #fff !important; margin-right: auto;">{{item.chip}}</span>
+          </a>
+        </span>
 
 
 
-      </mat-sidenav-content>
-    </mat-sidenav-container>
-  </div>
+
+      </mat-nav-list>
+      <mat-nav-list *ngIf="!mobileQuery.matches">
+        <span *ngIf="!Proutes" style="display: flex; justify-content: center; margin-top: 30px; margin-bottom: 30px;">
+            <mat-spinner diameter="60"></mat-spinner>
+        </span>
+        <span *ngFor="let item of Proutes">
+
+          <a mat-list-item *ngIf="item.viewMenu" class="mini-size" [routerLink]="item.path">
+            <mat-icon class="rayda-icons" [innerHTML]="item.icon | safe"></mat-icon>
+
+            {{item.name}}
+            <span *ngIf="item.chip" style="padding: 4px 15px; border-radius: 2rem; background-color: #f44336; color: #fff !important; margin-right: auto;">{{item.chip}}</span>
+          </a>
+        </span>
+
+
+
+
+      </mat-nav-list>
+      <p class="footer-text">
+        badoom web {{clientVersion}}
+        <br>
+        کاری از عصر ارتباطات دهکده
+      </p>
+    </mat-sidenav>
+
+    <mat-sidenav-content id="my-content" *ngIf="showRoute " >
+      <router-outlet ></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+
+
+
+
+<div  class="rayda-container no-select centerContent" [class.rayda-is-mobile]="mobileQuery.matches" *ngIf="!showRoute && visibleLoginOutlet ">
+  <router-outlet *ngIf="!showRoute && visibleLoginOutlet "></router-outlet>
+</div>

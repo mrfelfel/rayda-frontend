@@ -4,10 +4,11 @@ import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
 import * as material from '@angular/material';
 import { ChatComponent } from './chat/chat.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
-  { path: 'chat', component: ChatComponent},
+  { path: 'chat/:id', component: ChatComponent},
 
 
 ];
@@ -16,6 +17,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     material.MatCardModule,
+    material.MatButtonModule,
+    material.MatFormFieldModule,
+    material.MatInputModule,
+    FormsModule,
     RouterModule.forChild(routes)
   ]
 })

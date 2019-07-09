@@ -1,0 +1,62 @@
+
+<br>
+
+<button mat-raised-button color="warn" style=" background: #000000	" (click)="Delete()">X</button>
+  <form class="example-form">
+    <mat-form-field  appearance="fill" class="cll">
+      <mat-label>نام غذا</mat-label>
+
+      <input type="text" placeholder="انتخاب غذا" aria-label="Number" matInput [formControl]="myControl"
+        [matAutocomplete]="auto" [(ngModel)]="Stringfood">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of foodFilter()" [value]="option['name']"
+          (click)="data.food = option['id']; newEmit();">
+          {{option['name']}} {{option['id']}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field  appearance="fill" class="cll">
+        <mat-label>وعده</mat-label>
+
+        <mat-select placeholder="وعده" [(ngModel)]="data.meal">
+          <mat-option *ngFor="let meal of meals" [value]="meal['name']" (click)="newEmit()">
+            {{meal['name']}}
+          </mat-option>
+        </mat-select>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="cll">
+          <mat-label>انتخاب روش قیمت گذاری</mat-label>
+          <mat-select>
+            <mat-option [value]="1">
+               بر اساس وعده
+            </mat-option>
+
+            <mat-option [value]="2">
+              بر اساس غذا
+           </mat-option>
+           <mat-option [value]="3">
+          ثابت
+         </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="cll">
+            <mat-label>اولویت قیمت گذار</mat-label>
+            <mat-select>
+              <mat-option [value]="1">
+                دسته
+              </mat-option>
+              <mat-option [value]="2">
+                 گروه
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+      <mat-form-field  appearance="fill" class="cll">
+          <mat-label>قیمت ثابت به ریال</mat-label>
+          <input matInput placeholder="فقط برای روش ثابت" type="number" max="500000" >
+      </mat-form-field>
+  </form>
+
+

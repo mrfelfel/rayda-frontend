@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild,Inject } from '@angular/core';
 import ReconnectingWebSocket from 'reconnecting-websocket';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+
+import { SocketService } from '../../@core/socket.service';
+
+
 @Component({
   selector: 'app-useri',
   templateUrl: './user.component.html',
@@ -7,13 +14,19 @@ import ReconnectingWebSocket from 'reconnecting-websocket';
 })
 export class UserComponent implements OnInit {
 
-  constructor() { }
+  displayedColumns: string[] = ['delete', 'edit', 'info', 'position', 'uid'];
+  dataSource = new MatTableDataSource<Object>([]);
+
+  constructor(private dialog:MatDialog, private socket:SocketService) { }
   card = {
     new : false,
   };
   card_number = null;
   winsocket = null;
+  len = 100;
+  psize = 25;
   ngOnInit() {
+    this.dataSource.data = []
     const os = navigator.platform;
 
     let OSName = 'Unknown OS';
@@ -53,10 +66,74 @@ export class UserComponent implements OnInit {
 
     };
     }
+
+
   }
+
+  addUser(){
+    const user = this.dialog.open(TheUserComponent, { data: {username: '', password: '', repeat: '', info: false} })
+
+    user.afterClosed().toPromise()
+    .then((d)=>{
+      delete d.info;
+      this.socket.socket.emit('query_gram', {
+        scope : 'user',
+        address : 'user/manage/add',
+        info : {
+          method : 'DO',
+          data : d
+        }
+      });
+    })
+  }
+
+  updateUser(data={}){
+    data['info'] = false;
+    const user =  this.dialog.open(TheUserComponent, { data })
+
+    user.afterClosed().toPromise()
+    .then((d)=>{
+      delete d.info;
+      this.socket.socket.emit('query_gram', {
+        scope : 'user',
+        address : 'user/manage/update',
+        info : {
+          method : 'DO',
+          data : d
+        }
+      });
+    })
+  }
+
+  deleteUser(data){
+    this.socket.socket.emit('query_gram', {
+      scope : 'user',
+      address : 'user/manage/delete',
+      info : {
+        method : 'DO',
+        data : data
+      }
+    });
+  }
+  infoUser(data){
+    data['info'] = true;
+    this.dialog.open(TheUserComponent, { data });
+  }
+
   websocketstart(websocketServerLocation) {
     this.winsocket = new ReconnectingWebSocket(websocketServerLocation);
   }
   ErrorMsg(data) {
   }
+}
+
+@Component({
+  selector: 'app-useri',
+  templateUrl: './newUser.html',
+})
+export class TheUserComponent {
+    constructor( public dialogRef: MatDialogRef<TheUserComponent> , @Inject(MAT_DIALOG_DATA) public data: Object) {}
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
 }

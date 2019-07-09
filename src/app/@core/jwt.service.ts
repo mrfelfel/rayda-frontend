@@ -12,7 +12,7 @@ export class JwtService {
   async GetUser() {
     const data = await this.http.get(this.base_url + 'user')
       .toPromise();
-    localStorage.setItem('user', JSON.stringify(data.json()));
-    return data.json();
+    localStorage.setItem('user', JSON.stringify(data))
+    return data;
   }
 }

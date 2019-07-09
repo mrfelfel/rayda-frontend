@@ -8,11 +8,13 @@ import { Routes, RouterModule } from '@angular/router';
 import {UniversityService} from '../@core/university.service';
 import { BazzarComponent } from './bazzar/bazzar.component';
 import { ClipboardModule } from 'ngx-clipboard';
+import * as web from '@angular-mdc/web';
 
 const routes: Routes = [
   { path: '', component: FoodsListComponent},
-  { path: ':id', component: FoodsListComponent },
   { path: 'bazzar', component: BazzarComponent},
+
+  { path: ':id', component: FoodsListComponent },
 
 ];
 @NgModule({
@@ -31,6 +33,7 @@ const routes: Routes = [
     material.MatIconModule,
     material.MatTabsModule,
     ClipboardModule,
+    web.MdcTabBarModule,
     FormsModule, ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],

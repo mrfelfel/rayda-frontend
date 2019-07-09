@@ -1,150 +1,156 @@
 <div style="padding : 10px">
-    <mat-card class="biG">
+  <mat-card class="biG">
 
 
-      <mat-card-content  color="primary" >
+    <mat-card-content color="primary">
 
-          <div class="img-header"  >
+      <div class="img-header">
 
-            <div style="width:300px">
+        <div style="width:300px; margin-bottom: 10px">
 
-                <h2 class="example-h2">  رزرو غذا  </h2>
-
-
-                <p>{{viewId}} خوش آمدید</p>
+          <h2 class="example-h2"> رزرو غذا </h2>
 
 
-                   <p >موجودی شما :  {{cost }} ریال</p>
+          <p>{{viewId}} خوش آمدید</p>
 
 
-         <button style="margin-top:5px" mat-raised-button (click)="openDialog()" style="margin:2px">افزایش موجودی <i class="gb gb_add gb_s24"></i> </button>
-         <button mat-raised-button (click)="openTransferDialog()" style="margin:2px">انتقال اعتبار<i class="gb gb_remove gb_s24"></i></button>
-
-
-            </div>
-
-            </div>
-
-   <br><br>   <br><br>
-<br>
-
-
-  <br>
-  <div *ngIf="!planned" style="padding-top:100px">
-    <mat-card >
-        <p>
-            {{message}}
-          </p>
-    </mat-card>
-
-  </div>
-<br>
-  <mat-tab-group class="FoodList"  [selectedIndex]="selected.value" *ngIf="planned"
-  (selectedIndexChange)="selected.setValue($event); Dowsearch()" backgroundColor="accent">
-
-    <mat-tab *ngFor="let item of days;trackBy: trackByFn" [label]="item" >
-         <div *ngIf="!searched">
-           <br>
-           <mat-card >
-              <p>
-                  این موسسه در این روز تعطیل است یا غذایی ارائه نمیکند
-                </p>
-           </mat-card>
-
-         </div>
-      <div class="row" >
-           <div class="col l4 m6 s12" *ngFor="let item of searched; trackBy: trackByFn">
-             <mat-card  class="food-card">
-               <ng-template let-checker="checker" [ngTemplateOutletContext]="{ checker: checking(item) }" [ngTemplateOutlet]="food" #food>
-
-                <h1>{{a}}</h1>
-
-               <mat-card-header>
-                  <i class="material-icons" style="position: absolute; left: 10px; bottom: 5px" *ngIf="checker">
-
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></svg>
-                      </i>
-                 <mat-card-title>{{item.food.name}}</mat-card-title>
-                 <mat-card-subtitle>تاریخ :{{item.stringDate}} | وعده :   {{item.meal.name}}</mat-card-subtitle>
-
-
-               </mat-card-header>
-               <mat-card-content class="width100">
-                  <div  *ngIf="!(nameSpace == 'fani.markazi.amirkabir' && item.meal.id == 2 && !checker)">
-                      <mat-form-field class="full" *ngIf="!Placefinder(item)">
-
-                          <mat-select   placeholder="محل تحویل غذا"   name="place" value="1">
-                            <mat-option  value="1">
-                              سلف مرکزی
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                  </div>
-                 <div [hidden]="!(nameSpace == 'fani.markazi.amirkabir' && item.meal.id == 2)" [@enterAnimation]>
-                    <mat-form-field class="full" *ngIf="!Placefinder(item)">
-
-                      <mat-select    placeholder="محل تحویل غذا" [(ngModel)]="item.place" name="item.place">
-                        <mat-option *ngFor="let item of places" [value]="item">
-                          {{item}}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-
-                 </div>
-
-                  <button mat-raised-button *ngIf="!checker" (click)="reserve(item)" color="primary">رزرو غذا به مبلغ {{item.price}} ریال </button>
-
-                  <button mat-raised-button *ngIf="checker"  (click)="unreserve(item)" class="reserved" >  لغو غذا به مبلغ {{item.price}} ریال  </button>
+          <p *ngIf="cost != null">موجودی شما : {{cost }} ریال</p>
 
 
 
-               </mat-card-content>
-              <mat-card-content class="btns">
+          <button style="margin-top:5px" mat-raised-button (click)="openDialog()" style="margin:2px">افزایش موجودی <i
+              class="gb gb_add gb_s24"></i> </button>
+          <button mat-raised-button (click)="openTransferDialog()" style="margin:2px">انتقال اعتبار<i
+              class="gb gb_remove gb_s24"></i></button>
 
 
-                    </mat-card-content>
 
-               <mat-card-actions>
 
-                  <mat-chip-list>
-                      <mat-chip >1 عدد</mat-chip>
-                      <mat-chip color="warn" selected *ngIf="deliverChecking(item)">تحویل گرفته شده</mat-chip>
-
-                      <mat-chip color="primary" selected *ngIf="Placefinder(item)">{{Placefinder(item).place || 'سلف مرکزی'}}</mat-chip>
-                  </mat-chip-list>
-
-               </mat-card-actions>
-              </ng-template>
-             </mat-card>
-           </div>
+        </div>
 
       </div>
 
-    </mat-tab>
-  </mat-tab-group>
-  <mat-card>
-      <div class="text-center">
-          <b >انتخاب هفته</b>
+      <br><br> <br><br>
+      <br>
+
+      <br>
+
+
+      <br>
+      <div *ngIf="!planned" style="padding-top:100px">
+        <mat-card>
+          <p>
+            {{message}}
+          </p>
+        </mat-card>
+
+      </div>
+
+      <br><br>
+      <mdc-tab-bar *ngIf="planned" useAutomaticActivation [activeTabIndex]="0"
+        (activated)="logTab($event); Dowsearch()">
+        <mdc-tab-scroller>
+          <mdc-tab class="white-mdc-tab-text-label-color" *ngFor="let tab of days" [label]="tab">
+
+          </mdc-tab>
+        </mdc-tab-scroller>
+      </mdc-tab-bar>
+      <div *ngIf="planned">
+        <br>
+        <mat-card *ngIf="!searched">
+          <p>
+            این موسسه در این روز تعطیل است یا غذایی ارائه نمیکند
+          </p>
+        </mat-card>
+
+      </div>
+      <div class="row" *ngIf="planned">
+        <div class="col l4 m6 s12" *ngFor="let item of searched; trackBy: trackByFn">
+          <mat-card class="food-card">
+            <ng-template let-checker="checker" [ngTemplateOutletContext]="{ checker: checking(item) }"
+              [ngTemplateOutlet]="food" #food>
+
+
+              <mat-card-header>
+                <i class="material-icons" style="position: absolute; left: 15px; top: 17px" *ngIf="checker">
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z" />
+                    </svg>
+                </i>
+                <mat-card-title>{{item.food.name}}</mat-card-title>
+                <mat-card-subtitle>تاریخ : {{ date.clone().add(tab, 'd').format('jYYYY/jMM/jDD') }} | وعده : {{item.meal.name}}</mat-card-subtitle>
+
+
+              </mat-card-header>
+              <mat-card-content class="width100">
+                <div [hidden]="!(nameSpace == 'fani.markazi.amirkabir' && item.meal.id != 1)" [@enterAnimation]>
+                  <mat-form-field class="full" *ngIf="!Placefinder(item)">
+
+                    <mat-select placeholder="محل تحویل غذا" [(ngModel)]="item.place" name="item.place">
+                      <mat-option *ngFor="let item of places" [value]="item">
+                        {{item}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+
+                <button mat-raised-button *ngIf="!checker" (click)="reserve(item)" color="primary">رزرو غذا به مبلغ
+                  {{item.price}} ریال </button>
+
+                <button mat-raised-button *ngIf="checker" (click)="unreserve(item)" class="reserved"> لغو غذا به مبلغ
+                  {{item.price}} ریال </button>
+
+              </mat-card-content>
+              <mat-card-content class="btns">
+
+
+              </mat-card-content>
+
+              <mat-card-actions>
+
+                <mat-chip-list>
+                  <mat-chip>1 عدد</mat-chip>
+                  <mat-chip color="warn" selected *ngIf="deliverChecking(item)">تحویل گرفته شده</mat-chip>
+
+                  <mat-chip color="primary" selected *ngIf="Placefinder(item)">
+                    {{Placefinder(item).place || 'سلف مرکزی'}}</mat-chip>
+                </mat-chip-list>
+
+              </mat-card-actions>
+            </ng-template>
+          </mat-card>
+        </div>
+
+      </div>
+      <mat-card>
+        <div class="text-center">
+          <b>انتخاب هفته</b>
           <br>
-         شروع هفته از  {{date.format('jYYYY/jMM/jDD')}} تا {{clone.format('jYYYY/jMM/jDD')}}
-        <br>
-        <br>
-      <button mat-raised-button (click)="SetWeek('previous')" color="primary">قبلی</button>
+          شروع هفته از {{date.format('jYYYY/jMM/jDD')}} تا {{clone.format('jYYYY/jMM/jDD')}}
+          <br>
+          <br>
+          <button mat-raised-button (click)="SetWeek('previous')" color="primary">قبلی</button>
           <button mat-raised-button (click)="SetWeek('current')" color="primary">جاری</button>
           <button mat-raised-button (click)="SetWeek('next')" color="primary">بعدی</button>
 
           <br>
-          <button  mat-raised-button ngxClipboard [cbContent]="weekurl"  style="margin-top:5px; background: #000; color: whitesmoke; width: 205px" (click)="urlButton()"><span *ngIf="!weekurl">لینک هفته </span> <span *ngIf="weekurl">{{weekurl}}</span></button>
-      </div>
+          <button mat-raised-button ngxClipboard [cbContent]="weekurl"
+            style="margin-top:5px; background: #000; color: whitesmoke; width: 205px" (click)="urlButton()"><span
+              *ngIf="!weekurl">لینک هفته </span> <span *ngIf="weekurl">{{weekurl}}</span></button>
+        </div>
+      </mat-card>
+
+
+
+    </mat-card-content>
   </mat-card>
 
-
-
-      </mat-card-content>
-    </mat-card>
-
-  </div>
-  <!-- <div *ngIf="!showInter" style="padding : 40px">
+</div>
+<!-- <div *ngIf="!showInter" style="padding : 40px">
     <mat-card>
       <i class="gb gb_warning gb_s48 " style="color:red"></i>
       <b> {{errMsg}}</b>

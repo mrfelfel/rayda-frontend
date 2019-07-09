@@ -11,8 +11,72 @@
   padding-right: 20px;
 
 }
-
 mat-card {
   overflow: hidden;
 }
+mat-radio-button {
+  margin: 5px;
+}
 
+div.card{
+  margin: 10px;
+  background-color: #eeeeee;
+  box-shadow: 0 3px 6px rgba($color: #000000, $alpha: .1);
+  min-width: 200px;
+  height: 200px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+table.custom{
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border: 1px solid rgba($color: #000000, $alpha: .1);
+  border-bottom: none;
+}
+
+table.custom thead,
+table.custom tr{
+  border-bottom: 1px solid rgba($color: #000000, $alpha: .1);
+}
+
+table.custom td, table.custom th {
+  padding: 15px 10px;
+  display: table-cell;
+  text-align: right;
+  vertical-align: middle;
+}
+
+table.custom td p{
+  margin: 0;
+}
+
+
+.buttons button {
+  margin: 5px;
+}
+
+mat-form-field {
+  margin-left: 20px !important;
+
+  width: calc(50% - 20px);
+
+}
+.m-container {
+  padding-left: 10vw; padding-right: 10vw;
+}
+@media only screen and (max-width: 600px) {
+  mat-form-field {
+    width: 100%;
+  }
+  .m-container {
+    padding-left: 0vw; padding-right: 0vw;
+  }
+}

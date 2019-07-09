@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "ir.rayda.web",
+               "sha256_cert_fingerprints": ["9E:4A:1E:30:10:C3:5C:B1:96:86:30:F6:B0:6A:2D:6C:5F:43:C2:88:8A:C4:FD:3E:6A:15:D8:76:0A:39:58:0E"] }
+}]

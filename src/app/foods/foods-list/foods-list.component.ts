@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, Inject, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 
 import {style, state, animate, transition, trigger} from '@angular/animations';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {BookingService} from '../../@core/self/booking.service';
 import {JwtService} from '../../@core/jwt.service';
 import {TimeService} from '../../time.service';
@@ -71,7 +71,7 @@ export class FoodsListComponent implements OnInit, OnDestroy {
      private cdr: ChangeDetectorRef,
      private socketService: SocketService,
      ) {}
-  @ViewChild('tabGroup') tabGroup;
+  @ViewChild('tabGroup', { static: false }) tabGroup;
   weekNum = 0;
   yearNum = moment().jYear();
   usocket = this.socketService.socket;
@@ -370,7 +370,7 @@ getDateOfISOWeek(w, y) {
       // tslint:disable-next-line:max-line-length
       this.Server.get(`https://payment.rayda.ir/pay/${localStorage.uid}/${result.bcost}?q=${Math.random()}`)      .toPromise()
       .then((d) => {
-        window.location.href = d.json()['message'];
+        window.location.href = d['message'];
       })
       .catch((e) => {
         this.snaks.openSnackBar(e.json()['message'], 'بستن');

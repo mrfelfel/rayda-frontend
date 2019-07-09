@@ -5,7 +5,7 @@ import { SocketService } from '../../@core/socket.service';
 
 import { XlsxService } from '../../@core/xlsx.service';
 
-import { MatDatepickerInputEvent } from '@angular/material';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import * as moment from 'jalali-moment';
 @Component({
   selector: 'app-charts',

@@ -7,17 +7,17 @@ import { MafiaComponent } from './games/mafia/mafia.component';
  routing
 */
 const routes: Routes = [
-  { path : 'users', loadChildren  : './users/users.module#UsersModule'},
+  { path : 'users', loadChildren  : () => import('./users/users.module').then(m => m.UsersModule)},
 
   { path: '', children : [
     { path: '', redirectTo: 'pages/home', pathMatch: 'full'},
-    { path: 'pages', loadChildren: './pages/pages.module#PagesModule', canActivate : [AuthGuard]},
-    { path : 'foods', loadChildren  : './foods/foods.module#FoodsModule', canActivate : [AuthGuard]},
-    { path : 'deliver', loadChildren  : './deliver/deliver.module#DeliverModule', canActivate : [AuthGuard]},
-    { path : 'errors', loadChildren  : './errors/errors.module#ErrorsModule', canActivate : [AuthGuard]},
-    { path : 'financial', loadChildren  : './financial/financial.module#FinancialModule', canActivate : [AuthGuard]},
-    { path : 'panel', loadChildren  : './micropanel/micropanel.module#MicropanelModule', canActivate : [AuthGuard]},
-    { path: 'mafia', loadChildren: './games/games.module#GamesModule', canActivate : [AuthGuard]},
+    { path: 'pages', loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule), canActivate : [AuthGuard]},
+    { path : 'foods', loadChildren  : () => import('./foods/foods.module').then(m => m.FoodsModule), canActivate : [AuthGuard]},
+    { path : 'deliver', loadChildren  : () => import('./deliver/deliver.module').then(m => m.DeliverModule), canActivate : [AuthGuard]},
+    { path : 'errors', loadChildren  : () => import('./errors/errors.module').then(m => m.ErrorsModule), canActivate : [AuthGuard]},
+    { path : 'financial', loadChildren  : () => import('./financial/financial.module').then(m => m.FinancialModule), canActivate : [AuthGuard]},
+    { path : 'panel', loadChildren  : () => import('./micropanel/micropanel.module').then(m => m.MicropanelModule), canActivate : [AuthGuard]},
+    { path: 'mafia', loadChildren: () => import('./games/games.module').then(m => m.GamesModule), canActivate : [AuthGuard]},
   ] },
   { path: '**', redirectTo: 'errors/notfound'}
 

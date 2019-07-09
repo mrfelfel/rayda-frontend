@@ -6,7 +6,7 @@ import { SocketService } from '../../@core/socket.service';
 import { FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {SnaksService} from '../../snaks.service';
 
 

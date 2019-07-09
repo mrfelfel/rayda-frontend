@@ -1,4 +1,4 @@
-import {MatPaginatorIntl} from '@angular/material';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 export class MatPaginatorIntlCro extends MatPaginatorIntl {
   itemsPerPageLabel = 'ایتم در صفحه';
   nextPageLabel     = 'صفحه بعدی';

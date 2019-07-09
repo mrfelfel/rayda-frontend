@@ -10,8 +10,7 @@ import { WindowRefService, ICustomWindow } from './window-ref.service';
 import { SnaksService } from './snaks.service';
 import { AuthService } from './@core/auth.service';
 import { SocketService } from './@core/socket.service';
-
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 const VAPID_PUBLIC = 'BCnMCiUJ2fAFLZsR35QufdKeLCVsi1SGYqvm4tU0HaHG6kPpNZBRgGYAzFH4tMzRMc-qmrjuIHuyS8ty6wxsRtI';
 
 
@@ -26,8 +25,9 @@ const VAPID_PUBLIC = 'BCnMCiUJ2fAFLZsR35QufdKeLCVsi1SGYqvm4tU0HaHG6kPpNZBRgGYAzF
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   // tslint:disable-next-line:max-line-length
-  constructor(private cdr: ChangeDetectorRef, private http: Http, private swUpdate: SwUpdate, private swPush: SwPush, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router, public snaks: SnaksService, private Auth: AuthService, private socketService: SocketService, windowRef: WindowRefService
-    ,private ngZone: NgZone) {
+  constructor(private cdr: ChangeDetectorRef,  private swUpdate: SwUpdate, private swPush: SwPush, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router, public snaks: SnaksService, private Auth: AuthService, private socketService: SocketService, windowRef: WindowRefService
+    ,private ngZone: NgZone,
+    private  http: HttpClient) {
     this.mobileQuery = media.matchMedia('(max-width: 800px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -266,11 +266,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         case 'felfel':
           document.body.innerHTML = `
             <p>
-            زیبا زندگی کنیم و بگذاریم زیبا زندگی کنند             
+            زیبا زندگی کنیم و بگذاریم زیبا زندگی کنند
             </p>
 
             <p>
-            من فلفل هستم سازنده قلب نرم افزار 
+            من فلفل هستم سازنده قلب نرم افزار
             </p>
 
             <p>
@@ -279,11 +279,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
             <p>
-            
-            این یک امضای کوچولو هست از من 
+
+            این یک امضای کوچولو هست از من
 
 
-            #F3LF3L 
+            #F3LF3L
             </p>
           `;
           document.body.style.backgroundColor = '#000 !important'
@@ -292,12 +292,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
           document.body.style.textAlign = 'center'
 
         break;
-    
+
 
         case 'crash':
             this.ctrlf('crash')
           break;
-      
+
       default:
         break;
     }

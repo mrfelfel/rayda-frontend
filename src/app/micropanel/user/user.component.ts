@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild,Inject } from '@angular/core';
 import ReconnectingWebSocket from 'reconnecting-websocket';
-import {MatPaginator, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { SocketService } from '../../@core/socket.service';
 

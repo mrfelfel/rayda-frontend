@@ -131,7 +131,7 @@
 
     <mat-tab label="سلف ها">
         <div class="main-container">
-            <mat-card>
+            <div >
                 <mat-form-field style="min-width: 30%; margin-left: 10px;">
                     <input matInput placeholder="نام سلف" [(ngModel)]="selfData['name']">
                 </mat-form-field>
@@ -158,7 +158,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </mat-card>
+              </div>
         </div>
     </mat-tab>
     <mat-tab label="غذا ها">
@@ -343,7 +343,7 @@
         <div class="main-container">
 
             <div>
-                <div class="form" style="padding: 20px;" *ngIf="editMode == true">
+                <div class="form m-container"  *ngIf="editMode == true">
                     <div style="background: #fff; border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
 
                         <h3>
@@ -393,7 +393,7 @@
                         <h3>
                             مدیریت قیمت
                         </h3>
-                        <mat-form-field appearance="fill" style="margin: 5px">
+                        <mat-form-field appearance="fill" style="margin: 5px; min-width: 100%">
                             <mat-label>انتخاب سلف</mat-label>
                             <mat-select>
                                 <mat-option [value]="1">
@@ -401,7 +401,7 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field appearance="fill" style="margin: 5px">
+                        <mat-form-field appearance="fill" style="margin: 5px; min-width: 100%">
                             <mat-label>انتخاب گروه</mat-label>
                             <mat-select>
                                 <mat-option [value]="1">
@@ -409,7 +409,7 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field appearance="fill" style="margin: 5px">
+                        <mat-form-field appearance="fill" style="margin: 5px; min-width: 100%">
                             <mat-label>انتخاب دسته</mat-label>
                             <mat-select>
                                 <mat-option [value]="1">
@@ -420,7 +420,7 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field appearance="fill" style="margin: 5px">
+                        <mat-form-field appearance="fill" style="margin: 5px; min-width: 100%">
                             <mat-label>قیمت به ریال</mat-label>
                             <input matInput placeholder="قیمت" type="number" max="500000" [(ngModel)]="mealData['price']" (keyup.enter)="addMealRule()">
                         </mat-form-field>
@@ -564,7 +564,7 @@
     </mat-tab>
     <mat-tab label="محل تحویل">
         <div class="main-container">
-            <mat-card>
+            <div>
                 <mat-form-field style="min-width: 30%; margin-left: 10px;">
                     <input matInput placeholder="نام محل" [(ngModel)]="placeData['name']">
                 </mat-form-field>
@@ -591,7 +591,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </mat-card>
+            </div>
         </div>
     </mat-tab>
 

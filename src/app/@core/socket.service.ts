@@ -45,16 +45,16 @@ export class SocketService {
     delete data.timeout
 
     // is not connected
-    if(!this.socket.connected){
-      reject({
-        status : 0,
-        message : 'message.io is not connected'
-      })
-      return
-    }
-
     this.socket.emit('query_gram', data);
     return new Promise((resolve,reject)=>{
+        if(!this.socket.connected){
+          setTimeout(() => {
+            reject({
+              status : 0,
+              message : 'connection notfound ...'
+            });
+          }, 3000);
+        }
         const settime = setTimeout(() => {
         reject({
           status : -1,

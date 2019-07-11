@@ -65,7 +65,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>تاریخ مبدا</mat-label>
 
-                                <input [(ngModel)]="scheduleConfig.date" matInput readonly [matDatepicker]="picker6" placeholder="تاریخ مبدا هفته" (dateChange)="changeWeek($event)">
+                                <input [(ngModel)]="scheduleConfig.date" matInput  [matDatepicker]="picker6" placeholder="تاریخ مبدا هفته" (dateChange)="changeWeek($event)">
                                 <mat-spinner *ngIf="false" diameter="30" matSuffix></mat-spinner>
 
                                 <mat-datepicker-toggle matSuffix [for]="picker6" *ngIf="true"></mat-datepicker-toggle>
@@ -596,7 +596,36 @@
     </mat-tab>
 
     <mat-tab label="مواد غذایی">
-
+        <div class="main-container">
+            <div>
+                <mat-form-field style="min-width: 30%; margin-left: 10px;">
+                    <input matInput placeholder="نام ماده غذایی" >
+                </mat-form-field>
+                <button mat-raised-button color="primary" >افزودن</button>
+                <br>
+                <table class="custom">
+                    <thead>
+                        <th style="width: 30px;"></th>
+                        <th>نام ماده غذایی</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of FoodStuffsData; let i = index">
+                            <td style="width: 30px;">
+                                <button mat-icon-button (click)="deletePlace(i)">
+                  <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                      <path
+                        d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
+                    </svg></mat-icon>
+                </button>
+                            </td>
+                            <td>
+                                <p contenteditable="true">{{data['name']}}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </mat-tab>
 
     <mat-tab label="صندوق"></mat-tab>

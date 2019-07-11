@@ -34,7 +34,7 @@ export class FoodComponent implements OnInit {
   public placeEdit = true
   public placesData: Object[] = [];
   public selfsData: [] = [];
-
+  public FoodStuffsData: [] = [];
   public editMode: Boolean = false;
   public updateMode: Boolean = false;
   public allHeadOptions = [{
@@ -429,7 +429,7 @@ export class FoodComponent implements OnInit {
     });
   }
 
-  setEditGroup(data){    
+  setEditGroup(data){
     this.groupName = data['name'];
     this.groupCode = data['code'];
     this.allDataOptionsSelected = data['data'];

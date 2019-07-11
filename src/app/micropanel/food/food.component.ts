@@ -429,7 +429,7 @@ export class FoodComponent implements OnInit {
     });
   }
 
-  setEditGroup(data){
+  setEditGroup(data){    
     this.groupName = data['name'];
     this.groupCode = data['code'];
     this.allDataOptionsSelected = data['data'];
@@ -444,6 +444,16 @@ export class FoodComponent implements OnInit {
       data: this.allDataOptionsSelected
     })
     this.closeGroup();
+  }
+
+  removeGroup(){
+    this.groups.forEach((group, i)=>{
+      if(group['code'] == this.groupCode){
+        this.groups.splice(i, 1);
+        this.closeGroup();
+        return;
+      }
+    })
   }
 
   editGroup(){

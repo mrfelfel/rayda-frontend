@@ -75,21 +75,20 @@
                         <h5 style="float: right;">
                             سرویس های غذایی
                         </h5>
-                        <button mat-raised-button color="accent" (click)="AddBox(indexi)" style="float: left;">
-                            <mat-icon>
-                                <svg width="24" height="24" viewBox="0 0 24 24">
-                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                                    <path d="M0 0h24v24H0z" fill="none" /></svg>
-                            </mat-icon>
-                            افزودن سرویس غذایی
-                        </button>
                     </mat-card>
 
                     <mat-tab-group>
                         <mat-tab *ngFor="let item of days; let indexi = index" [label]="item">
-
+                            <button mat-raised-button color="accent" (click)="AddBox(indexi)" style="margin-top: 20px;">
+                                <mat-icon>
+                                    <svg width="24" height="24" viewBox="0 0 24 24">
+                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                                        <path d="M0 0h24v24H0z" fill="none" /></svg>
+                                </mat-icon>
+                                افزودن سرویس غذایی
+                            </button>
                             <div class="food-service-lists">
-                                <br>
+                                <br><br>
                                 <div *ngFor="let mitem of daysdata[indexi]; let mindex = index">
                                     <app-box (onChange)="onBoxChange($event)" (onDelete)="Delete($event)" [datas]="daysdata[indexi][mindex]" [foods]="foodsData" [meals]="mealsData" [day]="indexi" [meal]="mindex"></app-box>
                                 </div>

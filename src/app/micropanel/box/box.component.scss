@@ -13,6 +13,16 @@ button {
     padding: 0 !important;
 }
 
+mat-card-header {
+    padding-bottom: 5px;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+mat-card-header.hide {
+    padding-bottom: 0 !important;
+}
+
 @media only screen and (max-width: 800px) {
     .cll {
         width: 100% !important;

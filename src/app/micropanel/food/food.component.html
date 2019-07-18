@@ -88,7 +88,6 @@
                                 افزودن سرویس غذایی
                             </button>
                             <div class="food-service-lists">
-                                <br><br>
                                 <div *ngFor="let mitem of daysdata[indexi]; let mindex = index">
                                     <app-box (onChange)="onBoxChange($event)" (onDelete)="Delete($event)" [datas]="daysdata[indexi][mindex]" [foods]="foodsData" [meals]="mealsData" [day]="indexi" [meal]="mindex"></app-box>
                                 </div>

@@ -1,83 +1,128 @@
-.img-header {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 300px;
-  width: 100%;
-  background : #616161;
-  color : #fff;
-  background-size: cover;
-  padding-right: 20px;
-
-}
-mat-card {
-  overflow: hidden;
-}
-mat-radio-button {
-  margin: 5px;
-}
-
-div.card{
-  margin: 10px;
-  background-color: #eeeeee;
-  box-shadow: 0 3px 6px rgba($color: #000000, $alpha: .1);
-  min-width: 200px;
-  height: 200px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  cursor: pointer;
-}
-
-table.custom{
-  width: 100%;
-  padding: 10px;
-  margin-top: 15px;
-  overflow-x: auto;
-  border-collapse: collapse;
-  border: 1px solid rgba($color: #000000, $alpha: .1);
-  border-bottom: none;
-  background: #fff;
-}
-
-table.custom thead,
-table.custom tr{
-  border-bottom: 1px solid rgba($color: #000000, $alpha: .1);
-}
-
-table.custom td, table.custom th {
-  padding: 15px 10px;
-  display: table-cell;
-  text-align: right;
-  vertical-align: middle;
-}
-
-table.custom td p{
-  margin: 0;
-}
-
-
-.buttons button {
-  margin: 5px;
-}
-
-mat-form-field {
-  margin-left: 20px !important;
-
-  width: calc(50% - 20px);
-
-}
-.m-container {
-  padding-left: 15vw; padding-right: 15vw;
-}
-@media only screen and (max-width: 600px) {
-  mat-form-field {
-    width: 100%;
-  }
-  .m-container {
-    padding-left: 0vw; padding-right: 0vw;
-  }
-}
+        .img-header {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 300px;
+            width: 100%;
+            background: #616161;
+            color: #fff;
+            background-size: cover;
+            padding-right: 20px;
+        }
+        
+        mat-card {
+            overflow: hidden;
+        }
+        
+        mat-radio-button {
+            margin: 5px;
+        }
+        
+        div.card {
+            margin: 10px;
+            background-color: #eeeeee;
+            box-shadow: 0 3px 6px rgba($color: #000000, $alpha: .1);
+            min-width: 200px;
+            height: 200px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        table.custom {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            overflow-x: auto;
+            border-collapse: collapse;
+            border: 1px solid rgba($color: #000000, $alpha: .1);
+            border-bottom: none;
+            background: #fff;
+        }
+        
+        table.custom thead,
+        table.custom tr {
+            border-bottom: 1px solid rgba($color: #000000, $alpha: .1);
+        }
+        
+        table.custom td,
+        table.custom th {
+            padding: 15px 10px;
+            display: table-cell;
+            text-align: right;
+            vertical-align: middle;
+        }
+        
+        table.custom td p {
+            margin: 0;
+        }
+        
+        .buttons button {
+            margin: 5px;
+        }
+        
+        mat-form-field {
+            margin-left: 20px !important;
+            width: calc(50% - 20px);
+        }
+        
+        .m-container {
+            padding-left: 15vw;
+            padding-right: 15vw;
+        }
+        
+        div.food-service-lists {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .food-service-add {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+            cursor: pointer;
+        }
+        
+        .food-service-add mat-icon,
+        .food-service-add svg {
+            width: 100px;
+            height: 100px;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            mat-form-field {
+                width: 100%;
+            }
+            .m-container {
+                padding-left: 0vw;
+                padding-right: 0vw;
+            }
+            div.food-service-lists {
+                display: flex;
+                flex-direction: column;
+            }
+            div.food-service-lists app-box {
+                width: 100vw;
+            }
+        }
+        
+        @media only screen and (max-width: 800px) {
+            .food-service-add {
+                min-width: calc(100vw - 80px) !important;
+                margin: 5px;
+            }
+        }
+        
+        @media only screen and (min-width: 801px) {
+            .food-service-add {
+                width: calc(((100vw - 300px)/3) - 50px);
+                min-width: 300px;
+                margin: 5px;
+            }
+        }

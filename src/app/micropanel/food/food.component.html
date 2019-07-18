@@ -82,9 +82,6 @@
 
                             <div class="food-service-lists">
                                 <br>
-                                <div *ngFor="let mitem of daysdata[indexi]; let mindex = index">
-                                    <app-box (onChange)="onBoxChange($event)" (onDelete)="Delete($event)" [datas]="daysdata[indexi][mindex]" [foods]="foodsData" [meals]="mealsData" [day]="indexi" [meal]="mindex"></app-box>
-                                </div>
                                 <mat-card (click)="AddBox(indexi)" class="food-service-add">
                                     <mat-icon>
                                         <svg width="24" height="24" viewBox="0 0 24 24">
@@ -93,6 +90,9 @@
                                     </mat-icon>
                                     افزودن سرویس غذایی
                                 </mat-card>
+                                <div *ngFor="let mitem of daysdata[indexi]; let mindex = index">
+                                    <app-box (onChange)="onBoxChange($event)" (onDelete)="Delete($event)" [datas]="daysdata[indexi][mindex]" [foods]="foodsData" [meals]="mealsData" [day]="indexi" [meal]="mindex"></app-box>
+                                </div>
                             </div>
 
 

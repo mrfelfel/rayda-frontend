@@ -78,7 +78,9 @@ export class SocketService {
   private ConnectToserver() {
       this.socket = io.connect('https://message.rayda.ir/public',
       {
-      'query': 'token=' + localStorage.token
+           'query': 'token=' + localStorage.token, 
+            upgrade: false,
+            transports: ['websocket']
       });
 
       this.socket.on('connect', () => {

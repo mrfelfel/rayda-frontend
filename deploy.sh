@@ -7,4 +7,4 @@ cd server
 #npm i
 touch dist/robots.txt
 npm run compress
-npm run deploy
+#npm run deploy

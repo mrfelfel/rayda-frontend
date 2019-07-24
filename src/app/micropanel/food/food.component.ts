@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectorRef,Inject } from '@angular/core';
 import * as _ from 'lodash';
 import * as moment from 'jalali-moment';
 import * as wordify from './index.js';
+import Dexie from 'dexie';
+
 import { SocketService } from '../../@core/socket.service';
 import { FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
@@ -32,7 +34,7 @@ export class FoodComponent implements OnInit {
   public placeEdit = true
   public placesData: Object[] = [];
   public selfsData: [] = [];
-
+  public FoodStuffsData: [] = [];
   public editMode: Boolean = false;
   public updateMode: Boolean = false;
   public allHeadOptions = [{
@@ -52,7 +54,11 @@ export class FoodComponent implements OnInit {
   public groupCode = null;
   public groupEditMode:Boolean = false;
   public groups = [];
+  public mrules = [];
+
+  public db = new Dexie("FoodManagement");
   constructor(private cdr: ChangeDetectorRef,private socket:SocketService, private dialog:MatDialog, private snaks:SnaksService) {
+    this.db.version(1).stores({ foods: "++id,name,description,rules,stuff" });
   }
   current = {
     year: moment().locale('fa').year().toString(),
@@ -75,8 +81,13 @@ export class FoodComponent implements OnInit {
   daysdata = [];
   selectedAlg = '2';
   myControl = new FormControl();
+
   filteredOptions: Observable<object[]>;
 
+  scheduleConfig = {
+    name : '',
+    date : null
+  }
 
   ngOnInit() {
     this.AddTime();
@@ -160,6 +171,20 @@ export class FoodComponent implements OnInit {
 
 
     this.cdr.detectChanges();
+  }
+
+  changeWeek(event){
+    const date = moment(event.value);
+
+    if(date.jDay() != 0){
+
+      this.snaks.openSnackBar('لطفا روز شنبه را انتخاب کنید', 'بستن');
+
+      this.scheduleConfig.date = null;
+      this.cdr.markForCheck();
+
+      return
+    }
   }
 
   getPlace(index) {
@@ -255,7 +280,10 @@ export class FoodComponent implements OnInit {
 
 
   }
-
+  addMealRule(){
+    this.mrules.push(' رول جدید به قیمت ' + this.mealData['price'])
+    this.mealData['price'] = null
+  }
   addNewPlace() {
     if (this.placeData['name'].length == 0) return;
 
@@ -416,6 +444,16 @@ export class FoodComponent implements OnInit {
       data: this.allDataOptionsSelected
     })
     this.closeGroup();
+  }
+
+  removeGroup(){
+    this.groups.forEach((group, i)=>{
+      if(group['code'] == this.groupCode){
+        this.groups.splice(i, 1);
+        this.closeGroup();
+        return;
+      }
+    })
   }
 
   editGroup(){

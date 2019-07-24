@@ -41,25 +41,33 @@ export class SocketService {
     },
     timeout : 0
   }){
-
     const timeout = data.timeout
-    console.log(timeout)
-
     delete data.timeout
+
+    // is not connected
     this.socket.emit('query_gram', data);
     return new Promise((resolve,reject)=>{
-      const settime = setTimeout(() => {
-        reject('error server is not respond')
-      }, timeout);
-      this.socket.on('data_gram', (bdata)=>{
-        if((bdata.scope == data.scope) && (bdata.address == data.address)){
-          clearTimeout(settime)
-          resolve(bdata);
-
+        if(!this.socket.connected){
+          setTimeout(() => {
+            reject({
+              status : 0,
+              message : 'connection notfound ...'
+            });
+          }, 3000);
         }
-      })
+        const settime = setTimeout(() => {
+        reject({
+          status : -1,
+          message : 'request timeout ...'
+        })
+        }, timeout);
+        this.socket.on('data_gram', (bdata)=>{
+          if((bdata.scope == data.scope) && (bdata.address == data.address)){
+            clearTimeout(settime)
+            resolve(bdata);
 
-
+          }
+        })
     })
 
   }
@@ -70,7 +78,9 @@ export class SocketService {
   private ConnectToserver() {
       this.socket = io.connect('https://message.rayda.ir/public',
       {
-      'query': 'token=' + localStorage.token
+           'query': 'token=' + localStorage.token, 
+            upgrade: false,
+            transports: ['websocket']
       });
 
       this.socket.on('connect', () => {

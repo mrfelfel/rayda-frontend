@@ -18,6 +18,7 @@ export class BoxComponent implements OnInit {
   myControl = new FormControl();
   public data = { meal: '', food: '' }
   Stringfood = ''
+  public hide: Boolean = true;
   constructor() { }
 
   ngOnInit() {

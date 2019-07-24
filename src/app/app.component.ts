@@ -329,7 +329,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       // tslint:disable-next-line:max-line-length
       { name: 'آمار ', icon: '<svg  viewBox="0 0 48 48"><path d="M38 6H10c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V10c0-2.21-1.79-4-4-4zM18 34h-4V20h4v14zm8 0h-4V14h4v20zm8 0h-4v-8h4v8z"/></svg>', viewMenu: this.adminRoute, path: 'panel/charts', primary: true },
             // tslint:disable-next-line:max-line-length
-      { name: 'فضا نام ها', icon: '<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48"><path d="M0 0h48v48H0z" fill="none"/><path d="M24 14V6H4v36h40V14H24zM12 38H8v-4h4v4zm0-8H8v-4h4v4zm0-8H8v-4h4v4zm0-8H8v-4h4v4zm8 24h-4v-4h4v4zm0-8h-4v-4h4v4zm0-8h-4v-4h4v4zm0-8h-4v-4h4v4zm20 24H24v-4h4v-4h-4v-4h4v-4h-4v-4h16v20zm-4-16h-4v4h4v-4zm0 8h-4v4h4v-4z"/></svg>', viewMenu: this.adminRoute, path: 'panel/namespaces', primary: true }
+      { name: 'فضا نام ها', icon: '<svg viewBox="0 0 48 48"><path d="M0 0h48v48H0z" fill="none"/><path d="M24 14V6H4v36h40V14H24zM12 38H8v-4h4v4zm0-8H8v-4h4v4zm0-8H8v-4h4v4zm0-8H8v-4h4v4zm8 24h-4v-4h4v4zm0-8h-4v-4h4v4zm0-8h-4v-4h4v4zm0-8h-4v-4h4v4zm20 24H24v-4h4v-4h-4v-4h4v-4h-4v-4h16v20zm-4-16h-4v4h4v-4zm0 8h-4v4h4v-4z"/></svg>', viewMenu: this.adminRoute, path: 'panel/namespaces', primary: true }
     ];
   }
   async exit() {

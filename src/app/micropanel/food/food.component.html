@@ -1,386 +1,339 @@
 <mat-toolbar color="primary" class="title">
-  <span>مدیریت تغذیه</span>
+    <span>مدیریت تغذیه</span>
 </mat-toolbar>
 <mat-tab-group backgroundColor="primary" (selectedIndexChange)="editMode = false">
 
 
     <mat-tab label="برنامه ریزی غذایی">
         <div class="main-container">
-          <div >
+            <div>
+                <div style="padding:1px">
+                    <mat-card>
+                        <h5 style="padding-bottom: 10px; border-bottom: 1px solid rgba(0, 0, 0, .1);">مشخصات برنامه غذایی
+                        </h5>
+                        <div style="margin:0 auto">
+
+                            <mat-form-field appearance="fill">
+                                <mat-label>نام</mat-label>
+
+                                <input matInput placeholder="در صورت تمایل برای ایجاد الگو یک نام انتخاب کنید" value="">
+                            </mat-form-field>
+                            <mat-form-field appearance="fill">
+                                <mat-label>انتخاب سلف</mat-label>
+                                <mat-select>
+                                    <mat-option [value]="1">
+                                        همه
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field appearance="fill">
+                                <mat-label>انتخاب گروه</mat-label>
+                                <mat-select>
+                                    <mat-option [value]="1">
+                                        همه
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field appearance="fill">
+                                <mat-label>انتخاب دسته</mat-label>
+                                <mat-select>
+                                    <mat-option [value]="1">
+                                        همه
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="fill">
+                                <mat-label>انتخاب الگو</mat-label>
+                                <mat-select>
+                                    <mat-option [value]="1">
+                                        بدون الگو
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>تاریخ مبدا</mat-label>
+
+                                <input [(ngModel)]="scheduleConfig.date" matInput [matDatepicker]="picker6" placeholder="تاریخ مبدا هفته" (dateChange)="changeWeek($event)">
+                                <mat-spinner *ngIf="false" diameter="30" matSuffix></mat-spinner>
+
+                                <mat-datepicker-toggle matSuffix [for]="picker6" *ngIf="true"></mat-datepicker-toggle>
+                                <mat-datepicker touchUi #picker6></mat-datepicker>
 
 
-            <div style="padding:1px">
-              <br>
-
-              <div style="background: #fff; border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
-
-                <h5>
-                  مشخصات برنامه غذایی
-                </h5>
+                            </mat-form-field>
 
 
+                        </div>
+                    </mat-card>
+                    <br>
 
 
-                <div style="margin:0 auto">
+                    <mat-card>
 
-                    <mat-form-field  appearance="fill">
-                        <mat-label>نام</mat-label>
+                        <h5 style="float: right;">
+                            سرویس های غذایی
+                        </h5>
+                    </mat-card>
 
-                        <input matInput placeholder="در صورت تمایل برای ایجاد الگو یک نام انتخاب کنید" value="">
-                      </mat-form-field>
-                      <mat-form-field appearance="fill">
-                          <mat-label>انتخاب سلف</mat-label>
-                          <mat-select>
-                            <mat-option [value]="1">
-                              همه
-                            </mat-option>
-                          </mat-select>
+                    <mat-tab-group>
+                        <mat-tab *ngFor="let item of days; let indexi = index" [label]="item">
+                            <button mat-raised-button color="accent" (click)="AddBox(indexi)" style="margin-top: 20px;">
+                                <mat-icon>
+                                    <svg width="24" height="24" viewBox="0 0 24 24">
+                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                                        <path d="M0 0h24v24H0z" fill="none" /></svg>
+                                </mat-icon>
+                                افزودن سرویس غذایی
+                            </button>
+                            <div class="food-service-lists">
+                                <div *ngFor="let mitem of daysdata[indexi]; let mindex = index">
+                                    <app-box (onChange)="onBoxChange($event)" (onDelete)="Delete($event)" [datas]="daysdata[indexi][mindex]" [foods]="foodsData" [meals]="mealsData" [day]="indexi" [meal]="mindex"></app-box>
+                                </div>
+                            </div>
+
+
+                        </mat-tab>
+                    </mat-tab-group>
+
+                    <button mat-raised-button type="submit" style="margin-top:10px; margin-bottom:10px; float: left; width: 100px" color="primary" (click)="startScheduling()">ثبت</button>
+
+
+                    <br>
+
+                </div>
+            </div>
+        </div>
+
+    </mat-tab>
+
+    <mat-tab label="سلف ها">
+        <div class="main-container">
+            <div>
+                <mat-form-field style="min-width: 30%; margin-left: 10px;">
+                    <input matInput placeholder="نام سلف" [(ngModel)]="selfData['name']">
+                </mat-form-field>
+                <button mat-raised-button color="primary">افزودن</button>
+                <br>
+                <table class="custom">
+                    <thead>
+                        <th style="width: 30px;"></th>
+                        <th>نام سلف</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of selfsData; let i = index">
+                            <td style="width: 30px;">
+                                <button mat-icon-button>
+                                    <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                                            <path
+                                                d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
+                                        </svg></mat-icon>
+                                </button>
+                            </td>
+                            <td>
+                                <p contenteditable="true">{{data['name']}}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="غذا ها">
+        <div class="main-container">
+            <div>
+
+                <div class="form m-container" *ngIf="editMode == true">
+
+
+                    <div style="background: #fff; border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
+                        <h3>
+                            مشخصات غذا
+                        </h3>
+                        <mat-form-field style="min-width: 100%;" appearance="outline">
+                            <mat-label>نام غذا</mat-label>
+                            <input matInput placeholder="نام غذا" [(ngModel)]="foodData['name']">
+                        </mat-form-field><br>
+                        <mat-form-field style="min-width: 100%;" appearance="outline">
+                            <mat-label>نوع غذا</mat-label>
+
+                            <input matInput placeholder="نوع غذا" [matAutocomplete]="auto" [(ngModel)]="foodData['type']">
                         </mat-form-field>
-                        <mat-form-field appearance="fill" >
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let type of foodTypes" [value]="type['name']" (click)="foodData['type'] = [type['name']]">
+                                {{type['name']}}</mat-option>
+                        </mat-autocomplete><br>
+                        <mat-form-field style="min-width: 100%;" appearance="outline">
+                            <mat-label> توضیحات</mat-label>
+
+                            <textarea matInput rows="5" placeholder="توضیحات" [(ngModel)]="foodData['descriptions']"></textarea>
+                        </mat-form-field><br>
+                    </div>
+                    <br>
+                    <div style="background: #fff; border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
+
+                        <h3>
+                            مدیریت مواد
+                        </h3>
+                        <mat-form-field appearance="fill" style="min-width: 100%;">
+                            <mat-label>انتخاب مواد</mat-label>
+                            <mat-select>
+                                <mat-option [value]="1">
+                                    گوشت
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" style="min-width: 100%;">
+                            <mat-label>مقدار به گرم</mat-label>
+                            <input matInput placeholder="مقدار" type="number" max="500000">
+                        </mat-form-field>
+
+                        <br>
+
+                        <p> موارد تشکیل دهنده </p>
+
+                        <mat-selection-list #flist>
+                            <mat-list-option>
+                                ۱۵۰ گرم مثال
+                            </mat-list-option>
+                        </mat-selection-list>
+
+                        <button *ngIf="flist.selectedOptions.selected.length > 0" mat-raised-button color="warn" style="margin-top:5px">حذف </button>
+
+                    </div>
+                    <br>
+                    <div style="background: #fff; border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
+
+                        <h3>
+                            مدیریت قیمت
+                        </h3>
+                        <mat-form-field appearance="fill" style="min-width: 100%;">
+                            <mat-label>انتخاب سلف</mat-label>
+                            <mat-select>
+                                <mat-option [value]="1">
+                                    همه
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" style="min-width: 100%;">
                             <mat-label>انتخاب گروه</mat-label>
                             <mat-select>
-                              <mat-option [value]="1">
-                                همه
-                              </mat-option>
+                                <mat-option [value]="1">
+                                    همه
+                                </mat-option>
                             </mat-select>
-                          </mat-form-field>
-                          <mat-form-field appearance="fill" >
-                              <mat-label>انتخاب دسته</mat-label>
-                              <mat-select>
-                                <mat-option [value]="1">
-                                  همه
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field>
-
-                            <mat-form-field appearance="fill" >
-                              <mat-label>انتخاب الگو</mat-label>
-                              <mat-select>
-                                <mat-option [value]="1">
-                                  بدون الگو
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                            <mat-form-field  appearance="fill" >
-                              <mat-label>سال</mat-label>
-
-                              <mat-select placeholder="سال" (selectionChange)="MakeWeeks()" name="item" [(ngModel)]="current.year">
-                                <mat-option *ngFor="let item of years" [value]="item">
-                                  {{item}} ه.ش
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field>
-
-
-
-                        <mat-form-field  appearance="fill">
-                          <mat-label>انتخاب هفته</mat-label>
-
-                          <mat-select placeholder=" هفته" name="item" [(ngModel)]="current.week">
-                            <mat-option *ngFor="let item of dates; let weekdex = index" [value]="weekdex">
-                              <ng-container *ngIf="weekdex < 1; else elseTemplate">
-                                ورود به سال قبلی
-                              </ng-container>
-                              <ng-template #elseTemplate>
-                                  <ng-container *ngIf="weekdex < 54; else elseTemplate">
-                                      از تاریخ {{dates[weekdex]}} تا تاریخ {{dates[weekdex+1]}} ||  {{ wordify.wordifyfa(weekdex) }}  سال
-                                  </ng-container>
-                                  <ng-template #elseTemplate>
-                                    ورود به سال جدید
-                                  </ng-template>
-                              </ng-template>
-
-
-
-                            </mat-option>
-                          </mat-select>
                         </mat-form-field>
-                </div>
+                        <mat-form-field appearance="fill" style="min-width: 100%;">
+                            <mat-label>انتخاب دسته</mat-label>
+                            <mat-select>
+                                <mat-option [value]="1">
+                                    همه
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" style="min-width: 100%;">
+                            <mat-label>قیمت به ریال</mat-label>
+                            <input matInput placeholder="قیمت" type="number" max="500000">
+                        </mat-form-field>
 
-              </div>
+                        <br>
 
-    <br>
+                        <p> رول های موجود </p>
 
+                        <mat-selection-list #mflist>
+                            <mat-list-option>
+                                سلف همه
+                                <-> گروه همه
+                                    <-> دسته همه
+                                        <-> قیمت > ۱۰۰۰ ریال
+                            </mat-list-option>
+                        </mat-selection-list>
 
-    <div style="background: #fff; border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
+                        <button *ngIf="mflist.selectedOptions.selected.length > 0" mat-raised-button color="warn" style="margin-top:5px">حذف </button>
 
-    <h5>
-      سرویس های غذایی
-      </h5>
-
-              <mat-tab-group>
-                <mat-tab *ngFor="let item of days; let indexi = index" [label]="item"  >
-
-                  <div style="padding-top:15px;">
-
-                    <button mat-raised-button color="primary" (click)="AddBox(indexi)">
-                      <mat-icon>
-
-
-                        <svg width="24" height="24" viewBox="0 0 24 24">
-                          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                          <path d="M0 0h24v24H0z" fill="none" /></svg>
-                      </mat-icon>
-                      افزودن سرویس غذایی
-                    </button>
-                  </div>
-
-
-                  <div class="row" >
-
-                    <div  *ngFor="let mitem of daysdata[indexi]; let mindex = index">
-                      <app-box (onChange)="onBoxChange($event)" (onDelete)="Delete($event)"
-                        [datas]="daysdata[indexi][mindex]" [foods]="foodsData" [meals]="mealsData" [day]="indexi"
-                        [meal]="mindex"></app-box>
                     </div>
-                  </div>
+                    <br>
+                    <div class="buttons" style="direction: ltr; min-width: 100%; width: 100%">
+                        <button mat-raised-button color="primary" (click)="newFood()">ثبت</button>
+                        <button mat-button (click)="editMode = false">انصراف</button>
 
+                    </div>
+                </div>
+                <div class="table" *ngIf="editMode == false">
+                    <br>
+                    <button mat-raised-button color="primary" style="float: left;" (click)="editMode = true">افزودن</button>
+                    <br><br>
+                    <table mat-table [dataSource]="foodsData" style="width: 100%; border: 1px solid rgba(0, 0, 0, .1); border-bottom: none;">
+                        <ng-container matColumnDef="delete">
+                            <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
+                            <td mat-cell *matCellDef="let element" style="width: 30px;"> <button mat-icon-button>
+                                    <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                                            <path
+                                                d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
+                                        </svg></mat-icon>
+                                </button> </td>
+                        </ng-container>
 
-                </mat-tab>
-              </mat-tab-group>
+                        <ng-container matColumnDef="edit">
+                            <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
+                            <td mat-cell *matCellDef="let element" style="width: 30px; padding-left: 10px;"> <button mat-icon-button (click)="foodData = element; editMode = true; updateMode = true;">
+                                    <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                                            <path
+                                                d="M6 34.5V42h7.5l22.13-22.13-7.5-7.5L6 34.5zm35.41-20.41c.78-.78.78-2.05 0-2.83l-4.67-4.67c-.78-.78-2.05-.78-2.83 0l-3.66 3.66 7.5 7.5 3.66-3.66z" />
+                                        </svg></mat-icon>
+                                </button> </td>
+                        </ng-container>
 
-    </div>
-              <button mat-raised-button type="submit" style="margin-top:10px; margin-bottom:10px; float: left; width: 100px" color="primary"
-                (click)="startScheduling()">ثبت</button>
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef>نام</th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
 
+                        <ng-container matColumnDef="price">
+                            <th mat-header-cell *matHeaderCellDef>قیمت</th>
+                            <td mat-cell *matCellDef="let element"> {{element.price}} ریال</td>
+                        </ng-container>
 
-                <br>
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef>نوع غذا</th>
+                            <td mat-cell *matCellDef="let element">
+                                <mat-chip-list>
+                                    <mat-chip *ngFor="let item of element['type']">
+                                        <pre>{{item}}</pre>
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </td>
+                        </ng-container>
 
+                        <ng-container matColumnDef="descriptions">
+                            <th mat-header-cell *matHeaderCellDef>توضیحات</th>
+                            <td mat-cell *matCellDef="let element"> {{element.descriptions}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="foodsColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: foodsColumns;"></tr>
+                    </table>
+                </div>
             </div>
-          </div>
         </div>
+    </mat-tab>
+    <mat-tab label="وعده ها">
+        <div class="main-container">
 
-      </mat-tab>
+            <div>
+                <div class="form m-container" *ngIf="editMode == true">
+                    <div style="background: #fff; border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
 
-  <mat-tab label="سلف ها">
-    <div class="main-container">
-      <mat-card>
-        <mat-form-field style="min-width: 30%; margin-left: 10px;">
-          <input matInput placeholder="نام سلف" [(ngModel)]="selfData['name']">
-        </mat-form-field>
-        <button mat-raised-button color="primary" >افزودن</button>
-        <br>
-        <table class="custom">
-          <thead>
-            <th style="width: 30px;"></th>
-            <th>نام سلف</th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of selfsData; let i = index">
-              <td style="width: 30px;">
-                <button mat-icon-button >
-                  <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                      <path
-                        d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
-                    </svg></mat-icon>
-                </button>
-              </td>
-              <td>
-                <p contenteditable="true" >{{data['name']}}</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </mat-card>
-    </div>
-  </mat-tab>
-  <mat-tab label="تنظیمات تحویل غذا"></mat-tab>
-  <mat-tab label="مدیریت الگو ها"></mat-tab>
-  <mat-tab label="غذا ها">
-    <div class="main-container">
-      <div>
+                        <h3>
+                            مشخصات وعده
+                        </h3>
+                        <mat-form-field style="min-width: 100%;" appearance="outline">
+                            <mat-label>نام وعده </mat-label>
 
-        <div class="form m-container" *ngIf="editMode == true">
-
-
-          <div style="background: #fff; border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
-            <h3>
-               مشخصات غذا
-            </h3>
-            <mat-form-field style="min-width: 100%;" appearance="outline">
-              <mat-label>نام غذا</mat-label>
-              <input matInput placeholder="نام غذا" [(ngModel)]="foodData['name']">
-            </mat-form-field><br>
-            <mat-form-field style="min-width: 100%;" appearance="outline">
-              <mat-label>نوع غذا</mat-label>
-
-              <input matInput placeholder="نوع غذا" [matAutocomplete]="auto" [(ngModel)]="foodData['type']">
-            </mat-form-field>
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let type of foodTypes" [value]="type['name']"
-                (click)="foodData['type'] = [type['name']]">
-                {{type['name']}}</mat-option>
-            </mat-autocomplete><br>
-            <mat-form-field style="min-width: 100%;" appearance="outline">
-                <mat-label> توضیحات</mat-label>
-
-              <textarea matInput rows="5" placeholder="توضیحات" [(ngModel)]="foodData['descriptions']"></textarea>
-            </mat-form-field><br>
-          </div>
-          <br>
-          <div style="background: #fff; border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
-
-            <h3>
-              مدیریت مواد
-            </h3>
-              <mat-form-field appearance="fill" style="min-width: 100%;">
-                  <mat-label>انتخاب مواد</mat-label>
-                  <mat-select>
-                    <mat-option [value]="1">
-                      گوشت
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <mat-form-field  appearance="fill" style="min-width: 100%;">
-                    <mat-label>مقدار به گرم</mat-label>
-                    <input matInput placeholder="مقدار" type="number" max="500000" >
-                </mat-form-field>
-
-                <br>
-
-            <p>   موارد تشکیل دهنده  </p>
-
-              <mat-selection-list #flist>
-                  <mat-list-option  >
-                    ۱۵۰ گرم مثال
-                  </mat-list-option>
-                </mat-selection-list>
-
-                <button *ngIf="flist.selectedOptions.selected.length > 0" mat-raised-button color="warn" style="margin-top:5px">حذف </button>
-
-          </div>
-<br>
-          <div style="background: #fff; border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
-
-              <h3>
-                مدیریت قیمت
-              </h3>
-                <mat-form-field appearance="fill" style="min-width: 100%;">
-                    <mat-label>انتخاب سلف</mat-label>
-                    <mat-select>
-                      <mat-option [value]="1">
-                        همه
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field appearance="fill" style="min-width: 100%;">
-                      <mat-label>انتخاب گروه</mat-label>
-                      <mat-select>
-                        <mat-option [value]="1">
-                          همه
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" style="min-width: 100%;">
-                        <mat-label>انتخاب دسته</mat-label>
-                        <mat-select>
-                          <mat-option [value]="1">
-                            همه
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                  <mat-form-field  appearance="fill" style="min-width: 100%;">
-                      <mat-label>قیمت به ریال</mat-label>
-                      <input matInput placeholder="قیمت" type="number" max="500000" >
-                  </mat-form-field>
-
-                  <br>
-
-              <p>  رول های موجود  </p>
-
-                <mat-selection-list #mflist>
-                    <mat-list-option  >
-                    سلف همه  <->  گروه همه <-> دسته همه  <->  قیمت > ۱۰۰۰ ریال
-                    </mat-list-option>
-                  </mat-selection-list>
-
-                  <button *ngIf="mflist.selectedOptions.selected.length > 0" mat-raised-button color="warn" style="margin-top:5px">حذف </button>
-
-            </div>
-          <br>
-          <div class="buttons" style="direction: ltr; min-width: 100%; width: 100%">
-            <button mat-raised-button color="primary" (click)="newFood()">ثبت</button>
-            <button mat-button (click)="editMode = false">انصراف</button>
-
-          </div>
-        </div>
-        <div class="table" *ngIf="editMode == false">
-          <br>
-          <button mat-raised-button color="primary" style="float: left;" (click)="editMode = true">افزودن</button>
-          <br><br>
-          <table mat-table [dataSource]="foodsData"
-            style="width: 100%; border: 1px solid rgba(0, 0, 0, .1); border-bottom: none;">
-            <ng-container matColumnDef="delete">
-              <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
-              <td mat-cell *matCellDef="let element" style="width: 30px;"> <button mat-icon-button>
-                  <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                      <path
-                        d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
-                    </svg></mat-icon>
-                </button> </td>
-            </ng-container>
-
-            <ng-container matColumnDef="edit">
-              <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
-              <td mat-cell *matCellDef="let element" style="width: 30px; padding-left: 10px;"> <button mat-icon-button
-                  (click)="foodData = element; editMode = true; updateMode = true;">
-                  <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                      <path
-                        d="M6 34.5V42h7.5l22.13-22.13-7.5-7.5L6 34.5zm35.41-20.41c.78-.78.78-2.05 0-2.83l-4.67-4.67c-.78-.78-2.05-.78-2.83 0l-3.66 3.66 7.5 7.5 3.66-3.66z" />
-                    </svg></mat-icon>
-                </button> </td>
-            </ng-container>
-
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>نام</th>
-              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="price">
-              <th mat-header-cell *matHeaderCellDef>قیمت</th>
-              <td mat-cell *matCellDef="let element"> {{element.price}} ریال</td>
-            </ng-container>
-
-            <ng-container matColumnDef="type">
-              <th mat-header-cell *matHeaderCellDef>نوع غذا</th>
-              <td mat-cell *matCellDef="let element">
-                <mat-chip-list>
-                  <mat-chip *ngFor="let item of element['type']">
-                    <pre>{{item}}</pre>
-                  </mat-chip>
-                </mat-chip-list>
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="descriptions">
-              <th mat-header-cell *matHeaderCellDef>توضیحات</th>
-              <td mat-cell *matCellDef="let element"> {{element.descriptions}} </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="foodsColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: foodsColumns;"></tr>
-          </table>
-        </div>
-      </div>
-    </div>
-  </mat-tab>
-  <mat-tab label="مواد غذایی"></mat-tab>
-  <mat-tab label="وعده ها">
-    <div class="main-container">
-
-      <mat-card>
-        <div class="form" style="padding: 20px;" *ngIf="editMode == true">
-          <div  style="border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
-
-            <h3>
-             مشخصات وعده
-            </h3>
-            <mat-form-field style="min-width: 100%;" appearance="outline">
-                <mat-label>نام وعده </mat-label>
-
-              <input matInput placeholder="نام وعده" [(ngModel)]="mealData['name']">
-            </mat-form-field>
-            <mat-form-field style="min-width: 100%" appearance="outline">
+                            <input matInput placeholder="نام وعده" [(ngModel)]="mealData['name']">
+                        </mat-form-field>
+                        <!--  <mat-form-field style="min-width: 100%" appearance="outline">
                 <mat-label>محل تحویل</mat-label>
               <mat-chip-list #chipList>
                 <mat-chip *ngFor="let place of mealData['places']" selectable="true" removable="true"
@@ -399,236 +352,265 @@
                   {{place['name']}}
                 </mat-option>
               </mat-autocomplete>
-            </mat-form-field>
+            </mat-form-field> -->
 
-            <mat-form-field style="min-width: 100%;" appearance="outline">
-                <mat-label>توضیحات</mat-label>
+                        <mat-form-field style="min-width: 100%;" appearance="outline">
+                            <mat-label>توضیحات</mat-label>
 
-              <textarea matInput rows="5" placeholder="توضیحات" [(ngModel)]="mealData['description']"></textarea>
-            </mat-form-field><br>
+                            <textarea matInput rows="5" placeholder="توضیحات" [(ngModel)]="mealData['description']"></textarea>
+                        </mat-form-field><br>
 
-            <button mat-fab style="margin:5px" color="primary" (click)="AddTime()" *ngIf="selectedAlg == '1' ">جدید</button>
-            <mat-form-field *ngFor="let item of times" style="margin:2px; min-width: 100%;"  appearance="outline">
-                <mat-label>زمان تحویل</mat-label>
-              <input matInput type="time" placeholder="زمان تحویل" [value]="item">
-            </mat-form-field>
-          </div>
-          <br>
-          <div style="border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
+                        <button mat-fab style="margin:5px" color="primary" (click)="AddTime()" *ngIf="selectedAlg == '1' ">جدید</button>
+                        <mat-form-field *ngFor="let item of times" style="margin:2px; min-width: 100%;" appearance="outline">
+                            <mat-label>زمان تحویل</mat-label>
+                            <input matInput type="time" placeholder="زمان تحویل" [value]="item">
+                        </mat-form-field>
+                    </div>
+                    <br>
+                    <div style="background: #fff; border:2px solid rgba(0, 0, 0, .1); border-radius: 5px; padding: 10px ">
 
-            <h3>
-              مدیریت قیمت
-            </h3>
-              <mat-form-field appearance="fill" style="margin: 5px">
-                  <mat-label>انتخاب سلف</mat-label>
-                  <mat-select>
-                    <mat-option [value]="1">
-                      همه
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <mat-form-field appearance="fill" style="margin: 5px">
-                    <mat-label>انتخاب گروه</mat-label>
-                    <mat-select>
-                      <mat-option [value]="1">
-                        همه
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field appearance="fill" style="margin: 5px">
-                      <mat-label>انتخاب دسته</mat-label>
-                      <mat-select>
-                        <mat-option [value]="1">
-                          همه
-                        </mat-option>
-                      </mat-select>
+                        <h3>
+                            مدیریت قیمت
+                        </h3>
+                        <mat-form-field appearance="fill" style="margin: 5px; min-width: 100%">
+                            <mat-label>انتخاب سلف</mat-label>
+                            <mat-select>
+                                <mat-option [value]="1">
+                                    همه
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" style="margin: 5px; min-width: 100%">
+                            <mat-label>انتخاب گروه</mat-label>
+                            <mat-select>
+                                <mat-option [value]="1">
+                                    همه
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" style="margin: 5px; min-width: 100%">
+                            <mat-label>انتخاب دسته</mat-label>
+                            <mat-select>
+                                <mat-option [value]="1">
+                                    همه
+                                </mat-option>
+                                <mat-option [value]="2">
+                                    هیچکدام
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" style="margin: 5px; min-width: 100%">
+                            <mat-label>قیمت به ریال</mat-label>
+                            <input matInput placeholder="قیمت" type="number" max="500000" [(ngModel)]="mealData['price']" (keyup.enter)="addMealRule()">
+                        </mat-form-field>
+
+                        <br>
+
+                        <p> رول های موجود </p>
+
+                        <mat-selection-list #mflist>
+                            <mat-list-option *ngFor="let item of mrules">
+                                {{item}}
+                            </mat-list-option>
+                        </mat-selection-list>
+
+                        <button *ngIf="mflist.selectedOptions.selected.length > 0" mat-raised-button color="warn" style="margin-top:5px">حذف </button>
+
+                    </div>
+                    <div class="buttons" style="direction: ltr;">
+                        <button mat-raised-button color="primary" (click)="newMeal()">ثبت</button>
+                        <button mat-button (click)="editMode = false">انصراف</button>
+                    </div>
+                </div>
+                <div class="table" *ngIf="editMode == false">
+                    <br>
+                    <button mat-raised-button color="primary" style="float: left;" (click)="editMode = true">افزودن</button>
+                    <br><br>
+                    <table mat-table [dataSource]="mealsData" style="background: #fff; width: 100%; border: 1px solid rgba(0, 0, 0, .1); border-bottom: none;">
+                        <ng-container matColumnDef="delete">
+                            <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
+                            <td mat-cell *matCellDef="let element" style="width: 30px;"> <button mat-icon-button>
+                                    <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                                            <path
+                                                d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
+                                        </svg></mat-icon>
+                                </button> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="edit">
+                            <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
+                            <td mat-cell *matCellDef="let element" style="width: 30px; padding-left: 10px;"> <button mat-icon-button (click)="mealData = element; editMode = true; updateMode = true;">
+                                    <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                                            <path
+                                                d="M6 34.5V42h7.5l22.13-22.13-7.5-7.5L6 34.5zm35.41-20.41c.78-.78.78-2.05 0-2.83l-4.67-4.67c-.78-.78-2.05-.78-2.83 0l-3.66 3.66 7.5 7.5 3.66-3.66z" />
+                                        </svg></mat-icon>
+                                </button> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef>نام</th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="price">
+                            <th mat-header-cell *matHeaderCellDef>قیمت</th>
+                            <td mat-cell *matCellDef="let element"> {{element.price}} ریال</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="places">
+                            <th mat-header-cell *matHeaderCellDef>محل تحویل</th>
+                            <td mat-cell *matCellDef="let element">
+                                <mat-chip-list>
+                                    <mat-chip *ngFor="let item of element['places']">{{getPlace(item)}}</mat-chip>
+                                </mat-chip-list>
+                            </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef>توضیحات</th>
+                            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="mealsColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: mealsColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="گروه غذایی">
+        <div *ngIf="editMode == true">
+            <div class="main-container">
+                <mat-card style="margin-bottom: 20px;">
+                    <mat-form-field>
+                        <input [(ngModel)]="groupName" matInput placeholder="نام گروه">
                     </mat-form-field>
-                <mat-form-field  appearance="fill" style="margin: 5px">
-                    <mat-label>قیمت به ریال</mat-label>
-                    <input matInput placeholder="قیمت" type="number" max="500000"  [(ngModel)]="mealData['price']" >
+
+                    <button mat-raised-button color="primary" (click)="saveGroup()" style="float: left">{{groupEditMode?'ویرایش':'ثبت'}}</button>
+                    <button mat-button (click)="closeGroup()" style="float: left">اتصراف</button>
+                    <button mat-icon-button style="float: left;" *ngIf="groupEditMode" (click)="removeGroup()">
+                        <mat-icon>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                                <path
+                                    d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
+                            </svg>
+                        </mat-icon>
+                    </button>
+                </mat-card>
+                <mat-card style="display: flex; flex-wrap: nowrap; margin-bottom: 20px;">
+                    <div *ngFor="let item of allHeadOptions">
+                        <mat-checkbox style="margin-left: 20px;" (click)="setAllHeadOptions(item)">{{item['name']}}
+                        </mat-checkbox>
+                    </div>
+                </mat-card>
+                <mat-card *ngIf="allHeadOptionsSelected.length != 0" style="margin-bottom: 20px;">
+                    <mat-form-field>
+                        <input [(ngModel)]="allSearchOption" matInput placeholder="جستجو">
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" style="float: left;" (click)="addNewData()">افزودن</button>
+                    <button *ngIf="selectedAllDataOptions.length != 0" mat-button style="float: left;" (click)="deleteAllSelectedData()">حذف</button>
+                    <table class="custom">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px">
+                                    <mat-checkbox [checked]="isSelectedAllOptions" (change)="selectAllDataOptions()">
+                                    </mat-checkbox>
+                                </th>
+                                <th *ngFor="let col of allHeadOptionsSelected">{{col['name']}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor=" let i = index;  let data of allDataOptionsSelected| searchfilter: allHeadOptionsSelected: allSearchOption">
+                                <td style="width: 30px">
+                                    <mat-checkbox (change)="selectOneDataOptions(i)" [checked]="selectedAllDataOptions.includes(i)?true:false"></mat-checkbox>
+                                </td>
+                                <td *ngFor="let key of allHeadOptionsSelected">{{data[key['id']]}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </mat-card>
+            </div>
+        </div>
+        <div *ngIf="editMode == false">
+            <div class="main-container">
+                <button mat-raised-button color="primary" style="float: left;" (click)="editMode = true">افزودن</button>
+                <div style="display: flex; flex-wrap: wrap; margin-top: 30px;">
+                    <div class="card" matRipple matRippleCentered="true" matRippleColor="rgba(0,0,0,.1)" *ngFor="let item of groups" (click)="setEditGroup(item)">
+                        <h4>{{item['name']}}</h4>
+                        <span>{{item['data'].length}} نفر</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="محل تحویل">
+        <div class="main-container">
+            <div>
+                <mat-form-field style="min-width: 30%; margin-left: 10px;">
+                    <input matInput placeholder="نام محل" [(ngModel)]="placeData['name']">
                 </mat-form-field>
-
+                <button mat-raised-button color="primary" (click)="addNewPlace()">افزودن</button>
                 <br>
-
-            <p>  رول های موجود  </p>
-
-              <mat-selection-list #mflist>
-                  <mat-list-option  >
-                  سلف همه  <->  گروه همه <-> دسته همه  <->  قیمت > ۱۰۰۰ ریال
-                  </mat-list-option>
-                </mat-selection-list>
-
-                <button *ngIf="mflist.selectedOptions.selected.length > 0" mat-raised-button color="warn" style="margin-top:5px">حذف </button>
-
-          </div>
-          <div class="buttons" style="direction: ltr;">
-            <button mat-raised-button color="primary" (click)="newMeal()">ثبت</button>
-            <button mat-button (click)="editMode = false">انصراف</button>
-          </div>
+                <table class="custom">
+                    <thead>
+                        <th style="width: 30px;"></th>
+                        <th>نام محل تحویل</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of placesData; let i = index">
+                            <td style="width: 30px;">
+                                <button mat-icon-button (click)="deletePlace(i)">
+                                    <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                                            <path
+                                                d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
+                                        </svg></mat-icon>
+                                </button>
+                            </td>
+                            <td>
+                                <p contenteditable="true">{{data['name']}}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="table" *ngIf="editMode == false">
-          <br>
-          <button mat-raised-button color="primary" style="float: left;" (click)="editMode = true">افزودن</button>
-          <br><br>
-          <table mat-table [dataSource]="mealsData"
-            style="width: 100%; border: 1px solid rgba(0, 0, 0, .1); border-bottom: none;">
-            <ng-container matColumnDef="delete">
-              <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
-              <td mat-cell *matCellDef="let element" style="width: 30px;"> <button mat-icon-button>
-                  <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                      <path
-                        d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
-                    </svg></mat-icon>
-                </button> </td>
-            </ng-container>
+    </mat-tab>
 
-            <ng-container matColumnDef="edit">
-              <th mat-header-cell *matHeaderCellDef style="width: 30px;"></th>
-              <td mat-cell *matCellDef="let element" style="width: 30px; padding-left: 10px;"> <button mat-icon-button
-                  (click)="mealData = element; editMode = true; updateMode = true;">
-                  <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                      <path
-                        d="M6 34.5V42h7.5l22.13-22.13-7.5-7.5L6 34.5zm35.41-20.41c.78-.78.78-2.05 0-2.83l-4.67-4.67c-.78-.78-2.05-.78-2.83 0l-3.66 3.66 7.5 7.5 3.66-3.66z" />
-                    </svg></mat-icon>
-                </button> </td>
-            </ng-container>
-
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>نام</th>
-              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="price">
-              <th mat-header-cell *matHeaderCellDef>قیمت</th>
-              <td mat-cell *matCellDef="let element"> {{element.price}} ریال</td>
-            </ng-container>
-
-            <ng-container matColumnDef="places">
-              <th mat-header-cell *matHeaderCellDef>محل تحویل</th>
-              <td mat-cell *matCellDef="let element">
-                <mat-chip-list>
-                  <mat-chip *ngFor="let item of element['places']">{{getPlace(item)}}</mat-chip>
-                </mat-chip-list>
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="description">
-              <th mat-header-cell *matHeaderCellDef>توضیحات</th>
-              <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="mealsColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: mealsColumns;"></tr>
-          </table>
+    <mat-tab label="مواد غذایی">
+        <div class="main-container">
+            <div>
+                <mat-form-field style="min-width: 30%; margin-left: 10px;">
+                    <input matInput placeholder="نام ماده غذایی">
+                </mat-form-field>
+                <button mat-raised-button color="primary">افزودن</button>
+                <br>
+                <table class="custom">
+                    <thead>
+                        <th style="width: 30px;"></th>
+                        <th>نام ماده غذایی</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of FoodStuffsData; let i = index">
+                            <td style="width: 30px;">
+                                <button mat-icon-button (click)="deletePlace(i)">
+                                    <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                                            <path
+                                                d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
+                                        </svg></mat-icon>
+                                </button>
+                            </td>
+                            <td>
+                                <p contenteditable="true">{{data['name']}}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-      </mat-card>
-    </div>
-  </mat-tab>
-  <mat-tab label="تنظیمات قیمت ها">
-    <div class="main-container">
-      <mat-card>
-        <p>تنظیم قیمت هر رزرو :</p>
-        <div style="padding: 20px; padding-top: 0;">
-          <mat-checkbox>بر اساس غذا</mat-checkbox><br>
-          <mat-checkbox>بر اساس وعده</mat-checkbox>
-        </div>
-      </mat-card>
-    </div>
-  </mat-tab>
-  <mat-tab label="گروه غذایی">
-    <div *ngIf="editMode == true">
-      <div class="main-container">
-        <mat-card style="margin-bottom: 20px;">
-          <mat-form-field>
-            <input [(ngModel)]="groupName" matInput placeholder="نام گروه">
-          </mat-form-field>
+    </mat-tab>
 
-          <button mat-raised-button color="primary" (click)="saveGroup()"
-            style="float: left">{{groupEditMode?'ویرایش':'ثبت'}}</button>
-          <button mat-button (click)="closeGroup()" style="float: left">اتصراف</button>
-        </mat-card>
-        <mat-card style="display: flex; flex-wrap: nowrap; margin-bottom: 20px;" *ngIf="!groupEditMode">
-          <div *ngFor="let item of allHeadOptions">
-            <mat-checkbox style="margin-left: 20px;" (click)="setAllHeadOptions(item)">{{item['name']}}</mat-checkbox>
-          </div>
-        </mat-card>
-        <mat-card *ngIf="allHeadOptionsSelected.length != 0" style="margin-bottom: 20px;">
-          <mat-form-field>
-            <input [(ngModel)]="allSearchOption" matInput placeholder="جستجو">
-          </mat-form-field>
-          <button mat-raised-button color="primary" style="float: left;" (click)="addNewData()">افزودن</button>
-          <button *ngIf="selectedAllDataOptions.length != 0" mat-button style="float: left;"
-            (click)="deleteAllSelectedData()">حذف</button>
-          <table class="custom">
-            <thead>
-              <tr>
-                <th style="width: 30px">
-                  <mat-checkbox [checked]="isSelectedAllOptions" (change)="selectAllDataOptions()"></mat-checkbox>
-                </th>
-                <th *ngFor="let col of allHeadOptionsSelected">{{col['name']}}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor=" let i = index;  let data of allDataOptionsSelected| searchfilter: allHeadOptionsSelected: allSearchOption">
-                <td style="width: 30px">
-                  <mat-checkbox (change)="selectOneDataOptions(i)"
-                    [checked]="selectedAllDataOptions.includes(i)?true:false"></mat-checkbox>
-                </td>
-                <td *ngFor="let key of allHeadOptionsSelected">{{data[key['id']]}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </mat-card>
-      </div>
-    </div>
-    <div *ngIf="editMode == false">
-      <div class="main-container">
-        <button mat-raised-button color="primary" style="float: left;" (click)="editMode = true">افزودن</button>
-        <div style="display: flex; flex-wrap: wrap; margin-top: 30px;">
-          <div class="card" matRipple matRippleCentered="true" matRippleColor="rgba(0,0,0,.1)"
-            *ngFor="let item of groups" (click)="setEditGroup(item)">
-            <h4>{{item['name']}}</h4>
-            <span>{{item['data'].length}} نفر</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </mat-tab>
-  <mat-tab label="محل تحویل" >
-    <div class="main-container" >
-      <mat-card>
-        <mat-form-field style="min-width: 30%; margin-left: 10px;">
-          <input matInput placeholder="نام محل" [(ngModel)]="placeData['name']">
-        </mat-form-field>
-        <button mat-raised-button color="primary" (click)="addNewPlace()">افزودن</button>
-        <br>
-        <table class="custom">
-          <thead>
-            <th style="width: 30px;"></th>
-            <th>نام محل تحویل</th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of placesData; let i = index">
-              <td style="width: 30px;">
-                <button mat-icon-button (click)="deletePlace(i)">
-                  <mat-icon><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                      <path
-                        d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" />
-                    </svg></mat-icon>
-                </button>
-              </td>
-              <td>
-                <p contenteditable="true" >{{data['name']}}</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </mat-card>
-    </div>
-  </mat-tab>
-
-  <mat-tab label="صندوق"></mat-tab>
-  <mat-tab label="تنظیمات بانکی سلف ها"></mat-tab>
+    <mat-tab label="صندوق"></mat-tab>
+    <mat-tab label="تنظیمات بانکی سلف ها"></mat-tab>
 
 </mat-tab-group>

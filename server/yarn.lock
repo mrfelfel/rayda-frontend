@@ -716,9 +716,10 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-"email-prompt@git+https://github.com/mhemrg/email-prompt.git#patch-1":
+"email-prompt@https://github.com/mhemrg/email-prompt#patch-1":
   version "0.3.2"
-  resolved "git+https://github.com/mhemrg/email-prompt.git#7c80354fec2cb22912ab5f12c24e76727956b8cf"
+  uid "7c80354fec2cb22912ab5f12c24e76727956b8cf"
+  resolved "https://github.com/mhemrg/email-prompt#7c80354fec2cb22912ab5f12c24e76727956b8cf"
   dependencies:
     ansi-escapes "2.0.0"
     chalk "1.1.3"
@@ -1337,9 +1338,9 @@ lodash.union@^4.6.0:
   integrity sha1-SLtQiECfFvGCFmZkHETdGqrjzYg=
 
 lodash@^4.17.11:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
-  integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 log-symbols@^2.2.0:
   version "2.2.0"

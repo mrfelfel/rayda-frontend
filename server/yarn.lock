@@ -716,9 +716,10 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-"email-prompt@git+https://github.com/mhemrg/email-prompt.git#patch-1":
+"email-prompt@https://github.com/mhemrg/email-prompt#patch-1":
   version "0.3.2"
-  resolved "git+https://github.com/mhemrg/email-prompt.git#7c80354fec2cb22912ab5f12c24e76727956b8cf"
+  uid "7c80354fec2cb22912ab5f12c24e76727956b8cf"
+  resolved "https://github.com/mhemrg/email-prompt#7c80354fec2cb22912ab5f12c24e76727956b8cf"
   dependencies:
     ansi-escapes "2.0.0"
     chalk "1.1.3"
@@ -1425,9 +1426,9 @@ minimist@^1.2.0:
   integrity sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ=
 
 moment@^2.24.0:
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
-  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
+  version "2.29.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.2.tgz#00910c60b20843bcba52d37d58c628b47b1f20e4"
+  integrity sha512-UgzG4rvxYpN15jgCmVJwac49h9ly9NurikMWGPdVxm8GZD6XjkKPxDTjQQ43gtGgnV3X0cAyWDdP2Wexoquifg==
 
 ms@2.0.0:
   version "2.0.0"

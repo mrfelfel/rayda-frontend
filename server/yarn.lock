@@ -309,9 +309,9 @@ boxen@^1.2.1:
     widest-line "^2.0.0"
 
 brace-expansion@^1.1.7:
-  version "1.1.11"
-  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
-  integrity sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.12.tgz#ab9b454466e5a8cc3a187beaad580412a9c5b843"
+  integrity sha512-9T9UjW3r0UW5c1Q7GTwllptXwhvYmEzFhzMfZ9H7FQWt+uZePjZPjBP/W1ZEyZ1twGWom5/56TF4lPcqjnDHcg==
   dependencies:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
@@ -716,9 +716,10 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-"email-prompt@git+https://github.com/mhemrg/email-prompt.git#patch-1":
+"email-prompt@https://github.com/mhemrg/email-prompt#patch-1":
   version "0.3.2"
-  resolved "git+https://github.com/mhemrg/email-prompt.git#7c80354fec2cb22912ab5f12c24e76727956b8cf"
+  uid "7c80354fec2cb22912ab5f12c24e76727956b8cf"
+  resolved "https://github.com/mhemrg/email-prompt#7c80354fec2cb22912ab5f12c24e76727956b8cf"
   dependencies:
     ansi-escapes "2.0.0"
     chalk "1.1.3"
